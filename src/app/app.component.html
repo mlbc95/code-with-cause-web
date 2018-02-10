@@ -1,13 +1,17 @@
 <div class="container-fluid">
-  <app-header></app-header>
-  <div class="row content">
-    <router-outlet></router-outlet>
-  </div>
-  <div class="row footer">
-
-    <div class="col-md-12">
-      <router-outlet></router-outlet>
+  <div class="row">
+    <div class="col-md-12 header">
+      <app-header></app-header>
     </div>
   </div>
-  <app-footer></app-footer>
+  <div class="row">
+    <div class="col-md-12 content">
+      <app-login></app-login>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 footer">
+      <app-footer></app-footer>
+    </div>
+  </div>
 </div>
