@@ -1,32 +1,29 @@
-div.container {
-  position:relative; /* needed for footer positioning*/
-  margin:0 auto; /* center, not in IE5 */
-  width:750px;
-  background:#f0f0f0;
+@import "../styles";
 
-  height:auto !important; /* real browsers */
-  height:100%; /* IE6: treaded as min-height*/
+.header {
+  height: $header-height;
+  border-bottom: $header-border-width double $brand-grey;
+  background-color: $brand-green;
+  width: 100%;
 
-  min-height:100%; /* real browsers */
-}
-
-div.header {
-  height: 8vh;
-  padding:1vh;
-  border-bottom:6px double gray;
-  background-color: rgba(0, 100, 0, 0.52);
-}
-
-div.content {
-  overflow-y: auto;
-  padding:1vh 1vh 5vh; /* bottom padding for footer */
-}
-
-div.footer {
-  height: 8vh;
   position: fixed;
-  width:100%;
-  bottom:0; /* stick to bottom */
-  border-top:6px double gray;
-  background-color: rgba(0, 100, 0, 0.52);
+  top: 0; /* stick to top */
+}
+
+.content {
+  margin: $header-height 0 $footer-height;
+  height: calc(100vh - #{$header-height} - #{$footer-height});
+
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.footer {
+  height: $footer-height;
+  border-top: $footer-border-width double $brand-grey;
+  background-color: $brand-green;
+  width: 100%;
+
+  position: fixed;
+  bottom: 0; /* stick to bottom */
 }
