@@ -9,9 +9,13 @@ $brand-yellow: #fce363;
 // HEADER AND FOOTER VARIABLES
 $header-height: 75px;
 $footer-height: $header-height;
+$header-border-width: 6px;
+$footer-border-width: $header-border-width;
 
 html, body {
-  margin:0;
-  padding:0;
-  height:100%; /* needed for container min-height */
+  margin: 0;
+  padding: 0;
+  height: 100%; /* needed for container min-height */
+
+  overflow: hidden;
 }

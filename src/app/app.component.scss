@@ -1,31 +1,29 @@
-ul.li.div {
-  .container-fluid {
-    position: relative; /* needed for footer positioning*/
-    margin: 0 auto; /* center, not in IE5 */
-    width: 750px;
-    background: #f0f0f0;
+@import "../styles";
 
-    min-height: 100%; /* real browsers */
-  }
+.header {
+  height: $header-height;
+  border-bottom: $header-border-width double $brand-grey;
+  background-color: $brand-green;
+  width: 100%;
 
-  .header {
-    height: 8vh;
-    padding: 1vh;
-    border-bottom: 6px double gray;
-    background-color: rgba(0, 100, 0, 0.52);
-  }
+  position: fixed;
+  top: 0; /* stick to top */
+}
 
-  .content {
-    overflow-y: auto;
-    padding: 1vh 1vh 5vh; /* bottom padding for footer */
-  }
+.content {
+  margin: $header-height 0 $footer-height;
+  height: calc(100vh - #{$header-height} - #{$footer-height});
 
-  .footer {
-    height: 8vh;
-    position: fixed;
-    width: 100%;
-    bottom: 0; /* stick to bottom */
-    border-top: 6px double gray;
-    background-color: rgba(0, 100, 0, 0.52);
-  }
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.footer {
+  height: $footer-height;
+  border-top: $footer-border-width double $brand-grey;
+  background-color: $brand-green;
+  width: 100%;
+
+  position: fixed;
+  bottom: 0; /* stick to bottom */
 }
