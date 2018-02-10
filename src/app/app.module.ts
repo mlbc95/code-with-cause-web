@@ -5,11 +5,12 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import {HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {MatInputModule} from "@angular/material";
+import {MatButtonModule, MatInputModule, MatSelectModule} from "@angular/material";
 import { LoginComponent } from './login/login.component';
 import { ManagementComponent } from './management/management.component';
 import { EntryComponent } from './entry/entry.component';
 import { ReviewComponent } from './review/review.component';
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 
@@ -25,7 +26,10 @@ import { ReviewComponent } from './review/review.component';
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MatInputModule
+    MatInputModule,
+    MatButtonModule,
+    MatSelectModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

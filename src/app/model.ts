@@ -11,6 +11,7 @@ export class Entry {
   public pounds: number;
   public totalValue: number;
   public harvester: Harvester;
+  public comments: string;
   public farm: Farm;
   public recipient: Organization;
 

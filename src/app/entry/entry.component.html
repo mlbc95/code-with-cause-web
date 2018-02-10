@@ -1,3 +1,17 @@
-<div class="start">
-  <button mat-button>Basic</button>
+<div *ngIf="!harvestStarted" class="start">
+  <button mat-button (click)="startHarvest()">Begin Harvest</button>
+</div>
+<div *ngIf="harvestStarted">
+  <div class="date">{{today}}</div>
+  <mat-form-field>
+    <mat-select placeholder="Favorite food">
+      <mat-option *ngFor="let food of foods" [value]="food.value">
+        {{ food.viewValue }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="username">
+    <input matInput placeholder="Username" value="">
+  </mat-form-field>
 </div>
