@@ -27,7 +27,7 @@ html, body {
 // .something {
 //    width: calc(10 * #{$cw});
 // }
-$cw: calc((100vw - 15px - 15px - 5px) / 100);
+$cw: calc((100vw - 15px - 15px) / 100);
 
 // UTILITY CLASSES
 .center-align {
