@@ -60,12 +60,58 @@ export class CropService {
     /**
      * 
      * 
+     * @param id 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getAll(observe?: 'body', reportProgress?: boolean): Observable<ICropVm>;
-    public getAll(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ICropVm>>;
-    public getAll(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ICropVm>>;
+    public deleteCrop(id: string, observe?: 'body', reportProgress?: boolean): Observable<ICropVm>;
+    public deleteCrop(id: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ICropVm>>;
+    public deleteCrop(id: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ICropVm>>;
+    public deleteCrop(id: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling deleteCrop.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (JWT) required
+        if (this.configuration.apiKeys["Authorization"]) {
+            headers = headers.set('Authorization', this.configuration.apiKeys["Authorization"]);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/json'
+        ];
+
+        return this.httpClient.delete<ICropVm>(`${this.basePath}/crops/${encodeURIComponent(String(id))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getAll(observe?: 'body', reportProgress?: boolean): Observable<Array<ICropVm>>;
+    public getAll(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<ICropVm>>>;
+    public getAll(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<ICropVm>>>;
     public getAll(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let headers = this.defaultHeaders;
@@ -84,7 +130,48 @@ export class CropService {
             'application/json'
         ];
 
-        return this.httpClient.get<ICropVm>(`${this.basePath}/crops/getAll`,
+        return this.httpClient.get<Array<ICropVm>>(`${this.basePath}/crops/getAll`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param id 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getSingleCrop(id: string, observe?: 'body', reportProgress?: boolean): Observable<ICropVm>;
+    public getSingleCrop(id: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ICropVm>>;
+    public getSingleCrop(id: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ICropVm>>;
+    public getSingleCrop(id: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling getSingleCrop.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/json'
+        ];
+
+        return this.httpClient.get<ICropVm>(`${this.basePath}/crops/${encodeURIComponent(String(id))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -131,6 +218,56 @@ export class CropService {
 
         return this.httpClient.post<ICropVm>(`${this.basePath}/crops/create`,
             newCropParams,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param id 
+     * @param updateCropParams 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public updateCrop(id: string, updateCropParams: INewCropParams, observe?: 'body', reportProgress?: boolean): Observable<ICropVm>;
+    public updateCrop(id: string, updateCropParams: INewCropParams, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ICropVm>>;
+    public updateCrop(id: string, updateCropParams: INewCropParams, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ICropVm>>;
+    public updateCrop(id: string, updateCropParams: INewCropParams, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling updateCrop.');
+        }
+        if (updateCropParams === null || updateCropParams === undefined) {
+            throw new Error('Required parameter updateCropParams was null or undefined when calling updateCrop.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/json'
+        ];
+        let httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set("Content-Type", httpContentTypeSelected);
+        }
+
+        return this.httpClient.put<ICropVm>(`${this.basePath}/crops/${encodeURIComponent(String(id))}`,
+            updateCropParams,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
