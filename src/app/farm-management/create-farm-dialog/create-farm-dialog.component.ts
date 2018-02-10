@@ -15,6 +15,6 @@ export class CreateFarmDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.farm = {name: "", lat: 0, _long: 0};
+    this.farm = {name: "", lat: 0, lng: 0};
   }
 }

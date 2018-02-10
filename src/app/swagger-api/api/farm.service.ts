@@ -60,6 +60,47 @@ export class FarmService {
     /**
      * 
      * 
+     * @param slug 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public deleteById(slug: string, observe?: 'body', reportProgress?: boolean): Observable<Array<IFarmVm>>;
+    public deleteById(slug: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<IFarmVm>>>;
+    public deleteById(slug: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<IFarmVm>>>;
+    public deleteById(slug: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (slug === null || slug === undefined) {
+            throw new Error('Required parameter slug was null or undefined when calling deleteById.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/json'
+        ];
+
+        return this.httpClient.delete<Array<IFarmVm>>(`${this.basePath}/farms/${encodeURIComponent(String(slug))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
@@ -130,6 +171,56 @@ export class FarmService {
         }
 
         return this.httpClient.post<IFarmVm>(`${this.basePath}/farms/create`,
+            newFarmParams,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param slug 
+     * @param newFarmParams 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public updateById(slug: string, newFarmParams: INewFarmParams, observe?: 'body', reportProgress?: boolean): Observable<IFarmVm>;
+    public updateById(slug: string, newFarmParams: INewFarmParams, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<IFarmVm>>;
+    public updateById(slug: string, newFarmParams: INewFarmParams, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<IFarmVm>>;
+    public updateById(slug: string, newFarmParams: INewFarmParams, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (slug === null || slug === undefined) {
+            throw new Error('Required parameter slug was null or undefined when calling updateById.');
+        }
+        if (newFarmParams === null || newFarmParams === undefined) {
+            throw new Error('Required parameter newFarmParams was null or undefined when calling updateById.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/json'
+        ];
+        let httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set("Content-Type", httpContentTypeSelected);
+        }
+
+        return this.httpClient.put<IFarmVm>(`${this.basePath}/farms/${encodeURIComponent(String(slug))}`,
             newFarmParams,
             {
                 withCredentials: this.configuration.withCredentials,

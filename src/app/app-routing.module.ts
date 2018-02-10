@@ -15,7 +15,7 @@ import {HarvestEditComponent} from "./harvest-edit/harvest-edit.component";
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/login',
+    redirectTo: '/home',
     pathMatch: 'full'
   },
   {

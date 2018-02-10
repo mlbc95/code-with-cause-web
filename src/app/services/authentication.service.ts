@@ -3,6 +3,7 @@ import 'rxjs/add/operator/map';
 import * as config from '../app.module';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {ILoginVm, SystemService} from '../swagger-api';
 
 @Injectable()
 export class AuthenticationService {
@@ -18,20 +19,14 @@ export class AuthenticationService {
   // Used for showing the navbar when logged in and hiding it when logged out
   private loggedIn = new BehaviorSubject<boolean>(false);
 
-  private headers = new HttpHeaders({'Content-Type': 'application/json'});
-
-  private apiUrl: string;
-
   get isLoggedIn() {
     return this.loggedIn.asObservable();
   }
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private systemService: SystemService) {
     // set token if saved in local storage
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser && currentUser.token;
-
-    this.apiUrl = config.apiConfiguration().basePath;
 
     if (currentUser) {
       this.loggedIn.next(true);
@@ -39,37 +34,38 @@ export class AuthenticationService {
   }
 
   login(username: string, password: string) {
-    const url = `${this.apiUrl}/auth`;
-    return this.http.post(url, {username: username, password: password}, {headers: this.headers})
-      .map(response => {
-          // login successful if there's a jwt token in the response
-          let token = response && response['token'];
-          let role = response && response['role'];
-          let admin: boolean = false;
-          username = response && response['username'];
+    return this.systemService.login({
+      username: username,
+      password: password
+    }).map((response: ILoginVm) => {
+      // login successful if there's a jwt token in the response
+      let token = response && response.authToken;
+      let role = response && response.role;
+      let admin: boolean = false;
+      username = response && response.username;
 
-          if (role === 'ROLE_ADMIN') {
-            admin = true;
-          }
+      if (role === 'Admin') {
+        admin = true;
+      }
 
-          this.getAdmin.emit(admin);
+      this.getAdmin.emit(admin);
 
-          // set token property
-          this.token = token;
+      // set token property
+      this.token = token;
 
-          // store username and jwt token in local storage to keep user logged in between page refreshes
-          localStorage.setItem('currentUser', JSON.stringify({
-            username: username,
-            token: token,
-            admin: admin
-          }));
+      // store username and jwt token in local storage to keep user logged in between page refreshes
+      localStorage.setItem('currentUser', JSON.stringify({
+        username: username,
+        token: token,
+        admin: admin
+      }));
 
-          // Used to show navbar
-          this.loggedIn.next(true);
+      // Used to show navbar
+      this.loggedIn.next(true);
 
-          this.getUsername.emit(username);
-        }
-      );
+      this.getUsername.emit(username);
+      // console.log(this.isLoggedIn)
+    });
   }
 
   logout(): void {

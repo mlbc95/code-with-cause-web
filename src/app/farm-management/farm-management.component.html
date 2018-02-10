@@ -1,10 +1,14 @@
-<button type="button" class="btn btn-primary" (click)="createNewFarm();">Add New Farm</button>
-
-<ng-container *ngFor="let farm of farms">
-  <p>--- FARM ---</p>
-  <p>Name: {{farm.name}}</p>
-  <p>Lat: {{farm.lat}}</p>
-  <p>Long: {{farm._long}}</p>
-  <p>Updated On: {{farm.updatedOn}}</p>
-</ng-container>
-
+<h2 class="center-align">Farm Management</h2>
+<button type="button" class="btn btn-success max-width add-new-farm-button" (click)="createNewFarm();">Add New Farm</button>
+<mat-accordion>
+  <ng-container *ngFor="let farm of farms">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>{{farm.name}}</mat-panel-title>
+      </mat-expansion-panel-header>
+      <p>Latitude: {{farm.lat}}</p>
+      <p>Longitude: {{farm._long}}</p>
+      <button type="button" (click)="deleteFarm(farm);" class="btn btn-danger">Delete</button>
+    </mat-expansion-panel>
+  </ng-container>
+</mat-accordion>

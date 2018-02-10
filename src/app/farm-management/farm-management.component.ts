@@ -47,6 +47,10 @@ export class FarmManagementComponent implements OnInit {
       }
     );
   }
+
+  deleteFarm(farm: IFarmVm): void {
+    // TODO
+  }
 }
 
 
