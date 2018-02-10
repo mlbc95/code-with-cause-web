@@ -9,6 +9,7 @@ export class Harvest {
 
 export class Entry {
   public crop: Crop;
+  public selectedVariety: string;
   public pounds: number;
   public totalValue: number;
   public harvester: Harvester;

@@ -1,0 +1,13 @@
+mat-form-field, mat-slider {
+  width:100%;
+}
+
+.frame {
+  padding: 2vh;
+}
+
+/deep/ .mat-slider-thumb-label-text {
+  font-family: Roboto,"Helvetica Neue",sans-serif;
+  font-size: 8pt !important;
+  font-weight: 500;
+}
