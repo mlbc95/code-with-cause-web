@@ -1,3 +1,10 @@
-<ng-container *ngFor="let farm of farms">
+<button type="button" class="btn btn-primary" (click)="createNewFarm();">Add New Farm</button>
 
+<ng-container *ngFor="let farm of farms">
+  <p>--- FARM ---</p>
+  <p>Name: {{farm.name}}</p>
+  <p>Lat: {{farm.lat}}</p>
+  <p>Long: {{farm._long}}</p>
+  <p>Updated On: {{farm.updatedOn}}</p>
 </ng-container>
+

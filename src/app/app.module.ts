@@ -4,7 +4,7 @@ import {ApiModule, Configuration} from './swagger-api';
 import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatCardModule, MatFormFieldModule, MatInputModule, MatSelectModule} from '@angular/material';
+import {MatButtonModule, MatCardModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatDialogModule} from '@angular/material';
 import {LoginComponent} from './login/login.component';
 import {EntryComponent} from './entry/entry.component';
 import {ReviewComponent} from './review/review.component';
@@ -23,6 +23,7 @@ import {CropManagementComponent} from './crop-management/crop-management.compone
 import {FarmManagementComponent} from './farm-management/farm-management.component';
 import {RecipientManagementComponent} from './recipient-management/recipient-management.component';
 import {HarvestEditComponent} from './harvest-edit/harvest-edit.component';
+import { CreateFarmDialogComponent } from './farm-management/create-farm-dialog/create-farm-dialog.component';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import {HarvestEditComponent} from './harvest-edit/harvest-edit.component';
     FarmManagementComponent,
     RecipientManagementComponent,
     HarvestEditComponent,
+    CreateFarmDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -65,14 +67,18 @@ import {HarvestEditComponent} from './harvest-edit/harvest-edit.component';
     MatCardModule,
     FormsModule,
     MatButtonModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatDialogModule
   ],
   providers: [
     AuthGuard,
     AdminGuard,
     AuthenticationService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    CreateFarmDialogComponent
+  ]
 })
 export class AppModule {
 }
