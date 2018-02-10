@@ -1,29 +1,19 @@
-<!--<form name="form" (ngSubmit)="f.form.valid && login()" novalidate>-->
+<br>
+<form #loginForm="ngForm" (ngSubmit)="login()">
   <mat-form-field class="username">
-    <input matInput placeholder="Username" required value="">
+    <input matInput type="text" placeholder="Username" required name="username" [(ngModel)]="username"
+           #usernameInput="ngModel">
+    <mat-error *ngIf="loginForm.submitted && !usernameInput.valid">
+      Username is required
+    </mat-error>
   </mat-form-field>
   <mat-form-field class="password">
-    <input matInput type="password" required placeholder="Password" value="">
+    <input matInput type="password" placeholder="Password" required name="password" [(ngModel)]="password"
+           #passwordInput="ngModel">
+    <mat-error *ngIf="loginForm.submitted && !passwordInput.valid">
+      Password is required
+    </mat-error>
   </mat-form-field>
-<!--</form>-->
-
-
-<!--<form [formGroup]="loginForm">-->
-  <!--<mat-form-field>-->
-    <!--<input matInput placeholder="Username" formControlName="usernameFormControl"-->
-           <!--[errorStateMatcher]="matcher">-->
-    <!--<mat-hint>Errors appear instantly!</mat-hint>-->
-    <!--<mat-error *ngIf="usernameFormControl.hasError('required')">-->
-      <!--Username is <strong>required</strong>-->
-    <!--</mat-error>-->
-  <!--</mat-form-field>-->
-  <!--<mat-form-field>-->
-    <!--<input matInput placeholder="Password" formControlName="passwordFormControl"-->
-           <!--[errorStateMatcher]="matcher">-->
-    <!--<mat-hint>Errors appear instantly!</mat-hint>-->
-    <!--<mat-error *ngIf="passwordFormControl.hasError('required')">-->
-      <!--Password is <strong>required</strong>-->
-    <!--</mat-error>-->
-  <!--</mat-form-field>-->
-<!--</form>-->
-
+  <br>
+  <button mat-raised-button color="primary" type="submit">Login</button>
+</form>

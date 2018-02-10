@@ -1,7 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 
-
 import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -18,6 +17,9 @@ import {HeaderComponent} from './header/header.component';
 import {FooterComponent} from './footer/footer.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
+import {ApiModule, Configuration} from './swagger-api';
+import {environment} from '../environments/environment.prod';
+import {MatButtonModule, MatFormFieldModule} from '@angular/material';
 
 
 @NgModule({
@@ -38,11 +40,13 @@ import {MatInputModule} from '@angular/material/input';
     MatInputModule,
     FormsModule,
     ReactiveFormsModule,
-    ApiModule.forRoot(apiConfiguration)
+    ApiModule.forRoot(apiConfiguration),
     MatInputModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    MatButtonModule,
+    MatFormFieldModule
   ],
   providers: [
     AuthGuard,
@@ -51,8 +55,6 @@ import {MatInputModule} from '@angular/material/input';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {
-}
 export class AppModule {
 }
 
