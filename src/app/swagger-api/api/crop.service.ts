@@ -18,16 +18,15 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs/Observable';
 
-import { ILoginVm } from '../model/iLoginVm';
-import { INewUserParams } from '../model/iNewUserParams';
-import { IUserVm } from '../model/iUserVm';
+import { ICropVm } from '../model/iCropVm';
+import { INewCropParams } from '../model/iNewCropParams';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
 
 
 @Injectable()
-export class SystemService {
+export class CropService {
 
     protected basePath = 'https://localhost/api';
     public defaultHeaders = new HttpHeaders();
@@ -61,17 +60,13 @@ export class SystemService {
     /**
      * 
      * 
-     * @param username 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getUserByUsername(username: string, observe?: 'body', reportProgress?: boolean): Observable<IUserVm>;
-    public getUserByUsername(username: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<IUserVm>>;
-    public getUserByUsername(username: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<IUserVm>>;
-    public getUserByUsername(username: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (username === null || username === undefined) {
-            throw new Error('Required parameter username was null or undefined when calling getUserByUsername.');
-        }
+    public getAll(observe?: 'body', reportProgress?: boolean): Observable<ICropVm>;
+    public getAll(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ICropVm>>;
+    public getAll(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ICropVm>>;
+    public getAll(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let headers = this.defaultHeaders;
 
@@ -89,7 +84,7 @@ export class SystemService {
             'application/json'
         ];
 
-        return this.httpClient.get<IUserVm>(`${this.basePath}/users/${encodeURIComponent(String(username))}`,
+        return this.httpClient.get<ICropVm>(`${this.basePath}/crops/getAll`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -102,16 +97,16 @@ export class SystemService {
     /**
      * 
      * 
-     * @param loginParams 
+     * @param newCropParams 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public login(loginParams: INewUserParams, observe?: 'body', reportProgress?: boolean): Observable<ILoginVm>;
-    public login(loginParams: INewUserParams, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ILoginVm>>;
-    public login(loginParams: INewUserParams, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ILoginVm>>;
-    public login(loginParams: INewUserParams, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (loginParams === null || loginParams === undefined) {
-            throw new Error('Required parameter loginParams was null or undefined when calling login.');
+    public registerCrop(newCropParams: INewCropParams, observe?: 'body', reportProgress?: boolean): Observable<ICropVm>;
+    public registerCrop(newCropParams: INewCropParams, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ICropVm>>;
+    public registerCrop(newCropParams: INewCropParams, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ICropVm>>;
+    public registerCrop(newCropParams: INewCropParams, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (newCropParams === null || newCropParams === undefined) {
+            throw new Error('Required parameter newCropParams was null or undefined when calling registerCrop.');
         }
 
         let headers = this.defaultHeaders;
@@ -134,54 +129,8 @@ export class SystemService {
             headers = headers.set("Content-Type", httpContentTypeSelected);
         }
 
-        return this.httpClient.post<ILoginVm>(`${this.basePath}/users/login`,
-            loginParams,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * 
-     * 
-     * @param newUserParams 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public registerUser(newUserParams: INewUserParams, observe?: 'body', reportProgress?: boolean): Observable<IUserVm>;
-    public registerUser(newUserParams: INewUserParams, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<IUserVm>>;
-    public registerUser(newUserParams: INewUserParams, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<IUserVm>>;
-    public registerUser(newUserParams: INewUserParams, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (newUserParams === null || newUserParams === undefined) {
-            throw new Error('Required parameter newUserParams was null or undefined when calling registerUser.');
-        }
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        let consumes: string[] = [
-            'application/json'
-        ];
-        let httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
-        }
-
-        return this.httpClient.post<IUserVm>(`${this.basePath}/users/create`,
-            newUserParams,
+        return this.httpClient.post<ICropVm>(`${this.basePath}/crops/create`,
+            newCropParams,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
