@@ -6,7 +6,7 @@ import {environment} from '../environments/environment';
 import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatInputModule, MatSelectModule, MatFormFieldModule} from '@angular/material';
+import {MatButtonModule, MatInputModule, MatSelectModule, MatFormFieldModule, MatSliderModule} from '@angular/material';
 import {LoginComponent} from './login/login.component';
 import {EntryComponent} from './entry/entry.component';
 import {ReviewComponent} from './review/review.component';
@@ -57,7 +57,7 @@ import {HarvestEditComponent} from './harvest-edit/harvest-edit.component';
     ApiModule.forRoot(apiConfiguration),
     MatInputModule,
     AppRoutingModule,
-    ReactiveFormsModule,
+    MatSliderModule,
     FormsModule,
     MatCardModule,
     FormsModule,

@@ -25,16 +25,6 @@ export class EntryComponent implements OnInit {
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-    this.harvestForm = this.formBuilder.group({
-      Harvester: ['', Validators.required],
-      Crop: [null, Validators.required],
-      Variety: ['', Validators.required],
-      Pounds: ['', Validators.required],
-      Comments: [''],
-      PriceTotal: ['', Validators.required],
-      Recipient: ['', Validators.required],
-    });
-
     this.tempCrops = [];
     let tempTomato = new Crop();
     tempTomato.name = 'tomato';
