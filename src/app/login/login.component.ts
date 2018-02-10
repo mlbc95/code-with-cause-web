@@ -14,7 +14,8 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 
 @Component({
   moduleId: module.id,
-  templateUrl: 'login.component.html'
+  templateUrl: 'login.component.html',
+  selector: 'app-login'
 })
 
 export class LoginComponent implements OnInit {
