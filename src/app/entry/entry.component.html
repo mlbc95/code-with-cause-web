@@ -5,8 +5,8 @@
   <div class="date">{{today}}</div>
   <mat-form-field>
     <mat-select placeholder="Favorite food">
-      <mat-option *ngFor="let food of foods" [value]="food.value">
-        {{ food.viewValue }}
+      <mat-option *ngFor="let crop of tempCrops" [value]="crop">
+        {{ crop.name }}
       </mat-option>
     </mat-select>
   </mat-form-field>

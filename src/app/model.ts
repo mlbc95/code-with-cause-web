@@ -30,7 +30,7 @@ export class Farm {
 
 export class Crop {
   public name: string;
-  public variety: string;
+  public variety: string[];
   public pricePerPound: string;
 
   public constructor() {

@@ -20,17 +20,15 @@ export class EntryComponent implements OnInit {
     this.tempCrops = [];
     let tempTomato = new Crop();
     tempTomato.name = 'tomato';
-    tempTomato.variety = 'San Marzano Lungo';
+    tempTomato.variety = [];
+    tempTomato.variety.push('San Marzano Lungo');
+    tempTomato.variety.push('Michael Pollan');
     tempTomato.pricePerPound = '4.50';
     this.tempCrops.push(tempTomato);
-    let tempTomato2 = new Crop();
-    tempTomato2.name = 'tomato';
-    tempTomato2.variety = "Michael Pollan";
-    tempTomato2.pricePerPound = '4.50';
-    this.tempCrops.push(tempTomato2);
     let tempCarrot = new Crop();
     tempCarrot.name = "carrot";
-    tempCarrot.variety = "kniff";
+    tempCarrot.variety = [];
+    tempCarrot.variety.push("kniff");
     tempCarrot.pricePerPound = "2.50";
     this.tempCrops.push(tempCarrot);
 
