@@ -60,6 +60,84 @@ export class OrganizationService {
     /**
      * 
      * 
+     * @param id 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public deleteOrganization(id: string, observe?: 'body', reportProgress?: boolean): Observable<IOrganizationVm>;
+    public deleteOrganization(id: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<IOrganizationVm>>;
+    public deleteOrganization(id: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<IOrganizationVm>>;
+    public deleteOrganization(id: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling deleteOrganization.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/json'
+        ];
+
+        return this.httpClient.delete<IOrganizationVm>(`${this.basePath}/organization/${encodeURIComponent(String(id))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getAll(observe?: 'body', reportProgress?: boolean): Observable<Array<IOrganizationVm>>;
+    public getAll(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<IOrganizationVm>>>;
+    public getAll(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<IOrganizationVm>>>;
+    public getAll(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/json'
+        ];
+
+        return this.httpClient.get<Array<IOrganizationVm>>(`${this.basePath}/organization/getAll`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
@@ -101,12 +179,12 @@ export class OrganizationService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public registerUser(newOrganizationParams: INewOrganizationParams, observe?: 'body', reportProgress?: boolean): Observable<IOrganizationVm>;
-    public registerUser(newOrganizationParams: INewOrganizationParams, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<IOrganizationVm>>;
-    public registerUser(newOrganizationParams: INewOrganizationParams, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<IOrganizationVm>>;
-    public registerUser(newOrganizationParams: INewOrganizationParams, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public registerOrganization(newOrganizationParams: INewOrganizationParams, observe?: 'body', reportProgress?: boolean): Observable<IOrganizationVm>;
+    public registerOrganization(newOrganizationParams: INewOrganizationParams, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<IOrganizationVm>>;
+    public registerOrganization(newOrganizationParams: INewOrganizationParams, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<IOrganizationVm>>;
+    public registerOrganization(newOrganizationParams: INewOrganizationParams, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (newOrganizationParams === null || newOrganizationParams === undefined) {
-            throw new Error('Required parameter newOrganizationParams was null or undefined when calling registerUser.');
+            throw new Error('Required parameter newOrganizationParams was null or undefined when calling registerOrganization.');
         }
 
         let headers = this.defaultHeaders;
