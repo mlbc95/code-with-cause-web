@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "node server.js",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -17,6 +17,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular/cli": "1.6.3",
     "@angular-devkit/core": "0.0.28",
     "@angular-devkit/schematics": "0.0.48",
     "@angular-redux/store": "7.0.2",
@@ -41,10 +42,10 @@
     "jquery": "3.3.1",
     "popper.js": "1.12.9",
     "rxjs": "5.5.2",
-    "zone.js": "0.7.8"
+    "zone.js": "0.7.8",
+    "typescript": "2.4.2"
   },
   "devDependencies": {
-    "@angular/cli": "1.6.3",
     "@angular/language-service": "4.4.6",
     "@types/jasmine": "2.5.54",
     "@types/jasminewd2": "2.0.3",
@@ -60,7 +61,6 @@
     "karma-jasmine-html-reporter": "0.2.2",
     "protractor": "5.1.2",
     "ts-node": "3.2.2",
-    "tslint": "5.7.0",
-    "typescript": "2.4.2"
+    "tslint": "5.7.0"
   }
 }
