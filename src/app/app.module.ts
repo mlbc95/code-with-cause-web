@@ -1,6 +1,9 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 
+
+import {ApiModule, Configuration} from './swagger-api';
+import {environment} from '../environments/environment';
 import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -18,6 +21,11 @@ import {AppRoutingModule} from './app-routing.module';
 import {AuthGuard} from './guards/auth.guard';
 import {AdminGuard} from './guards/admin.guard';
 import {AuthenticationService} from './services/authentication.service';
+import {HeaderComponent} from './header/header.component';
+import {FooterComponent} from './footer/footer.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule, MatFormFieldModule, MatSelectModule} from "@angular/material";
 import {environment} from '../environments/environment.prod';
 import {UserManagementComponent} from './user-management/user-management.component';
 import {CropManagementComponent} from './crop-management/crop-management.component';
@@ -46,6 +54,7 @@ import {HarvestEditComponent} from './harvest-edit/harvest-edit.component';
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     MatSelectModule,
@@ -53,6 +62,11 @@ import {HarvestEditComponent} from './harvest-edit/harvest-edit.component';
     FormsModule,
     ReactiveFormsModule,
     ApiModule.forRoot(apiConfiguration),
+    MatButtonModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+    FormsModule,
+    ReactiveFormsModule,
     MatInputModule,
     AppRoutingModule,
     ReactiveFormsModule,

@@ -3,15 +3,55 @@
 </div>
 <div *ngIf="harvestStarted">
   <div class="date">{{today}}</div>
-  <mat-form-field>
-    <mat-select placeholder="Favorite food">
-      <mat-option *ngFor="let crop of tempCrops" [value]="crop">
-        {{ crop.name }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+  <form [formGroup]="harvestForm" id="harvestForm">
+    <mat-form-field>
+      <mat-select placeholder="Harvester" formControlName="Harvester">
+        <mat-option *ngFor="let harvester of harvesters">
+          {{ harvester }}
+        </mat-option>
+      </mat-select>
+      <mat-error>
+        <span *ngIf="!harvestForm.get('Harvester').valid && harvestForm.get('Harvester').touched">Please Select a Harvester</span>
+      </mat-error>
+    </mat-form-field>
 
-  <mat-form-field class="username">
-    <input matInput placeholder="Username" value="">
-  </mat-form-field>
+    <mat-form-field>
+      <mat-select placeholder="Crop" formControlName="Crop">
+        <mat-option id="Crop" *ngFor="let crop of tempCrops" [value]="Crop">
+          {{ crop.name }}
+        </mat-option>
+      </mat-select>
+      <mat-error>
+        <span *ngIf="!harvestForm.get('Crop').valid && harvestForm.get('Crop').touched">Please Select a Crop</span>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="harvestForm.get('Crop').valid">
+      <mat-select placeholder="Variety" formControlName="Variety">
+        <mat-option *ngFor="let variety of crop.variety" [value]="Variety">
+          {{ variety }}
+        </mat-option>
+      </mat-select>
+      <mat-error>
+        <span *ngIf="!harvestForm.get('Variety').valid && harvestForm.get('Variety').touched">Please Select a Variety</span>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="priceTotal">
+      <input matInput placeholder="Total Price" formControlName="PriceTotal">
+    </mat-form-field>
+
+    <mat-form-field class="comments">
+      <input matInput placeholder="Comments" formControlName="Comments">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-select placeholder="Recipient" formControlName="Recipient">
+        <mat-option *ngFor="let org of organizations">
+          {{ org.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </form>
 </div>
