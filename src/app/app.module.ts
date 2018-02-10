@@ -36,6 +36,10 @@ import {MatInputModule} from '@angular/material/input';
     HttpClientModule,
     BrowserAnimationsModule,
     MatInputModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ApiModule.forRoot(apiConfiguration)
+    MatInputModule,
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule
@@ -48,4 +52,18 @@ import {MatInputModule} from '@angular/material/input';
   bootstrap: [AppComponent]
 })
 export class AppModule {
+}
+export class AppModule {
+}
+
+export function apiConfiguration(): Configuration {
+  if (environment.production) {
+    return new Configuration({
+      basePath: 'https://codewithcause.herokuapp.com/api'
+    });
+  } else {
+    return new Configuration({
+      basePath: 'http://localhost:8080/api'
+    });
+  }
 }
