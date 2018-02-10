@@ -4,7 +4,7 @@ import {ApiModule, Configuration} from './swagger-api';
 import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatCardModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatSelectModule} from '@angular/material';
+import {MatButtonModule, MatCardModule, MatDialogModule, MatExpansionModule, MatFormFieldModule, MatInputModule, MatSelectModule} from '@angular/material';
 import {LoginComponent} from './login/login.component';
 import {EntryComponent} from './entry/entry.component';
 import {ReviewComponent} from './review/review.component';
@@ -68,6 +68,7 @@ import {CreateFarmDialogComponent} from './farm-management/create-farm-dialog/cr
     FormsModule,
     MatButtonModule,
     MatFormFieldModule,
+    MatExpansionModule,
     MatDialogModule
   ],
   providers: [
