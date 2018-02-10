@@ -18,6 +18,7 @@ import {AuthGuard} from './guards/auth.guard';
 import {AdminGuard} from './guards/admin.guard';
 import {AuthenticationService} from './services/authentication.service';
 import {environment} from '../environments/environment.prod';
+import {MatCardModule} from '@angular/material';
 import {UserManagementComponent} from './user-management/user-management.component';
 import {CropManagementComponent} from './crop-management/crop-management.component';
 import {FarmManagementComponent} from './farm-management/farm-management.component';
