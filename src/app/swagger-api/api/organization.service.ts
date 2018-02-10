@@ -60,6 +60,43 @@ export class OrganizationService {
     /**
      * 
      * 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getAll(observe?: 'body', reportProgress?: boolean): Observable<Array<IOrganizationVm>>;
+    public getAll(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<IOrganizationVm>>>;
+    public getAll(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<IOrganizationVm>>>;
+    public getAll(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/json'
+        ];
+
+        return this.httpClient.get<Array<IOrganizationVm>>(`${this.basePath}/organization/getAll`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
      * @param newOrganizationParams 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -93,6 +130,56 @@ export class OrganizationService {
         }
 
         return this.httpClient.post<IOrganizationVm>(`${this.basePath}/organization/create`,
+            newOrganizationParams,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param id 
+     * @param newOrganizationParams 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public updateOrganization(id: string, newOrganizationParams: INewOrganizationParams, observe?: 'body', reportProgress?: boolean): Observable<IOrganizationVm>;
+    public updateOrganization(id: string, newOrganizationParams: INewOrganizationParams, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<IOrganizationVm>>;
+    public updateOrganization(id: string, newOrganizationParams: INewOrganizationParams, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<IOrganizationVm>>;
+    public updateOrganization(id: string, newOrganizationParams: INewOrganizationParams, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling updateOrganization.');
+        }
+        if (newOrganizationParams === null || newOrganizationParams === undefined) {
+            throw new Error('Required parameter newOrganizationParams was null or undefined when calling updateOrganization.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/json'
+        ];
+        let httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set("Content-Type", httpContentTypeSelected);
+        }
+
+        return this.httpClient.put<IOrganizationVm>(`${this.basePath}/organization/${encodeURIComponent(String(id))}`,
             newOrganizationParams,
             {
                 withCredentials: this.configuration.withCredentials,
