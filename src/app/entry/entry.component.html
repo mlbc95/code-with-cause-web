@@ -1,6 +1,16 @@
 <div class="frame">
-  <div *ngIf="!harvestStarted" class="start">
-    <button mat-button (click)="startHarvest()">Begin Harvest</button>
+  <div *ngIf="!harvestStarted" class="start text-center mx-auto">
+    <mat-form-field class="farmField">
+      <mat-select placeholder="Farm" name="farm" [(ngModel)]="harvest.farm" #farmField="ngModel" required>
+        <mat-option *ngFor="let farm of farms" [value]="farm">
+          {{ farm.name }}
+        </mat-option>
+      </mat-select>
+      <mat-error>
+        <span *ngIf="farmField.valid && farmField.touched">Please Select a Farm</span>
+      </mat-error>
+    </mat-form-field>
+    <button mat-button class="btn-primary startButton" (click)="startHarvest()">Begin Harvest</button>
   </div>
   <div *ngIf="harvestStarted">
     <form #harvestForm="ngForm" id="harvestForm" (submit)="submitEntry(harvestForm)">
@@ -8,7 +18,7 @@
         <input matInput placeholder="Date" value="{{today}}" disabled>
       </mat-form-field>
       <mat-form-field>
-        <mat-select placeholder="Harvester Coordinator" name="harvester" [(ngModel)]="currentEntry.harvester"
+        <mat-select placeholder="Harvester Coordinator" name="harvester" [(ngModel)]="currentEntry.harvester" required
                     #harvesterField="ngModel">
           <mat-option *ngFor="let harvester of harvesters" [value]="harvester">
             {{ harvester }}
@@ -20,7 +30,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Crop" [(ngModel)]="currentEntry.crop" name="crop" #cropField="ngModel">
+        <mat-select placeholder="Crop" [(ngModel)]="currentEntry.crop" name="crop" #cropField="ngModel" required>
           <mat-option *ngFor="let crop of tempCrops" [value]="crop">
             {{ crop.name }}
           </mat-option>
@@ -32,7 +42,7 @@
 
       <div *ngIf="currentEntry.crop && currentEntry.crop != null">
         <mat-form-field>
-          <mat-select placeholder="Variety" [(ngModel)]="currentEntry.selectedVariety" name="variety"
+          <mat-select placeholder="Variety" [(ngModel)]="currentEntry.selectedVariety" name="variety"  required
                       #varietyField="ngModel">
             <mat-option *ngFor="let variety of currentEntry.crop.variety" [value]="variety">
               {{ variety }}
@@ -55,7 +65,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Recipient" [(ngModel)]="currentEntry.recipient" #recipientField="ngModel"
+        <mat-select placeholder="Recipient" [(ngModel)]="currentEntry.recipient" #recipientField="ngModel" required
                     name="recipient">
           <mat-option *ngFor="let org of organizations" [value]="org">
             {{ org.name }}
@@ -66,6 +76,10 @@
         </mat-error>
       </mat-form-field>
 
+      <div class="center-align buttons">
+        <button mat-button class="btn-primary" (click)="submitEntry();">Next Entry</button>
+        <button mat-button class="btn-secondary" (click)="submitHarvest();">Submit Harvest</button>
+      </div>
     </form>
   </div>
 </div>

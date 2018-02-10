@@ -1,7 +1,8 @@
 import {EventEmitter, Injectable, Output} from '@angular/core';
 import 'rxjs/add/operator/map';
+import * as config from '../app.module';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ILoginVm, SystemService} from '../swagger-api';
 
 @Injectable()

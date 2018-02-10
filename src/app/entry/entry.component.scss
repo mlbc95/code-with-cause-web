@@ -2,8 +2,26 @@ mat-form-field, mat-slider {
   width:100%;
 }
 
+.farmField {
+  width: 80% !important;
+  padding-bottom: 2vh;
+}
+
 .frame {
   padding: 2vh;
+}
+
+.buttons {
+  margin-top: 1vh;
+}
+
+.start {
+  margin: 20vh 0 30vh 0;
+}
+
+.startButton {
+  height: 8vh;
+  width: 60vw;
 }
 
 /deep/ .mat-slider-thumb-label-text {
