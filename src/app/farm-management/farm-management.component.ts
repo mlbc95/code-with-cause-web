@@ -5,6 +5,7 @@ import {MatDialog} from "@angular/material";
 import {CreateFarmDialogComponent} from "./create-farm-dialog/create-farm-dialog.component";
 import {INewFarmParams} from "../swagger-api/model/iNewFarmParams";
 import {ConfirmDeleteFarmDialogComponent} from "./confirm-delete-farm-dialog/confirm-delete-farm-dialog.component";
+import {EditFarmDialogComponent} from "./edit-farm-dialog/edit-farm-dialog.component";
 
 @Component({
   selector: 'app-farm-management',
@@ -38,7 +39,11 @@ export class FarmManagementComponent implements OnInit {
         if (newFarm) {
           this.farmService.registerFarm(newFarm).subscribe(
             (response: any): void => {
-              console.log(response);
+              this.farmService.getAll().subscribe(
+                (farms: Array<IFarmVm>): void => {
+                  this.farms = farms;
+                }
+              );
             },
             (error: Error): void => {
               console.error(error);
@@ -59,17 +64,48 @@ export class FarmManagementComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
       (confirm: boolean): void => {
         if (confirm) {
-          // this.farmService.deleteById(farm._id).subscribe(
-          //   (response: any): void => {
-          //     console.log(response);
-          //   },
-          //   (error: Error): void => {
-          //     console.error(error);
-          //   }
-          // );
+          this.farmService.deleteById(farm._id).subscribe(
+            (response: any): void => {
+              this.farmService.getAll().subscribe(
+                (farms: Array<IFarmVm>): void => {
+                  this.farms = farms;
+                }
+              );
+            },
+            (error: Error): void => {
+              console.error(error);
+            }
+          );
         }
       }
-    );  }
+    );
+  }
+
+  editFarm(farm: IFarmVm): void {
+    let dialogRef = this.matDialog.open(EditFarmDialogComponent,
+      {
+        width: '90vw',
+        data: farm
+      }
+    );
+
+    dialogRef.afterClosed().subscribe(
+      (updatedFarm: INewFarmParams): void => {
+        if (updatedFarm) {
+          this.farmService.updateById(farm._id, updatedFarm).subscribe(
+            (response: any): void => {
+              this.farmService.getAll().subscribe(
+                (farms: Array<IFarmVm>): void => {
+                  this.farms = farms;
+                }
+              );
+            },
+            (error: Error): void => {
+              console.error(error);
+            }
+          );
+        }
+      }
+    );
+  }
 }
-
-
