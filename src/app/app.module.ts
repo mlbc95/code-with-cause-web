@@ -1,5 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
+
 import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -16,6 +17,9 @@ import {AdminGuard} from './guards/admin.guard';
 import {AuthenticationService} from './services/authentication.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
+import {ApiModule, Configuration} from './swagger-api';
+import {environment} from '../environments/environment.prod';
+import {MatButtonModule, MatFormFieldModule} from '@angular/material';
 import {MatCardModule} from "@angular/material";
 import {UserManagementComponent} from './user-management/user-management.component';
 import {CropManagementComponent} from './crop-management/crop-management.component';
@@ -45,10 +49,17 @@ import {HarvestEditComponent} from './harvest-edit/harvest-edit.component';
     HttpClientModule,
     BrowserAnimationsModule,
     MatInputModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ApiModule.forRoot(apiConfiguration),
+    MatInputModule,
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
     MatCardModule
+    FormsModule,
+    MatButtonModule,
+    MatFormFieldModule
   ],
   providers: [
     AuthGuard,
@@ -58,4 +69,16 @@ import {HarvestEditComponent} from './harvest-edit/harvest-edit.component';
   bootstrap: [AppComponent]
 })
 export class AppModule {
+}
+
+export function apiConfiguration(): Configuration {
+  if (environment.production) {
+    return new Configuration({
+      basePath: 'https://codewithcause.herokuapp.com/api'
+    });
+  } else {
+    return new Configuration({
+      basePath: 'http://localhost:8080/api'
+    });
+  }
 }
