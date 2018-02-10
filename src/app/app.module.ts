@@ -81,7 +81,7 @@ export function apiConfiguration(): Configuration {
     });
   } else {
     return new Configuration({
-      basePath: 'http://localhost:8080/api'
+      basePath: 'https://codewithcause.herokuapp.com/api'
     });
   }
 }

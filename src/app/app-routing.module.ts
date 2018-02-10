@@ -30,7 +30,7 @@ const routes: Routes = [
   {
     path: 'entry',
     component: EntryComponent,
-    // canActivate: [AuthGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: 'user-management',

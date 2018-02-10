@@ -1,7 +1,7 @@
 import {EventEmitter, Injectable, Output} from '@angular/core';
 import 'rxjs/add/operator/map';
+import * as config from '../app.module';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {BACKEND_URL} from '../app.constants';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Injectable()
@@ -31,7 +31,7 @@ export class AuthenticationService {
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser && currentUser.token;
 
-    this.apiUrl = BACKEND_URL;
+    this.apiUrl = config.apiConfiguration().basePath;
 
     if (currentUser) {
       this.loggedIn.next(true);

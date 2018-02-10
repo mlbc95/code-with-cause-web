@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {Crop, Entry, Harvest, Organization} from "../model";
+import {Crop, Entry, Farm, Harvest, Organization} from "../model";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FarmService} from "../swagger-api/api/farm.service";
+import {IFarmVm} from "../swagger-api/model/iFarmVm";
 
 @Component({
   selector: 'app-entry',
@@ -12,6 +14,7 @@ export class EntryComponent implements OnInit {
   harvestStarted: boolean;
 
   // dropdown lists
+  farms: IFarmVm[];
   organizations: Organization[];
   crops: Crop[];
   harvesters: string[];
@@ -22,23 +25,19 @@ export class EntryComponent implements OnInit {
 
   tempCrops: Crop[];
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder,
+              private farmService: FarmService
+  ) { }
 
   ngOnInit() {
-    this.tempCrops = [];
-    let tempTomato = new Crop();
-    tempTomato.name = 'tomato';
-    tempTomato.variety = [];
-    tempTomato.variety.push('San Marzano Lungo');
-    tempTomato.variety.push('Michael Pollan');
-    tempTomato.pricePerPound = '4.50';
-    this.tempCrops.push(tempTomato);
-    let tempCarrot = new Crop();
-    tempCarrot.name = "carrot";
-    tempCarrot.variety = [];
-    tempCarrot.variety.push("kniff");
-    tempCarrot.pricePerPound = "2.50";
-    this.tempCrops.push(tempCarrot);
+    this.farmService.getAll().subscribe(
+      (farms: Array<IFarmVm>): void => {
+        this.farms = farms;
+      },
+    (error) => {
+        console.log(error);
+      }
+    );
 
     this.today = new Date().toLocaleDateString();
     this.harvestStarted = false;
