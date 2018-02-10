@@ -1,16 +1,11 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-
 import {ApiModule, Configuration} from './swagger-api';
 import {environment} from '../environments/environment';
 import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatCardModule, MatDialogModule, MatExpansionModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatSliderModule} from '@angular/material';
-import {
-  MatButtonModule, MatInputModule, MatSelectModule, MatFormFieldModule, MatSliderModule, MatExpansionModule,
-  MatDialogModule, MatSnackBarModule
-} from '@angular/material';
+import {MatButtonModule, MatCardModule, MatDialogModule, MatExpansionModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatSliderModule, MatSnackBarModule} from '@angular/material';
 import {LoginComponent} from './login/login.component';
 import {EntryComponent} from './entry/entry.component';
 import {ReviewComponent} from './review/review.component';
@@ -23,11 +18,10 @@ import {AppRoutingModule} from './app-routing.module';
 import {AuthGuard} from './guards/auth.guard';
 import {AdminGuard} from './guards/admin.guard';
 import {AuthenticationService} from './services/authentication.service';
-import {MatCardModule} from '@angular/material';
 import {UserManagementComponent} from './user-management/user-management.component';
 import {CropManagementComponent} from './crop-management/crop-management.component';
 import {FarmManagementComponent} from './farm-management/farm-management.component';
-import {RecipientManagementComponent} from './recipient-management/recipient-management.component';
+import {OrganizationManagementComponent} from './organization-management/organization-management.component';
 import {HarvestEditComponent} from './harvest-edit/harvest-edit.component';
 import {CreateFarmDialogComponent} from './farm-management/create-farm-dialog/create-farm-dialog.component';
 import {ConfirmDeleteFarmDialogComponent} from './farm-management/confirm-delete-farm-dialog/confirm-delete-farm-dialog.component';
@@ -47,7 +41,7 @@ import {EditFarmDialogComponent} from './farm-management/edit-farm-dialog/edit-f
     UserManagementComponent,
     CropManagementComponent,
     FarmManagementComponent,
-    RecipientManagementComponent,
+    OrganizationManagementComponent,
     HarvestEditComponent,
     CreateFarmDialogComponent,
     ConfirmDeleteFarmDialogComponent,
@@ -105,7 +99,7 @@ export function apiConfiguration(): Configuration {
     });
   } else {
     return new Configuration({
-      basePath: 'http://localhost:8080/api'
+      basePath: 'https://codewithcause.herokuapp.com/api'
     });
   }
 }

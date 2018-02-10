@@ -6,7 +6,7 @@ import {EntryComponent} from './entry/entry.component';
 import {AuthGuard} from './guards/auth.guard';
 import {AdminGuard} from './guards/admin.guard';
 import {HomeComponent} from "./home/home.component";
-import {RecipientManagementComponent} from "./recipient-management/recipient-management.component";
+import {OrganizationManagementComponent} from "./organization-management/organization-management.component";
 import {FarmManagementComponent} from "./farm-management/farm-management.component";
 import {CropManagementComponent} from "./crop-management/crop-management.component";
 import {UserManagementComponent} from "./user-management/user-management.component";
@@ -48,8 +48,8 @@ const routes: Routes = [
     canActivate: [AuthGuard, AdminGuard]
   },
   {
-    path: 'recipient-management',
-    component: RecipientManagementComponent,
+    path: 'organization-management',
+    component: OrganizationManagementComponent,
     canActivate: [AuthGuard, AdminGuard]
   },
   {
