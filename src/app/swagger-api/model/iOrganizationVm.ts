@@ -18,5 +18,5 @@ export interface IOrganizationVm {
     createdOn?: Date;
     updatedOn?: Date;
     phoneNumber?: number;
-    _id: string;
+    _id?: string;
 }

@@ -17,4 +17,5 @@ export interface IFarmVm {
     lng: number;
     createdOn: Date;
     updatedOn: Date;
+    _id?: string;
 }
