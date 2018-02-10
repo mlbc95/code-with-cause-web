@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthenticationService} from '../services/authentication.service';
 import {INewUserParams} from '../swagger-api';
-import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
+import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -33,13 +33,14 @@ export class LoginComponent implements OnInit {
 
   }
 
-  usernameFormControl = new FormControl('', [
-    Validators.required
-  ]);
-
-  passwordFormControl = new FormControl('', [
-    Validators.required
-  ]);
+  // loginForm = new FormGroup({
+  //   usernameFormControl: new FormControl('', [
+  //     Validators.required
+  //   ]),
+  //   passwordFormControl: new FormControl('', [
+  //     Validators.required
+  //   ])
+  // });
 
   matcher = new MyErrorStateMatcher();
 
@@ -49,7 +50,7 @@ export class LoginComponent implements OnInit {
     this.authenticationService.login(this.model.username, this.model.password)
       .subscribe(() => {
         // login successful
-        this.router.navigate(['/management']);
+        this.router.navigate(['/']);
       }, err => {
         if (err.error instanceof Error) {
           console.log('An error occurred:', err.error.message);

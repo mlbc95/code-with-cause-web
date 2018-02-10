@@ -5,7 +5,6 @@ import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatInputModule} from '@angular/material';
 import {LoginComponent} from './login/login.component';
 import {ManagementComponent} from './management/management.component';
 import {EntryComponent} from './entry/entry.component';
@@ -17,6 +16,8 @@ import {AdminGuard} from './guards/admin.guard';
 import {AuthenticationService} from './services/authentication.service';
 import {HeaderComponent} from './header/header.component';
 import {FooterComponent} from './footer/footer.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatInputModule} from '@angular/material/input';
 
 
 @NgModule({
@@ -35,7 +36,9 @@ import {FooterComponent} from './footer/footer.component';
     HttpClientModule,
     BrowserAnimationsModule,
     MatInputModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [
     AuthGuard,
