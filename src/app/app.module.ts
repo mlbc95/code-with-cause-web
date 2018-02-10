@@ -4,7 +4,10 @@ import {ApiModule, Configuration} from './swagger-api';
 import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatCardModule, MatFormFieldModule, MatInputModule, MatSelectModule} from '@angular/material';
+import {
+  MatButtonModule, MatCardModule, MatDialogModule, MatExpansionModule, MatFormFieldModule, MatInputModule, MatSelectModule,
+  MatSnackBarModule
+} from '@angular/material';
 import {LoginComponent} from './login/login.component';
 import {EntryComponent} from './entry/entry.component';
 import {ReviewComponent} from './review/review.component';
@@ -17,11 +20,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {AuthGuard} from './guards/auth.guard';
 import {AdminGuard} from './guards/admin.guard';
 import {AuthenticationService} from './services/authentication.service';
-<<<<<<<<< Temporary merge branch 1
 import {environment} from '../environments/environment.prod';
-=========
-import {MatCardModule} from '@angular/material';
->>>>>>>>> Temporary merge branch 2
 import {UserManagementComponent} from './user-management/user-management.component';
 import {CropManagementComponent} from './crop-management/crop-management.component';
 import {FarmManagementComponent} from './farm-management/farm-management.component';
@@ -73,7 +72,7 @@ import {CreateFarmDialogComponent} from './farm-management/create-farm-dialog/cr
     MatButtonModule,
     MatFormFieldModule,
     MatExpansionModule,
-    MatDialogModule
+    MatDialogModule,
     MatFormFieldModule,
     MatSnackBarModule
   ],
