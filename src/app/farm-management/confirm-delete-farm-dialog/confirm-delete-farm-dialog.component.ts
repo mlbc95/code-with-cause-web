@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-confirm-delete-farm-dialog',
@@ -6,10 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./confirm-delete-farm-dialog.component.scss']
 })
 export class ConfirmDeleteFarmDialogComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
+  constructor() {
   }
 
+  ngOnInit(): void {
+  }
 }
