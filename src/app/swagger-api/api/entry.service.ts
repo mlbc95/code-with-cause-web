@@ -18,16 +18,15 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs/Observable';
 
-import { ILoginVm } from '../model/iLoginVm';
-import { INewUserParams } from '../model/iNewUserParams';
-import { IUserVm } from '../model/iUserVm';
+import { IEntryVm } from '../model/iEntryVm';
+import { INewEntryParams } from '../model/iNewEntryParams';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
 
 
 @Injectable()
-export class SystemService {
+export class EntryService {
 
     protected basePath = 'https://localhost/api';
     public defaultHeaders = new HttpHeaders();
@@ -61,17 +60,13 @@ export class SystemService {
     /**
      * 
      * 
-     * @param username 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getUserByUsername(username: string, observe?: 'body', reportProgress?: boolean): Observable<IUserVm>;
-    public getUserByUsername(username: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<IUserVm>>;
-    public getUserByUsername(username: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<IUserVm>>;
-    public getUserByUsername(username: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (username === null || username === undefined) {
-            throw new Error('Required parameter username was null or undefined when calling getUserByUsername.');
-        }
+    public getAll(observe?: 'body', reportProgress?: boolean): Observable<Array<IEntryVm>>;
+    public getAll(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<IEntryVm>>>;
+    public getAll(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<IEntryVm>>>;
+    public getAll(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let headers = this.defaultHeaders;
 
@@ -89,7 +84,7 @@ export class SystemService {
             'application/json'
         ];
 
-        return this.httpClient.get<IUserVm>(`${this.basePath}/users/${encodeURIComponent(String(username))}`,
+        return this.httpClient.get<Array<IEntryVm>>(`${this.basePath}/entries/getAll`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -102,16 +97,16 @@ export class SystemService {
     /**
      * 
      * 
-     * @param loginParams 
+     * @param newEntryParams 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public login(loginParams: INewUserParams, observe?: 'body', reportProgress?: boolean): Observable<ILoginVm>;
-    public login(loginParams: INewUserParams, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ILoginVm>>;
-    public login(loginParams: INewUserParams, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ILoginVm>>;
-    public login(loginParams: INewUserParams, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (loginParams === null || loginParams === undefined) {
-            throw new Error('Required parameter loginParams was null or undefined when calling login.');
+    public registerEntry(newEntryParams: INewEntryParams, observe?: 'body', reportProgress?: boolean): Observable<IEntryVm>;
+    public registerEntry(newEntryParams: INewEntryParams, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<IEntryVm>>;
+    public registerEntry(newEntryParams: INewEntryParams, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<IEntryVm>>;
+    public registerEntry(newEntryParams: INewEntryParams, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (newEntryParams === null || newEntryParams === undefined) {
+            throw new Error('Required parameter newEntryParams was null or undefined when calling registerEntry.');
         }
 
         let headers = this.defaultHeaders;
@@ -134,54 +129,8 @@ export class SystemService {
             headers = headers.set("Content-Type", httpContentTypeSelected);
         }
 
-        return this.httpClient.post<ILoginVm>(`${this.basePath}/users/login`,
-            loginParams,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * 
-     * 
-     * @param newUserParams 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public registerUser(newUserParams: INewUserParams, observe?: 'body', reportProgress?: boolean): Observable<IUserVm>;
-    public registerUser(newUserParams: INewUserParams, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<IUserVm>>;
-    public registerUser(newUserParams: INewUserParams, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<IUserVm>>;
-    public registerUser(newUserParams: INewUserParams, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (newUserParams === null || newUserParams === undefined) {
-            throw new Error('Required parameter newUserParams was null or undefined when calling registerUser.');
-        }
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        let consumes: string[] = [
-            'application/json'
-        ];
-        let httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
-        }
-
-        return this.httpClient.post<IUserVm>(`${this.basePath}/users/create`,
-            newUserParams,
+        return this.httpClient.post<IEntryVm>(`${this.basePath}/entries/create`,
+            newEntryParams,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

@@ -11,6 +11,7 @@ export class Entry {
   public pounds: number;
   public totalValue: number;
   public harvester: Harvester;
+  public comments: string;
   public farm: Farm;
   public recipient: Organization;
 
@@ -29,7 +30,7 @@ export class Farm {
 
 export class Crop {
   public name: string;
-  public variety: string;
+  public variety: string[];
   public pricePerPound: string;
 
   public constructor() {
