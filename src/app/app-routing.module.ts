@@ -15,7 +15,7 @@ import {HarvestEditComponent} from "./harvest-edit/harvest-edit.component";
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/login',
+    redirectTo: '/home',
     pathMatch: 'full'
   },
   {
@@ -25,12 +25,12 @@ const routes: Routes = [
   {
     path: "home",
     component: HomeComponent,
-    // canActivate: [AuthGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: 'entry',
     component: EntryComponent,
-    // canActivate: [AuthGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: 'user-management',
@@ -45,7 +45,7 @@ const routes: Routes = [
   {
     path: 'farm-management',
     component: FarmManagementComponent,
-    // canActivate: [AuthGuard, AdminGuard]
+    canActivate: [AuthGuard, AdminGuard]
   },
   {
     path: 'recipient-management',

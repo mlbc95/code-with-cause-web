@@ -1,10 +1,16 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
+
 import {ApiModule, Configuration} from './swagger-api';
+import {environment} from '../environments/environment';
 import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatButtonModule, MatCardModule, MatDialogModule, MatExpansionModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatSliderModule} from '@angular/material';
+import {
+  MatButtonModule, MatInputModule, MatSelectModule, MatFormFieldModule, MatSliderModule, MatExpansionModule,
+  MatDialogModule, MatSnackBarModule
+} from '@angular/material';
 import {LoginComponent} from './login/login.component';
 import {EntryComponent} from './entry/entry.component';
 import {ReviewComponent} from './review/review.component';
@@ -17,7 +23,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {AuthGuard} from './guards/auth.guard';
 import {AdminGuard} from './guards/admin.guard';
 import {AuthenticationService} from './services/authentication.service';
-import {environment} from '../environments/environment.prod';
+import {MatCardModule} from '@angular/material';
 import {UserManagementComponent} from './user-management/user-management.component';
 import {CropManagementComponent} from './crop-management/crop-management.component';
 import {FarmManagementComponent} from './farm-management/farm-management.component';
@@ -73,7 +79,9 @@ import {EditFarmDialogComponent} from './farm-management/edit-farm-dialog/edit-f
     MatButtonModule,
     MatFormFieldModule,
     MatExpansionModule,
-    MatDialogModule
+    MatDialogModule,
+    MatFormFieldModule,
+    MatSnackBarModule
   ],
   providers: [
     AuthGuard,
