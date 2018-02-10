@@ -18,4 +18,5 @@ export interface IHarvestVm {
     entries: Array<IEntryVm>;
     createdOn: Date;
     updatedOn: Date;
+    _id?: string;
 }
