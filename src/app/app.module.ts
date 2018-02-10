@@ -4,8 +4,7 @@ import {ApiModule, Configuration} from './swagger-api';
 import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatInputModule, MatSelectModule, MatFormFieldModule, MatSliderModule} from '@angular/material';
-import {MatButtonModule, MatCardModule, MatDialogModule, MatExpansionModule, MatFormFieldModule, MatInputModule, MatSelectModule} from '@angular/material';
+import {MatButtonModule, MatCardModule, MatDialogModule, MatExpansionModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatSliderModule} from '@angular/material';
 import {LoginComponent} from './login/login.component';
 import {EntryComponent} from './entry/entry.component';
 import {ReviewComponent} from './review/review.component';
@@ -25,8 +24,8 @@ import {FarmManagementComponent} from './farm-management/farm-management.compone
 import {RecipientManagementComponent} from './recipient-management/recipient-management.component';
 import {HarvestEditComponent} from './harvest-edit/harvest-edit.component';
 import {CreateFarmDialogComponent} from './farm-management/create-farm-dialog/create-farm-dialog.component';
-import { ConfirmDeleteFarmDialogComponent } from './farm-management/confirm-delete-farm-dialog/confirm-delete-farm-dialog.component';
-import { EditFarmDialogComponent } from './farm-management/edit-farm-dialog/edit-farm-dialog.component';
+import {ConfirmDeleteFarmDialogComponent} from './farm-management/confirm-delete-farm-dialog/confirm-delete-farm-dialog.component';
+import {EditFarmDialogComponent} from './farm-management/edit-farm-dialog/edit-farm-dialog.component';
 
 
 @NgModule({
