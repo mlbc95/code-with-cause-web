@@ -10,6 +10,8 @@ import { LoginComponent } from './login/login.component';
 import { ManagementComponent } from './management/management.component';
 import { EntryComponent } from './entry/entry.component';
 import { ReviewComponent } from './review/review.component';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
 
 
 
@@ -20,6 +22,8 @@ import { ReviewComponent } from './review/review.component';
     ManagementComponent,
     EntryComponent,
     ReviewComponent,
+    HeaderComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
