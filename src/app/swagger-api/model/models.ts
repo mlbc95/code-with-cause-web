@@ -3,6 +3,7 @@ export * from './iEntryVm';
 export * from './iFarmVm';
 export * from './iHarvestVm';
 export * from './iHarvesterVm';
+export * from './iLoginParams';
 export * from './iLoginVm';
 export * from './iNewCropParams';
 export * from './iNewEntryParams';
