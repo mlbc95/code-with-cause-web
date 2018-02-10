@@ -18,6 +18,7 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs/Observable';
 
+import { ILoginParams } from '../model/iLoginParams';
 import { ILoginVm } from '../model/iLoginVm';
 import { INewUserParams } from '../model/iNewUserParams';
 import { IUserVm } from '../model/iUserVm';
@@ -184,10 +185,10 @@ export class SystemService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public login(loginParams: INewUserParams, observe?: 'body', reportProgress?: boolean): Observable<ILoginVm>;
-    public login(loginParams: INewUserParams, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ILoginVm>>;
-    public login(loginParams: INewUserParams, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ILoginVm>>;
-    public login(loginParams: INewUserParams, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public login(loginParams: ILoginParams, observe?: 'body', reportProgress?: boolean): Observable<ILoginVm>;
+    public login(loginParams: ILoginParams, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ILoginVm>>;
+    public login(loginParams: ILoginParams, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ILoginVm>>;
+    public login(loginParams: ILoginParams, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (loginParams === null || loginParams === undefined) {
             throw new Error('Required parameter loginParams was null or undefined when calling login.');
         }
