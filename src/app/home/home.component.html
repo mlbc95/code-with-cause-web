@@ -1,1 +1,42 @@
-<p>YO</p>
+<div class="row">
+  <div class="col-md-12">
+    <mat-card (click)="cardSelected('user-management');">
+      <mat-card-content class="center-align">
+        <i class="fa fa-user" aria-hidden="true"></i>
+        <p>User<br/>Management</p>
+      </mat-card-content>
+    </mat-card>
+    <mat-card (click)="cardSelected('crop-management');">
+      <mat-card-content class="center-align">
+        <i class="fa fa-leaf" aria-hidden="true"></i>
+        <p>Crop<br/>Management</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <mat-card (click)="cardSelected('farm-management');">
+      <mat-card-content class="center-align">
+        <i class="fa fa-industry" aria-hidden="true"></i>
+        <p>Farm<br/>Management</p>
+      </mat-card-content>
+    </mat-card>
+    <mat-card (click)="cardSelected('recipient-management');">
+      <mat-card-content class="center-align">
+        <i class="fa fa-address-book" aria-hidden="true"></i>
+        <p>Recipient<br/>Management</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <mat-card (click)="cardSelected('harvest-edit');">
+      <mat-card-content class="center-align">
+        <i class="fa fa-pagelines" aria-hidden="true"></i>
+        <p>Harvest<br/>Edit</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

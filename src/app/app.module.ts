@@ -4,7 +4,6 @@ import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {LoginComponent} from './login/login.component';
-import {ManagementComponent} from './management/management.component';
 import {EntryComponent} from './entry/entry.component';
 import {ReviewComponent} from './review/review.component';
 import {HeaderComponent} from './header/header.component';
@@ -17,19 +16,29 @@ import {AdminGuard} from './guards/admin.guard';
 import {AuthenticationService} from './services/authentication.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
+import {MatCardModule} from "@angular/material";
+import {UserManagementComponent} from './user-management/user-management.component';
+import {CropManagementComponent} from './crop-management/crop-management.component';
+import {FarmManagementComponent} from './farm-management/farm-management.component';
+import {RecipientManagementComponent} from './recipient-management/recipient-management.component';
+import {HarvestEditComponent} from './harvest-edit/harvest-edit.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    ManagementComponent,
     EntryComponent,
     ReviewComponent,
     HeaderComponent,
     FooterComponent,
     PageNotFoundComponent,
-    HomeComponent
+    HomeComponent,
+    UserManagementComponent,
+    CropManagementComponent,
+    FarmManagementComponent,
+    RecipientManagementComponent,
+    HarvestEditComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,7 +47,8 @@ import {MatInputModule} from '@angular/material/input';
     MatInputModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    MatCardModule
   ],
   providers: [
     AuthGuard,

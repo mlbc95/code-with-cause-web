@@ -1,0 +1,28 @@
+@import "../../styles";
+
+$content-width-per-card: 43;
+$padding-per-card: (100 - ($content-width-per-card * 2)) / 4;
+
+mat-card {
+  background-color: lighten($brand-grey, 55) !important;
+  color: darken($brand-green, 15) !important;
+
+  display: inline-block;
+  width: calc(#{$content-width-per-card} * #{$cw});
+  height: calc(#{$content-width-per-card} * #{$cw});
+  margin: calc(#{$padding-per-card} * #{$cw});
+
+  font-size: 14px;
+
+  p {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto 20px !important;
+  }
+
+  i {
+    font-size: 38px;
+  }
+}
