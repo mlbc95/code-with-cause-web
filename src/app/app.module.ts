@@ -24,6 +24,7 @@ import {FarmManagementComponent} from './farm-management/farm-management.compone
 import {RecipientManagementComponent} from './recipient-management/recipient-management.component';
 import {HarvestEditComponent} from './harvest-edit/harvest-edit.component';
 import {CreateFarmDialogComponent} from './farm-management/create-farm-dialog/create-farm-dialog.component';
+import { ConfirmDeleteFarmDialogComponent } from './farm-management/confirm-delete-farm-dialog/confirm-delete-farm-dialog.component';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import {CreateFarmDialogComponent} from './farm-management/create-farm-dialog/cr
     RecipientManagementComponent,
     HarvestEditComponent,
     CreateFarmDialogComponent,
+    ConfirmDeleteFarmDialogComponent,
   ],
   imports: [
     BrowserModule,
