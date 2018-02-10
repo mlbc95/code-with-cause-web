@@ -9,9 +9,11 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { UserRole } from './userRole';
 
 
 export interface INewUserParams {
     username: string;
     password: string;
+    role: UserRole;
 }
