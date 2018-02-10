@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-farm-management',
@@ -6,10 +6,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./farm-management.component.scss']
 })
 export class FarmManagementComponent implements OnInit {
+  farms: Array<any> = [];
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor() {
   }
 
+  ngOnInit(): void {
+  }
 }
