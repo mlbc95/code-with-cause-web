@@ -6,7 +6,10 @@ import {environment} from '../environments/environment';
 import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatInputModule, MatSelectModule, MatFormFieldModule} from '@angular/material';
+import {
+  MatButtonModule, MatInputModule, MatSelectModule, MatFormFieldModule, MatSliderModule, MatExpansionModule,
+  MatDialogModule, MatSnackBarModule
+} from '@angular/material';
 import {LoginComponent} from './login/login.component';
 import {EntryComponent} from './entry/entry.component';
 import {ReviewComponent} from './review/review.component';
@@ -25,6 +28,7 @@ import {CropManagementComponent} from './crop-management/crop-management.compone
 import {FarmManagementComponent} from './farm-management/farm-management.component';
 import {RecipientManagementComponent} from './recipient-management/recipient-management.component';
 import {HarvestEditComponent} from './harvest-edit/harvest-edit.component';
+import {CreateFarmDialogComponent} from './farm-management/create-farm-dialog/create-farm-dialog.component';
 
 
 @NgModule({

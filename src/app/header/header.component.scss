@@ -1,6 +1,6 @@
 @import "../../styles";
 
 button {
-  background-color: lighten($brand-grey, 55) !important;
-  color: darken($brand-green, 15) !important;
+  height: 40px;
+  margin-top: $header-height / 2 - 20;
 }
