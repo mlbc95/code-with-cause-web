@@ -26,6 +26,9 @@ import {HarvestEditComponent} from './harvest-edit/harvest-edit.component';
 import {CreateFarmDialogComponent} from './farm-management/create-farm-dialog/create-farm-dialog.component';
 import {ConfirmDeleteFarmDialogComponent} from './farm-management/confirm-delete-farm-dialog/confirm-delete-farm-dialog.component';
 import {EditFarmDialogComponent} from './farm-management/edit-farm-dialog/edit-farm-dialog.component';
+import { EditOrganizationDialogComponent } from './organization-management/edit-organization-dialog/edit-organization-dialog.component';
+import { ConfirmDeleteOrganizationDialogComponent } from './organization-management/confirm-delete-organization-dialog/confirm-delete-organization-dialog.component';
+import { CreateOrganizationDialogComponent } from './organization-management/create-organization-dialog/create-organization-dialog.component';
 
 
 @NgModule({
@@ -46,6 +49,9 @@ import {EditFarmDialogComponent} from './farm-management/edit-farm-dialog/edit-f
     CreateFarmDialogComponent,
     ConfirmDeleteFarmDialogComponent,
     EditFarmDialogComponent,
+    EditOrganizationDialogComponent,
+    ConfirmDeleteOrganizationDialogComponent,
+    CreateOrganizationDialogComponent,
   ],
   imports: [
     BrowserModule,

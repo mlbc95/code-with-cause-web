@@ -8,12 +8,9 @@ import {MAT_DIALOG_DATA} from "@angular/material";
   styleUrls: ['./edit-farm-dialog.component.scss']
 })
 export class EditFarmDialogComponent implements OnInit {
-  updatedFarm: INewFarmParams;
-
-  constructor(@Inject(MAT_DIALOG_DATA) public farm: INewFarmParams) {
+  constructor(@Inject(MAT_DIALOG_DATA) private farm: INewFarmParams) {
   }
 
   ngOnInit(): void {
-    this.updatedFarm = {name: this.farm.name, lat: this.farm.lat, lng: this.farm.lng};
   }
 }

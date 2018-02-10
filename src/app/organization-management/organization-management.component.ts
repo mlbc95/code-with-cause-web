@@ -3,6 +3,9 @@ import {OrganizationService} from "../swagger-api/api/organization.service";
 import {MatDialog} from "@angular/material";
 import {IOrganizationVm} from "../swagger-api/model/iOrganizationVm";
 import {INewOrganizationParams} from "../swagger-api/model/iNewOrganizationParams";
+import {CreateOrganizationDialogComponent} from "./create-organization-dialog/create-organization-dialog.component";
+import {ConfirmDeleteOrganizationDialogComponent} from "./confirm-delete-organization-dialog/confirm-delete-organization-dialog.component";
+import {EditOrganizationDialogComponent} from "./edit-organization-dialog/edit-organization-dialog.component";
 
 @Component({
   selector: 'app-organization-management',
@@ -61,7 +64,7 @@ export class OrganizationManagementComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
       (confirm: boolean): void => {
         if (confirm) {
-          this.organizationService.deleteById(organization._id).subscribe(
+          this.organizationService.deleteOrganization(organization._id).subscribe(
             (response: any): void => {
               this.organizationService.getAll().subscribe(
                 (organizations: Array<IOrganizationVm>): void => {
@@ -89,7 +92,7 @@ export class OrganizationManagementComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
       (updatedOrganization: INewOrganizationParams): void => {
         if (updatedOrganization) {
-          this.organizationService.updateById(organization._id, updatedOrganization).subscribe(
+          this.organizationService.updateOrganization(organization._id, updatedOrganization).subscribe(
             (response: any): void => {
               this.organizationService.getAll().subscribe(
                 (organizations: Array<IOrganizationVm>): void => {
