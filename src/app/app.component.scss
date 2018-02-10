@@ -2,7 +2,7 @@
 
 .header {
   height: $header-height;
-  border-bottom: $header-border-width double $brand-grey;
+  border-bottom: $header-border-width solid $border;
   background-color: $brand-green;
   width: 100%;
 
@@ -20,7 +20,7 @@
 
 .footer {
   height: $footer-height;
-  border-top: $footer-border-width double $brand-grey;
+  border-top: $footer-border-width solid $border;
   background-color: $brand-green;
   width: 100%;
 
