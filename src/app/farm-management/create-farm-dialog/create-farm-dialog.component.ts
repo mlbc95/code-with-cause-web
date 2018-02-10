@@ -10,8 +10,7 @@ import {INewFarmParams} from "../../swagger-api/model/iNewFarmParams";
 export class CreateFarmDialogComponent implements OnInit {
   farm: INewFarmParams;
 
-  constructor(private dialogRef: MatDialogRef<CreateFarmDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) private data: any) {
+  constructor(private dialogRef: MatDialogRef<CreateFarmDialogComponent>) {
   }
 
   ngOnInit(): void {
