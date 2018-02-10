@@ -56,7 +56,7 @@ import {HarvestEditComponent} from './harvest-edit/harvest-edit.component';
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    MatCardModule
+    MatCardModule,
     FormsModule,
     MatButtonModule,
     MatFormFieldModule
