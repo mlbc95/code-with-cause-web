@@ -1,4 +1,11 @@
+@import "../../styles";
+
 .username, .password {
   width: 100%;
   display: block;
+}
+
+button {
+  background-color: lighten($brand-grey, 55) !important;
+  color: darken($brand-green, 15) !important;
 }
