@@ -4,7 +4,7 @@ import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatCardModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatFormFieldModule} from '@angular/material';
+import {MatButtonModule, MatCardModule, MatFormFieldModule, MatInputModule, MatSelectModule} from '@angular/material';
 import {LoginComponent} from './login/login.component';
 import {EntryComponent} from './entry/entry.component';
 import {ReviewComponent} from './review/review.component';

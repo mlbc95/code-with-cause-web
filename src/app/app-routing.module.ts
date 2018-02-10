@@ -45,7 +45,7 @@ const routes: Routes = [
   {
     path: 'farm-management',
     component: FarmManagementComponent,
-    canActivate: [AuthGuard, AdminGuard]
+    // canActivate: [AuthGuard, AdminGuard]
   },
   {
     path: 'recipient-management',
