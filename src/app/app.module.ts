@@ -18,6 +18,11 @@ import {AppRoutingModule} from './app-routing.module';
 import {AuthGuard} from './guards/auth.guard';
 import {AdminGuard} from './guards/admin.guard';
 import {AuthenticationService} from './services/authentication.service';
+import {
+  MatButtonModule, MatCardModule, MatDialogModule, MatExpansionModule, MatFormFieldModule, MatInputModule,
+  MatSelectModule,
+  MatSliderModule, MatSnackBarModule
+} from '@angular/material';
 import {UserManagementComponent} from './user-management/user-management.component';
 import {CropManagementComponent} from './crop-management/crop-management.component';
 import {FarmManagementComponent} from './farm-management/farm-management.component';
@@ -29,7 +34,6 @@ import {EditFarmDialogComponent} from './farm-management/edit-farm-dialog/edit-f
 import { EditOrganizationDialogComponent } from './organization-management/edit-organization-dialog/edit-organization-dialog.component';
 import { ConfirmDeleteOrganizationDialogComponent } from './organization-management/confirm-delete-organization-dialog/confirm-delete-organization-dialog.component';
 import { CreateOrganizationDialogComponent } from './organization-management/create-organization-dialog/create-organization-dialog.component';
-
 
 @NgModule({
   declarations: [

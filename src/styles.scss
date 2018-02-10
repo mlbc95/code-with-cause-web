@@ -9,7 +9,7 @@ $brand-yellow: #fce363;
 
 // HEADER AND FOOTER VARIABLES
 $header-height: 60px;
-$footer-height: 35px;
+$footer-height: 40px;
 $header-border-width: 3px;
 $footer-border-width: $header-border-width;
 
@@ -19,6 +19,20 @@ html, body {
   height: 100%; /* needed for container min-height */
 
   overflow: hidden;
+}
+
+.btn-primary {
+  background-color: $brand-orange !important;
+  border-color: #c16626 !important;
+  color: white !important;
+  font-weight: bold !important;
+}
+
+.btn-primary:hover {
+  background-color: #db732b !important;
+  border-color: #b86124 !important;
+  color: white !important;
+  font-weight: bold !important;
 }
 
 // Represents a custom unit standing for "content-width" which is equivalent to the entire viewport width MINUS the
