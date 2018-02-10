@@ -60,19 +60,24 @@ export class FarmService {
     /**
      * 
      * 
-     * @param slug 
+     * @param id 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteById(slug: string, observe?: 'body', reportProgress?: boolean): Observable<Array<IFarmVm>>;
-    public deleteById(slug: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<IFarmVm>>>;
-    public deleteById(slug: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<IFarmVm>>>;
-    public deleteById(slug: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (slug === null || slug === undefined) {
-            throw new Error('Required parameter slug was null or undefined when calling deleteById.');
+    public deleteById(id: string, observe?: 'body', reportProgress?: boolean): Observable<Array<IFarmVm>>;
+    public deleteById(id: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<IFarmVm>>>;
+    public deleteById(id: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<IFarmVm>>>;
+    public deleteById(id: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling deleteById.');
         }
 
         let headers = this.defaultHeaders;
+
+        // authentication (JWT) required
+        if (this.configuration.apiKeys["Authorization"]) {
+            headers = headers.set('Authorization', this.configuration.apiKeys["Authorization"]);
+        }
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
@@ -88,7 +93,7 @@ export class FarmService {
             'application/json'
         ];
 
-        return this.httpClient.delete<Array<IFarmVm>>(`${this.basePath}/farms/${encodeURIComponent(String(slug))}`,
+        return this.httpClient.delete<Array<IFarmVm>>(`${this.basePath}/farms/${encodeURIComponent(String(id))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -184,17 +189,17 @@ export class FarmService {
     /**
      * 
      * 
-     * @param slug 
+     * @param id 
      * @param newFarmParams 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateById(slug: string, newFarmParams: INewFarmParams, observe?: 'body', reportProgress?: boolean): Observable<IFarmVm>;
-    public updateById(slug: string, newFarmParams: INewFarmParams, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<IFarmVm>>;
-    public updateById(slug: string, newFarmParams: INewFarmParams, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<IFarmVm>>;
-    public updateById(slug: string, newFarmParams: INewFarmParams, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (slug === null || slug === undefined) {
-            throw new Error('Required parameter slug was null or undefined when calling updateById.');
+    public updateById(id: string, newFarmParams: INewFarmParams, observe?: 'body', reportProgress?: boolean): Observable<IFarmVm>;
+    public updateById(id: string, newFarmParams: INewFarmParams, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<IFarmVm>>;
+    public updateById(id: string, newFarmParams: INewFarmParams, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<IFarmVm>>;
+    public updateById(id: string, newFarmParams: INewFarmParams, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling updateById.');
         }
         if (newFarmParams === null || newFarmParams === undefined) {
             throw new Error('Required parameter newFarmParams was null or undefined when calling updateById.');
@@ -220,7 +225,7 @@ export class FarmService {
             headers = headers.set("Content-Type", httpContentTypeSelected);
         }
 
-        return this.httpClient.put<IFarmVm>(`${this.basePath}/farms/${encodeURIComponent(String(slug))}`,
+        return this.httpClient.put<IFarmVm>(`${this.basePath}/farms/${encodeURIComponent(String(id))}`,
             newFarmParams,
             {
                 withCredentials: this.configuration.withCredentials,

@@ -18,6 +18,7 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs/Observable';
 
+import { ILoginParams } from '../model/iLoginParams';
 import { ILoginVm } from '../model/iLoginVm';
 import { INewUserParams } from '../model/iNewUserParams';
 import { IUserVm } from '../model/iUserVm';
@@ -57,6 +58,84 @@ export class SystemService {
         return false;
     }
 
+
+    /**
+     * 
+     * 
+     * @param id 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public deleteUserById(id: string, observe?: 'body', reportProgress?: boolean): Observable<IUserVm>;
+    public deleteUserById(id: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<IUserVm>>;
+    public deleteUserById(id: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<IUserVm>>;
+    public deleteUserById(id: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling deleteUserById.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/json'
+        ];
+
+        return this.httpClient.delete<IUserVm>(`${this.basePath}/users/${encodeURIComponent(String(id))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getAllUsers(observe?: 'body', reportProgress?: boolean): Observable<Array<IUserVm>>;
+    public getAllUsers(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<IUserVm>>>;
+    public getAllUsers(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<IUserVm>>>;
+    public getAllUsers(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/json'
+        ];
+
+        return this.httpClient.get<Array<IUserVm>>(`${this.basePath}/users`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
 
     /**
      * 
@@ -106,10 +185,10 @@ export class SystemService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public login(loginParams: INewUserParams, observe?: 'body', reportProgress?: boolean): Observable<ILoginVm>;
-    public login(loginParams: INewUserParams, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ILoginVm>>;
-    public login(loginParams: INewUserParams, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ILoginVm>>;
-    public login(loginParams: INewUserParams, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public login(loginParams: ILoginParams, observe?: 'body', reportProgress?: boolean): Observable<ILoginVm>;
+    public login(loginParams: ILoginParams, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ILoginVm>>;
+    public login(loginParams: ILoginParams, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ILoginVm>>;
+    public login(loginParams: ILoginParams, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (loginParams === null || loginParams === undefined) {
             throw new Error('Required parameter loginParams was null or undefined when calling login.');
         }

@@ -11,9 +11,7 @@
  */
 
 
-export interface INewOrganizationParams {
-    purchase: boolean;
-    name: string;
-    contactName: string;
-    phoneNumber: string;
+export interface ILoginParams {
+    username: string;
+    password: string;
 }
