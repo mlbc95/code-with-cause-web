@@ -12,6 +12,7 @@ import { EntryComponent } from './entry/entry.component';
 import { ReviewComponent } from './review/review.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
+import { HomeComponent } from './home/home.component';
 
 
 
@@ -24,6 +25,7 @@ import { FooterComponent } from './footer/footer.component';
     ReviewComponent,
     HeaderComponent,
     FooterComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
