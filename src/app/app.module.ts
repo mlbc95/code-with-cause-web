@@ -4,7 +4,7 @@ import {ApiModule, Configuration} from './swagger-api';
 import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatCardModule, MatInputModule, MatSelectModule, MatFormFieldModule, MatSnackBarModule} from '@angular/material';
+import {MatButtonModule, MatCardModule, MatFormFieldModule, MatInputModule, MatSelectModule} from '@angular/material';
 import {LoginComponent} from './login/login.component';
 import {EntryComponent} from './entry/entry.component';
 import {ReviewComponent} from './review/review.component';
@@ -17,12 +17,17 @@ import {AppRoutingModule} from './app-routing.module';
 import {AuthGuard} from './guards/auth.guard';
 import {AdminGuard} from './guards/admin.guard';
 import {AuthenticationService} from './services/authentication.service';
+<<<<<<<<< Temporary merge branch 1
 import {environment} from '../environments/environment.prod';
+=========
+import {MatCardModule} from '@angular/material';
+>>>>>>>>> Temporary merge branch 2
 import {UserManagementComponent} from './user-management/user-management.component';
 import {CropManagementComponent} from './crop-management/crop-management.component';
 import {FarmManagementComponent} from './farm-management/farm-management.component';
 import {RecipientManagementComponent} from './recipient-management/recipient-management.component';
 import {HarvestEditComponent} from './harvest-edit/harvest-edit.component';
+import {CreateFarmDialogComponent} from './farm-management/create-farm-dialog/create-farm-dialog.component';
 
 
 @NgModule({
@@ -40,6 +45,7 @@ import {HarvestEditComponent} from './harvest-edit/harvest-edit.component';
     FarmManagementComponent,
     RecipientManagementComponent,
     HarvestEditComponent,
+    CreateFarmDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -66,6 +72,9 @@ import {HarvestEditComponent} from './harvest-edit/harvest-edit.component';
     FormsModule,
     MatButtonModule,
     MatFormFieldModule,
+    MatExpansionModule,
+    MatDialogModule
+    MatFormFieldModule,
     MatSnackBarModule
   ],
   providers: [
@@ -73,7 +82,10 @@ import {HarvestEditComponent} from './harvest-edit/harvest-edit.component';
     AdminGuard,
     AuthenticationService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    CreateFarmDialogComponent
+  ]
 })
 export class AppModule {
 }
@@ -85,7 +97,7 @@ export function apiConfiguration(): Configuration {
     });
   } else {
     return new Configuration({
-      basePath: 'https://codewithcause.herokuapp.com/api'
+      basePath: 'http://localhost:8080/api'
     });
   }
 }

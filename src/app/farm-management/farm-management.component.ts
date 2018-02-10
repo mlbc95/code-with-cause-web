@@ -1,4 +1,9 @@
 import {Component, OnInit} from '@angular/core';
+import {FarmService} from "../swagger-api/api/farm.service";
+import {IFarmVm} from "../swagger-api/model/iFarmVm";
+import {MatDialog} from "@angular/material";
+import {CreateFarmDialogComponent} from "./create-farm-dialog/create-farm-dialog.component";
+import {INewFarmParams} from "../swagger-api/model/iNewFarmParams";
 
 @Component({
   selector: 'app-farm-management',
@@ -6,11 +11,46 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./farm-management.component.scss']
 })
 export class FarmManagementComponent implements OnInit {
-  farms: Array<any> = [];
+  farms: Array<IFarmVm> = [];
 
-  constructor() {
+  constructor(private farmService: FarmService,
+              private matDialog: MatDialog) {
   }
 
   ngOnInit(): void {
+    this.farmService.getAll().subscribe(
+      (farms: Array<IFarmVm>): void => {
+        this.farms = farms;
+      }
+    );
+  }
+
+  createNewFarm(): void {
+    let dialogRef = this.matDialog.open(CreateFarmDialogComponent,
+      {
+        width: '90vw'
+      }
+    );
+
+    dialogRef.afterClosed().subscribe(
+      (newFarm: INewFarmParams): void => {
+        if (newFarm) {
+          this.farmService.registerFarm(newFarm).subscribe(
+            (response: any): void => {
+              console.log(response);
+            },
+            (error: Error): void => {
+              console.error(error);
+            }
+          );
+        }
+      }
+    );
+  }
+
+  deleteFarm(farm: IFarmVm): void {
+    // TODO
   }
 }
+
+
