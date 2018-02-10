@@ -6,32 +6,42 @@ import {environment} from '../environments/environment';
 import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatButtonModule, MatInputModule, MatSelectModule, MatFormFieldModule} from '@angular/material';
 import {LoginComponent} from './login/login.component';
-import {ManagementComponent} from './management/management.component';
 import {EntryComponent} from './entry/entry.component';
 import {ReviewComponent} from './review/review.component';
+import {HeaderComponent} from './header/header.component';
+import {FooterComponent} from './footer/footer.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {HomeComponent} from './home/home.component';
 import {PageNotFoundComponent} from './not-found.component';
 import {AppRoutingModule} from './app-routing.module';
 import {AuthGuard} from './guards/auth.guard';
 import {AdminGuard} from './guards/admin.guard';
 import {AuthenticationService} from './services/authentication.service';
-import {HeaderComponent} from './header/header.component';
-import {FooterComponent} from './footer/footer.component';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatInputModule} from '@angular/material/input';
-import {MatButtonModule, MatFormFieldModule, MatSelectModule} from "@angular/material";
+import {MatCardModule} from '@angular/material';
+import {UserManagementComponent} from './user-management/user-management.component';
+import {CropManagementComponent} from './crop-management/crop-management.component';
+import {FarmManagementComponent} from './farm-management/farm-management.component';
+import {RecipientManagementComponent} from './recipient-management/recipient-management.component';
+import {HarvestEditComponent} from './harvest-edit/harvest-edit.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    ManagementComponent,
     EntryComponent,
     ReviewComponent,
     HeaderComponent,
     FooterComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    HomeComponent,
+    UserManagementComponent,
+    CropManagementComponent,
+    FarmManagementComponent,
+    RecipientManagementComponent,
+    HarvestEditComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,9 +55,14 @@ import {MatButtonModule, MatFormFieldModule, MatSelectModule} from "@angular/mat
     FormsModule,
     ReactiveFormsModule,
     ApiModule.forRoot(apiConfiguration),
+    MatInputModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    MatCardModule,
+    FormsModule,
+    MatButtonModule,
+    MatFormFieldModule
   ],
   providers: [
     AuthGuard,
