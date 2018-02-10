@@ -10,9 +10,9 @@ export class Entry {
   public crop: Crop;
   public pounds: number;
   public totalValue: number;
-  public harvester: string;
+  public harvester: Harvester;
   public farm: Farm;
-  public recipient: Recipient;
+  public recipient: Organization;
 
   public constructor() {
   }
@@ -36,30 +36,31 @@ export class Crop {
   }
 }
 
-export enum RecipientType {
+export enum OrganizationType {
   PURCHASE,
   DONATION
 }
 
-export abstract class Recipient {
-  public readonly recipientType: RecipientType;
+export abstract class Organization {
+  public readonly organizationType: OrganizationType;
   public name: string;
-  public organization: string;
+  public phoneNumber: string;
+  public contactName: string;
 
-  public constructor(recipientType) {
-    this.recipientType = recipientType;
+  public constructor(organizationType) {
+    this.organizationType = organizationType;
   }
 }
 
-export class PurchaseRecipient extends Recipient {
+export class PurchaseOrganization extends Organization {
   public constructor() {
-    super(RecipientType.PURCHASE);
+    super(OrganizationType.PURCHASE);
   }
 }
 
-export class DonationRecipient extends Recipient {
+export class DonationOrganization extends Organization {
   public constructor() {
-    super(RecipientType.DONATION);
+    super(OrganizationType.DONATION);
   }
 }
 
@@ -87,5 +88,13 @@ export class AdminUser extends User {
 export class InternUser extends User {
   public constructor() {
     super(UserType.INTERN);
+  }
+}
+
+export class Harvester {
+  public fisrtName: string;
+  public lastName: string;
+
+  public constructor() {
   }
 }
