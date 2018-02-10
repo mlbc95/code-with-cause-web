@@ -16,4 +16,5 @@ export interface IHarvesterVm {
     lastName: string;
     createdOn: Date;
     updatedOn: Date;
+    _id?: string;
 }
