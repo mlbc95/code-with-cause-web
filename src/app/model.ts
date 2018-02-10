@@ -1,4 +1,5 @@
 export class Harvest {
+  public farm: Farm;
   public readonly entries: Array<Entry>;
 
   public constructor() {
@@ -12,7 +13,6 @@ export class Entry {
   public totalValue: number;
   public harvester: Harvester;
   public comments: string;
-  public farm: Farm;
   public recipient: Organization;
 
   public constructor() {

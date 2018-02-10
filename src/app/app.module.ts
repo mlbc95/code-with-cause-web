@@ -19,7 +19,7 @@ import {HeaderComponent} from './header/header.component';
 import {FooterComponent} from './footer/footer.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
-import {MatButtonModule, MatSelectModule} from "@angular/material";
+import {MatButtonModule, MatFormFieldModule, MatSelectModule} from "@angular/material";
 
 
 @NgModule({
@@ -37,6 +37,7 @@ import {MatButtonModule, MatSelectModule} from "@angular/material";
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     MatSelectModule,
