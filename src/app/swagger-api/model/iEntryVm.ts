@@ -23,4 +23,6 @@ export interface IEntryVm {
     recipient: IOrganizationVm;
     createdOn: Date;
     updatedOn: Date;
+    selectedVariety: string;
+    _id?: string;
 }

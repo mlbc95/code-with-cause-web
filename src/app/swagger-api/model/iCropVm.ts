@@ -13,8 +13,9 @@
 
 export interface ICropVm {
     name: string;
-    variety: string;
+    variety: Array<string>;
     pricePerPound: number;
     createdOn: Date;
     updatedOn: Date;
+    _id?: string;
 }
