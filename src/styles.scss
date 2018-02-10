@@ -19,3 +19,53 @@ html, body {
 
   overflow: hidden;
 }
+
+// Represents a custom unit standing for "content-width" which is equivalent to the entire viewport width MINUS the
+// left and right padding added by bootstrap all divided by 100, thus slicing up the valid content width into hundredths.
+// Usage (in a .scss file):
+// @import "path/to/styles.css";
+// .something {
+//    width: calc(10 * #{$cw});
+// }
+$cw: calc((100vw - 15px - 15px) / 100);
+
+// UTILITY CLASSES
+.center-align {
+  text-align: center;
+}
+
+.left-align {
+  text-align: left;
+}
+
+.right-align {
+  text-align: right;
+}
+
+.max-width {
+  width: 100%;
+}
+
+.max-height {
+  height: 100%;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+.no-padding {
+  padding: 0;
+}
+
+.inline {
+  display: inline;
+}
+
+.block {
+  display: block;
+}
+
+.inline-block {
+  display: inline-block;
+}

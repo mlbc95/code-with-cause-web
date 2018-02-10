@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import * as config from '../../app.constants'
 import {HttpClient} from "@angular/common/http";
+import {CropService} from '../../swagger-api';
 
 @Injectable()
 export class CropsService {
   BACKEND_URL: string = config.BACKEND_URL;
 
-  constructor(private http: HttpClient) { }
+  constructor(private cropApi: CropService) { }
 
-  getCrops(){
-    this.http.get(this.BACKEND_URL + '/crops');
+  getCrops() {
+    return this.cropApi.getAll();
   }
 }

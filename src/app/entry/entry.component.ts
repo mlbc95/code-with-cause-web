@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {Crop, Entry, Harvest} from "../model";
+import {Crop, Entry, Harvest, Organization} from "../model";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-entry',
@@ -9,14 +10,31 @@ import {Crop, Entry, Harvest} from "../model";
 export class EntryComponent implements OnInit {
   today: string;
   harvestStarted: boolean;
+
+  // dropdown lists
+  organizations: Organization[];
+  crops: Crop[];
+  harvesters: string[];
+
+  harvestForm: FormGroup;
   harvest: Harvest;
   currentEntry: Entry;
 
   tempCrops: Crop[];
 
-  constructor() { }
+  constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.harvestForm = this.formBuilder.group({
+      Harvester: ['', Validators.required],
+      Crop: [null, Validators.required],
+      Variety: ['', Validators.required],
+      Pounds: ['', Validators.required],
+      Comments: [''],
+      PriceTotal: ['', Validators.required],
+      Recipient: ['', Validators.required],
+    });
+
     this.tempCrops = [];
     let tempTomato = new Crop();
     tempTomato.name = 'tomato';
@@ -40,10 +58,17 @@ export class EntryComponent implements OnInit {
 
   startHarvest(){
     this.harvestStarted = true;
+
+    // check if there's a harvest saved in local storage, if there is recover it
+
   }
 
   buildForm(){
 
+  }
+
+  submitEntry(){
+    //save whole harvest to local storage in case of browser refresh
   }
 
 }
