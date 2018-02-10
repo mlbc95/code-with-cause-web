@@ -6,16 +6,22 @@ import {EntryComponent} from './entry/entry.component';
 import {AuthGuard} from './guards/auth.guard';
 import {ManagementComponent} from './management/management.component';
 import {AdminGuard} from './guards/admin.guard';
+import {HomeComponent} from "./home/home.component";
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/entry',
+    redirectTo: '/login',
     pathMatch: 'full'
   },
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: "home",
+    component: HomeComponent
+    // canActivate: [AuthGuard]
   },
   {
     path: 'entry',
