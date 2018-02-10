@@ -13,6 +13,6 @@
 
 export interface INewCropParams {
     name: string;
-    variety: string;
+    variety: Array<string>;
     pricePerPound: number;
 }

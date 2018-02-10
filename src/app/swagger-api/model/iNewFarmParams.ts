@@ -14,5 +14,5 @@
 export interface INewFarmParams {
     name: string;
     lat: number;
-    _long: number;
+    lng: number;
 }
