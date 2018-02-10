@@ -1,13 +1,13 @@
 <div class="container-fluid">
-  <div class="row header">
-    <div class="logo pull-right"></div>
-  </div>
+  <app-header></app-header>
   <div class="row content">
     <router-outlet></router-outlet>
   </div>
   <div class="row footer">
 
+    <div class="col-md-12">
+      <app-login></app-login>
+    </div>
   </div>
+  <app-footer></app-footer>
 </div>
-
-
