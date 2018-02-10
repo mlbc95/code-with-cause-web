@@ -1,8 +1,29 @@
-<div class="login">
+<form name="form" (ngSubmit)="f.form.valid && login()" novalidate>
   <mat-form-field class="username">
-    <input matInput placeholder="Username" value="">
+    <input matInput placeholder="Username" required value="">
   </mat-form-field>
   <mat-form-field class="password">
-    <input matInput type="password" placeholder="Password" value="">
+    <input matInput type="password" required placeholder="Password" value="">
   </mat-form-field>
-</div>
+</form>
+
+
+<!--<form [formGroup]="loginForm">-->
+  <!--<mat-form-field>-->
+    <!--<input matInput placeholder="Username" formControlName="usernameFormControl"-->
+           <!--[errorStateMatcher]="matcher">-->
+    <!--<mat-hint>Errors appear instantly!</mat-hint>-->
+    <!--<mat-error *ngIf="usernameFormControl.hasError('required')">-->
+      <!--Username is <strong>required</strong>-->
+    <!--</mat-error>-->
+  <!--</mat-form-field>-->
+  <!--<mat-form-field>-->
+    <!--<input matInput placeholder="Password" formControlName="passwordFormControl"-->
+           <!--[errorStateMatcher]="matcher">-->
+    <!--<mat-hint>Errors appear instantly!</mat-hint>-->
+    <!--<mat-error *ngIf="passwordFormControl.hasError('required')">-->
+      <!--Password is <strong>required</strong>-->
+    <!--</mat-error>-->
+  <!--</mat-form-field>-->
+<!--</form>-->
+
