@@ -9,18 +9,13 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { ICropVm } from './iCropVm';
-import { IHarvesterVm } from './iHarvesterVm';
-import { IOrganizationVm } from './iOrganizationVm';
+import { IEntryVm } from './iEntryVm';
+import { IFarmVm } from './iFarmVm';
 
 
-export interface IEntryVm {
-    crop: ICropVm;
-    pounds: number;
-    priceTotal: number;
-    harvester: IHarvesterVm;
-    comments: string;
-    recipient: IOrganizationVm;
+export interface IHarvestVm {
+    farm: IFarmVm;
+    entries: Array<IEntryVm>;
     createdOn: Date;
     updatedOn: Date;
 }

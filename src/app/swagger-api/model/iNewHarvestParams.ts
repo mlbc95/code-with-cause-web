@@ -9,14 +9,10 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { INewEntryParams } from './iNewEntryParams';
 
 
-export interface INewEntryParams {
-    crop: string;
-    pounds: number;
-    priceTotal: number;
-    harvester: string;
-    comments: string;
+export interface INewHarvestParams {
+    entries: Array<INewEntryParams>;
     farm: string;
-    recipient: string;
 }

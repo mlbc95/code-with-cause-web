@@ -9,14 +9,12 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { UserRole } from './userRole';
 
 
-export interface INewEntryParams {
-    crop: string;
-    pounds: number;
-    priceTotal: number;
-    harvester: string;
-    comments: string;
-    farm: string;
-    recipient: string;
+export interface ILoginVm {
+    authToken: string;
+    username?: string;
+    role?: UserRole;
+    _id?: string;
 }
