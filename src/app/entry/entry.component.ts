@@ -15,6 +15,7 @@ import {IHarvestParams} from '../swagger-api/model/iHarvestParams';
 import * as _ from 'lodash';
 import {Message} from 'primeng/api';
 import {Router} from '@angular/router';
+import {IUserVm, SystemService} from '../swagger-api';
 
 @Component({
   selector: 'app-entry',
@@ -33,7 +34,7 @@ export class EntryComponent implements OnInit {
   organizations: any[]=[];
   crops: any[]=[];
   variety:any[]=[];
-  harvesters: any[];
+  users: any[];
 
 
   selectedFarm: IFarmVm;
@@ -48,7 +49,7 @@ export class EntryComponent implements OnInit {
   farm:string;
   recipent:string;
   selectedVar:string;
-  selectedHarvester:string;
+  selectedUser:string;
   selectedOrg:string;
   comment:string;
 
@@ -64,6 +65,7 @@ export class EntryComponent implements OnInit {
               private harvesterService: HarvesterService,
               private organizationService: OrganizationService,
               private harvestService: HarvestService,
+              private systemService: SystemService,
               private router: Router) {
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser.token;
@@ -119,18 +121,18 @@ export class EntryComponent implements OnInit {
       this.harvestStarted= true;
     });
 
-    this.harvesterService.getAll().subscribe(
-      (harvesters: Array<IHarvesterVm>): void => {
-        this.harvesters = [];
-        harvesters.forEach((h) => {
-          let temp = h.firstName + " " + h.lastName
-          this.harvesters.push({label:temp,value:h._id});
-        });
+    this.systemService.getAllUsers().subscribe(
+      (users: Array<IUserVm>): void => {
+        this.users = [];
+        users.forEach((u) => {
+          this.users.push({label: u.username, value: u._id});
+        })
       },
       (error) => {
         console.log(error);
       }
     );
+
     this.organizationService.getAll().subscribe(
       (organizations: Array<IOrganizationVm>): void => {
         organizations.forEach(o=>{
@@ -146,7 +148,7 @@ export class EntryComponent implements OnInit {
 
   submitEntry() {
 
-    let newEntry = {'crop': this.cropSleceted, 'pounds': this.pounds, 'priceTotal': this.priceTotal, 'harvester': this.selectedHarvester, 'comments': this.comment, 'recipient': this.selectedOrg};
+    let newEntry = {'crop': this.cropSleceted, 'pounds': this.pounds, 'priceTotal': this.priceTotal, 'harvester': this.selectedUser, 'comments': this.comment, 'recipient': this.selectedOrg};
     this.entryService.registerEntry(newEntry).subscribe(
       (entry: IEntryVm): void => {
         console.log(entry);
