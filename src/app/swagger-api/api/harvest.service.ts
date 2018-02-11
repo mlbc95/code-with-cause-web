@@ -18,8 +18,8 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs/Observable';
 
+import { IHarvestParams } from '../model/iHarvestParams';
 import { IHarvestVm } from '../model/iHarvestVm';
-import { INewHarvestParams } from '../model/iNewHarvestParams';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -97,16 +97,104 @@ export class HarvestService {
     /**
      * 
      * 
-     * @param newHarvestParams 
+     * @param date 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public registerHarvest(newHarvestParams: INewHarvestParams, observe?: 'body', reportProgress?: boolean): Observable<IHarvestVm>;
-    public registerHarvest(newHarvestParams: INewHarvestParams, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<IHarvestVm>>;
-    public registerHarvest(newHarvestParams: INewHarvestParams, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<IHarvestVm>>;
-    public registerHarvest(newHarvestParams: INewHarvestParams, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (newHarvestParams === null || newHarvestParams === undefined) {
-            throw new Error('Required parameter newHarvestParams was null or undefined when calling registerHarvest.');
+    public getByDate(date: Date, observe?: 'body', reportProgress?: boolean): Observable<Array<IHarvestVm>>;
+    public getByDate(date: Date, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<IHarvestVm>>>;
+    public getByDate(date: Date, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<IHarvestVm>>>;
+    public getByDate(date: Date, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (date === null || date === undefined) {
+            throw new Error('Required parameter date was null or undefined when calling getByDate.');
+        }
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (date !== undefined) {
+            queryParameters = queryParameters.set('date', <any>date.toISOString());
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/json'
+        ];
+
+        return this.httpClient.get<Array<IHarvestVm>>(`${this.basePath}/harvests/getQuery`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param id 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getHarvestById(id: string, observe?: 'body', reportProgress?: boolean): Observable<IHarvestVm>;
+    public getHarvestById(id: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<IHarvestVm>>;
+    public getHarvestById(id: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<IHarvestVm>>;
+    public getHarvestById(id: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling getHarvestById.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/json'
+        ];
+
+        return this.httpClient.get<IHarvestVm>(`${this.basePath}/harvests/${encodeURIComponent(String(id))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param harvestParams 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public registerHarvest(harvestParams: IHarvestParams, observe?: 'body', reportProgress?: boolean): Observable<IHarvestVm>;
+    public registerHarvest(harvestParams: IHarvestParams, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<IHarvestVm>>;
+    public registerHarvest(harvestParams: IHarvestParams, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<IHarvestVm>>;
+    public registerHarvest(harvestParams: IHarvestParams, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (harvestParams === null || harvestParams === undefined) {
+            throw new Error('Required parameter harvestParams was null or undefined when calling registerHarvest.');
         }
 
         let headers = this.defaultHeaders;
@@ -130,7 +218,7 @@ export class HarvestService {
         }
 
         return this.httpClient.post<IHarvestVm>(`${this.basePath}/harvests/create`,
-            newHarvestParams,
+            harvestParams,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
