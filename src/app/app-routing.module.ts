@@ -5,14 +5,14 @@ import {NgModule} from '@angular/core';
 import {EntryComponent} from './entry/entry.component';
 import {AuthGuard} from './guards/auth.guard';
 import {AdminGuard} from './guards/admin.guard';
-import {HomeComponent} from "./home/home.component";
-import {OrganizationManagementComponent} from "./organization-management/organization-management.component";
-import {FarmManagementComponent} from "./farm-management/farm-management.component";
-import {CropManagementComponent} from "./crop-management/crop-management.component";
-import {UserManagementComponent} from "./user-management/user-management.component";
-import {HarvestEditComponent} from "./harvest-edit/harvest-edit.component";
-import {ReviewComponent} from "./review/review.component"
-import {ReportingComponent} from "./reporting/reporting.component";
+import {HomeComponent} from './home/home.component';
+import {OrganizationManagementComponent} from './organization-management/organization-management.component';
+import {FarmManagementComponent} from './farm-management/farm-management.component';
+import {CropManagementComponent} from './crop-management/crop-management.component';
+import {UserManagementComponent} from './user-management/user-management.component';
+import {HarvestEditComponent} from './harvest-edit/harvest-edit.component';
+import {ReviewComponent} from './review/review.component';
+import {ReportingComponent} from './reporting/reporting.component';
 
 const routes: Routes = [
   {
@@ -25,7 +25,7 @@ const routes: Routes = [
     component: LoginComponent
   },
   {
-    path: "home",
+    path: 'home',
     component: HomeComponent,
     canActivate: [AuthGuard]
   },
@@ -65,10 +65,10 @@ const routes: Routes = [
     canActivate: [AuthGuard, AdminGuard]
   },
   {
-    path:'review-harvest/:id',
-    component:ReviewComponent,
+    path: 'review-harvest/:id',
+    component: ReviewComponent,
     canActivate: [AuthGuard]
-    
+
   },
   {
     path: '**',

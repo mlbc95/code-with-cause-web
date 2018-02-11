@@ -1,21 +1,20 @@
 import {Component, OnInit} from '@angular/core';
-import {FarmService} from "../swagger-api/api/farm.service";
-import {IFarmVm} from "../swagger-api/model/iFarmVm";
-import {CropService} from "../swagger-api/api/crop.service";
-import {HarvesterService} from "../swagger-api/api/harvester.service";
-import {OrganizationService} from "../swagger-api/api/organization.service";
-import {ICropVm} from "../swagger-api/model/iCropVm";
-import {IOrganizationVm} from "../swagger-api/model/iOrganizationVm";
-import {IHarvesterVm} from "../swagger-api/model/iHarvesterVm";
-import {HarvestService} from "../swagger-api/api/harvest.service";
-import {IHarvestVm} from "../swagger-api/model/iHarvestVm";
-import {IEntryVm} from "../swagger-api/model/iEntryVm";
-import {EntryService} from "../swagger-api/api/entry.service";
-import {IHarvestParams} from "../swagger-api/model/iHarvestParams";
-import {INewEntryParams} from "../swagger-api/model/iNewEntryParams";
+import {FarmService} from '../swagger-api/api/farm.service';
+import {IFarmVm} from '../swagger-api/model/iFarmVm';
+import {CropService} from '../swagger-api/api/crop.service';
+import {HarvesterService} from '../swagger-api/api/harvester.service';
+import {OrganizationService} from '../swagger-api/api/organization.service';
+import {ICropVm} from '../swagger-api/model/iCropVm';
+import {IOrganizationVm} from '../swagger-api/model/iOrganizationVm';
+import {IHarvesterVm} from '../swagger-api/model/iHarvesterVm';
+import {HarvestService} from '../swagger-api/api/harvest.service';
+import {IHarvestVm} from '../swagger-api/model/iHarvestVm';
+import {IEntryVm} from '../swagger-api/model/iEntryVm';
+import {EntryService} from '../swagger-api/api/entry.service';
+import {IHarvestParams} from '../swagger-api/model/iHarvestParams';
 import * as _ from 'lodash';
 import {Message} from 'primeng/api';
-import { Router } from '@angular/router';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-entry',
@@ -93,7 +92,7 @@ export class EntryComponent implements OnInit {
         crops.forEach(c=>{
           this.crops.push({label:c.name,value:c._id})
         })
-        
+
         console.log(this.crops);
         this.doneLoading=true;
       },
@@ -146,7 +145,7 @@ export class EntryComponent implements OnInit {
   }
 
   submitEntry() {
-   
+
     let newEntry = {'crop': this.cropSleceted, 'pounds': this.pounds, 'priceTotal': this.priceTotal, 'harvester': this.selectedHarvester, 'comments': this.comment, 'recipient': this.selectedOrg};
     this.entryService.registerEntry(newEntry).subscribe(
       (entry: IEntryVm): void => {
@@ -161,7 +160,7 @@ export class EntryComponent implements OnInit {
       (error) => {
         console.log(error);
       });
-    
+
   }
 
   submitHarvest() {
@@ -189,7 +188,7 @@ export class EntryComponent implements OnInit {
     this.priceTotal = pricePerPound * this.pounds
   }
   filterVar(){
- this.variety=[];
+    this.variety=[];
     let cropName = _.filter(this.crops,{value:this.cropSleceted})
    let res=_.filter(this.cropsList, {name:cropName[0].label});
     res.forEach(v=>{
@@ -199,7 +198,7 @@ export class EntryComponent implements OnInit {
         })
       }else{
         this.variety.push({label:v.variety,value:v.variety})
-        
+
       }
     })
   }

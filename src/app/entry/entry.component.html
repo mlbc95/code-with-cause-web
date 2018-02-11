@@ -1,6 +1,6 @@
-<div *ngIf="doneLoading" class="frame" >
-    <p-growl [(value)]="msgs"></p-growl>
-    
+<div *ngIf="doneLoading" class="frame">
+  <p-growl [(value)]="msgs"></p-growl>
+
   <div *ngIf="!harvestStarted" class="start text-center mx-auto">
     <mat-form-field class="farmField">
       <mat-select placeholder="Select a Farm" name="farm" [(ngModel)]="selectedFarm" #farmField="ngModel" required>
@@ -11,20 +11,21 @@
       <mat-error>
         <span *ngIf="!farmField.valid && farmField.touched">Please Select a Farm</span>
       </mat-error>
-    </mat-form-field> 
-    <button *ngIf="farmField.valid" mat-button class="btn-primary startButton" (click)="startHarvest()">Begin Harvest</button>
+    </mat-form-field>
+    <button *ngIf="farmField.valid" mat-button class="btn-primary startButton" (click)="startHarvest()">Begin Harvest
+    </button>
   </div>
   <div *ngIf="harvestStarted">
     <form #harvestForm="ngForm" id="harvestForm" (submit)="submitEntry(harvestForm)">
-    
+
       <div class="ui-g-pad ui-fluid ">
         <div class="ui-g">
           <div class="ui-g-3 text-right">
             Date
           </div>
           <div class="ui-g-8">
-            <p-calendar disabled='true' [(ngModel)]="today" name="today"></p-calendar>    
-                </div>
+            <p-calendar disabled='true' [(ngModel)]="today" name="today"></p-calendar>
+          </div>
           <div class="ui-g-1"></div>
         </div>
       </div>
@@ -36,7 +37,8 @@
             Coordinator
           </div>
           <div class="ui-g-8">
-            <p-dropdown [options]="harvesters" [(ngModel)]="selectedHarvester" name="harvesters" placeholder="Select a Coordinator" (change)="filterVar()"></p-dropdown>
+            <p-dropdown [options]="harvesters" [(ngModel)]="selectedHarvester" name="harvesters"
+                        placeholder="Select a Coordinator" (change)="filterVar()"></p-dropdown>
           </div>
           <div class="ui-g-1"></div>
         </div>
@@ -48,7 +50,8 @@
             Crop
           </div>
           <div class="ui-g-8">
-            <p-dropdown [options]="crops" [(ngModel)]="cropSleceted" name="crop" placeholder="Select a Crop" (onChange)="filterVar()"></p-dropdown>
+            <p-dropdown [options]="crops" [(ngModel)]="cropSleceted" name="crop" placeholder="Select a Crop"
+                        (onChange)="filterVar()"></p-dropdown>
           </div>
           <div class="ui-g-1"></div>
         </div>
@@ -60,7 +63,8 @@
             Var
           </div>
           <div class="ui-g-8">
-            <p-dropdown [options]="variety" [(ngModel)]="selectedVar" name="var" placeholder="Select a variety"></p-dropdown>
+            <p-dropdown [options]="variety" [(ngModel)]="selectedVar" name="var"
+                        placeholder="Select a variety"></p-dropdown>
           </div>
           <div class="ui-g-1"></div>
         </div>
@@ -84,42 +88,43 @@
             Total Price
           </div>
           <div class="ui-g-8">
-              <div class="ui-inputgroup">
-            <span class="ui-inputgroup-addon">$</span>
-            <input type="text" readonly pInputText [(ngModel)]="priceTotal" name="priceTotal">   
-            <span class="ui-inputgroup-addon">.00</span>  
-          </div>             
-         </div>
+            <div class="ui-inputgroup">
+              <span class="ui-inputgroup-addon">$</span>
+              <input type="text" readonly pInputText [(ngModel)]="priceTotal" name="priceTotal">
+              <span class="ui-inputgroup-addon">.00</span>
+            </div>
+          </div>
           <div class="ui-g-1"></div>
         </div>
       </div>
 
       <div class="ui-g-pad ui-fluid mt-3">
-          <div class="ui-g">
-            <div class="ui-g-3 text-right">
-              Comments
-            </div>
-            <div class="ui-g-8">
-                <div class="ui-inputgroup">
-                    <input type="text" pInputText [(ngModel)]="comment" name="comment" placeholder="Comments">         
-                </div>
-              </div>
-            <div class="ui-g-1"></div>
+        <div class="ui-g">
+          <div class="ui-g-3 text-right">
+            Comments
           </div>
+          <div class="ui-g-8">
+            <div class="ui-inputgroup">
+              <input type="text" pInputText [(ngModel)]="comment" name="comment" placeholder="Comments">
+            </div>
+          </div>
+          <div class="ui-g-1"></div>
         </div>
+      </div>
 
-        <div class="ui-g-pad ui-fluid mt-3">
-            <div class="ui-g">
-              <div class="ui-g-3 text-right">
-                Var
-              </div>
-              <div class="ui-g-8">
-                <p-dropdown [options]="organizations" [(ngModel)]="selectedOrg" name="org" placeholder="Select a Recipient"></p-dropdown>
-              </div>
-              <div class="ui-g-1"></div>
-            </div>
+      <div class="ui-g-pad ui-fluid mt-3">
+        <div class="ui-g">
+          <div class="ui-g-3 text-right">
+            Var
           </div>
-      
+          <div class="ui-g-8">
+            <p-dropdown [options]="organizations" [(ngModel)]="selectedOrg" name="org"
+                        placeholder="Select a Recipient"></p-dropdown>
+          </div>
+          <div class="ui-g-1"></div>
+        </div>
+      </div>
+
 
       <div *ngIf="!editMode" class="center-align buttons">
         <button mat-button type="button" class="btn-primary" (click)="submitEntry();">Next Entry</button>

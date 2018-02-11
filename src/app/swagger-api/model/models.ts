@@ -13,6 +13,7 @@ export * from './iNewHarvesterParams';
 export * from './iNewOrganizationParams';
 export * from './iNewUserParams';
 export * from './iOrganizationVm';
+export * from './iPercentageReportResponse';
 export * from './iUserVm';
 export * from './organizationType';
 export * from './userRole';
