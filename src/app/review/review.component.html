@@ -1,3 +1,15 @@
-<p>
-  review works!
-</p>
+<h2 class="center-align">Harvest Review</h2>
+<ng-container *ngIf="harvest != undefined && harvest != null">
+  <p>Farm: {{harvest.farm.name}}</p>
+  <br/>
+  <ng-container *ngFor="let entry of harvest.entries">
+    <p>Crop: {{entry.crop.name}} (${{entry.crop.pricePerPound}}/lb)</p>
+    <p>Selected Variety: {{entry.selectedVariety}}</p>
+    <p>Pounds: {{entry.pounds}}</p>
+    <p>Total Price: {{entry.priceTotal}}</p>
+    <p>Recipient: {{entry.recipient.name}} ({{entry.recipient.orgType}})</p>
+    <p>Harvester: {{entry.harvester.firstName}} {{entry.harvester.lastName}}</p>
+    <p>Comments: {{entry.comments}}</p>
+    <br/>
+  </ng-container>
+</ng-container>

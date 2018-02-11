@@ -12,7 +12,7 @@ import {IHarvesterVm} from "../swagger-api/model/iHarvesterVm";
 import {IEntryVm} from "../swagger-api/model/iEntryVm";
 import {IHarvestVm} from "../swagger-api/model/iHarvestVm";
 import {INewEntryParams} from "../swagger-api/model/iNewEntryParams";
-import {INewHarvestParams} from "../swagger-api/model/iNewHarvestParams";
+import {IHarvestParams} from "../swagger-api/model/iHarvestParams";
 
 @Component({
   selector: 'app-entry',
@@ -30,7 +30,7 @@ export class EntryComponent implements OnInit {
   harvesters: string[];
 
   harvestForm: FormGroup;
-  harvest: INewHarvestParams;
+  harvest: IHarvestParams;
   currentEntry: INewEntryParams;
 
   tempCrops: Crop[];
@@ -87,7 +87,7 @@ export class EntryComponent implements OnInit {
   }
 
   submitEntry(){
-    this.harvest.entries.push(this.currentEntry);
+    // this.harvest.entries.push(this.currentEntry);
     this.currentEntry = {'crop':null, 'pounds':0, 'priceTotal':0, 'harvester':null, 'comments':'', 'recipient':null};
     //save whole harvest to local storage in case of browser refresh
     localStorage.setItem('harvest', JSON.stringify({
