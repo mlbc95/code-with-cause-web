@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
-import { OrganizationService, HarvesterService, CropService, FarmService, EntryService, HarvestService, IEntryVm, ICropVm, IHarvesterVm } from '../swagger-api/index';
+import { OrganizationService, HarvesterService, CropService, FarmService, EntryService, HarvestService, IEntryVm, ICropVm, IHarvesterVm, IHarvestVm } from '../swagger-api/index';
 import * as _ from 'lodash';
 
 @Component({
