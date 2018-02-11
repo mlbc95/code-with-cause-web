@@ -7,6 +7,7 @@ import {INewCropParams} from '../swagger-api';
 import {ConfirmDeleteCropDialogComponent} from "./confirm-delete-crop-dialog/confirm-delete-crop-dialog.component";
 import {EditCropDialogComponent} from "./edit-crop-dialog/edit-crop-dialog.component";
 import {Configuration} from '../swagger-api';
+import {FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-crop-management',
@@ -39,7 +40,16 @@ export class CropManagementComponent implements OnInit {
     );
 
     dialogRef.afterClosed().subscribe(
-      (newCrop: INewCropParams): void => {
+      (cropForm: FormGroup): void => {
+        let varieties: string[] = [];
+        for (let i in cropForm.value.varieties) {
+          varieties.push(cropForm.value.varieties[i].variety);
+        }
+        let newCrop: INewCropParams = {
+          name: cropForm.value.name,
+          variety: varieties,
+          pricePerPound: cropForm.value.pricePerPound
+        };
         if (newCrop) {
           this.cropService.configuration = new Configuration({
             apiKeys: {
@@ -66,13 +76,19 @@ export class CropManagementComponent implements OnInit {
   deleteCrop(crop: ICropVm): void {
     let dialogRef = this.matDialog.open(ConfirmDeleteCropDialogComponent,
       {
-        width: '90vw'
+        width: '90vw',
+        data: crop
       }
     );
 
     dialogRef.afterClosed().subscribe(
       (confirm: boolean): void => {
         if (confirm) {
+          this.cropService.configuration = new Configuration({
+            apiKeys: {
+              Authorization: this.token
+            }
+          });
           this.cropService.deleteCrop(crop._id).subscribe(
             (response: any): void => {
               this.cropService.getAll().subscribe(

@@ -1,23 +1,29 @@
 <h2 mat-dialog-title>Create new crop</h2>
 <mat-dialog-content>
-  <mat-form-field [floatLabel]="cropForm.value.Name">
-    <input matInput placeholder="Name" type="text" name="name" id="name" [(ngModel)]="crop.name">
-  </mat-form-field>
-  <div *ngFor="let variety of getVarieties(cropForm); let i = index">
-
-    <button *ngIf="getVarieties(cropForm).length > 1" mat-icon-button (click)="removeVariety(i)">
-      <span aria-hidden="true">&times;</span>
-    </button>
-    <mat-form-field [floatLabel]="cropForm.value.varieties">
-      <input matInput placeholder="Variety" type="text" name="variety" id="variety" [(ngModel)]="crop.variety[i]"/>
+  <div [formGroup]="cropForm">
+    <mat-form-field [floatLabel]="cropForm.value.Name">
+      <input matInput placeholder="Name" formControlName="name" type="text" name="name" id="name">
+    </mat-form-field>
+    <div formArrayName="varieties">
+      <div *ngFor="let variety of getVarieties(cropForm); let i = index">
+        <div [formGroupName]="i">
+          <button *ngIf="getVarieties(cropForm).length > 1" class="closeButton" mat-icon-button (click)="removeVariety(i)">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <mat-form-field [floatLabel]="cropForm.value.varieties">
+            <input matInput placeholder="Variety" formControlName="variety" type="text" name="variety" id="variety"/>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <button mat-button (click)="addVariety()">Add Variety +</button>
+    <mat-form-field [floatLabel]="cropForm.value.pricePerPound">
+      <input matInput placeholder="Price Per Pound" formControlName="pricePerPound" type="number" name="pricePerPound"
+             id="pricePerPound"/>
     </mat-form-field>
   </div>
-  <button mat-raised-button (click)="addVariety()">Add Variety +</button>
-  <mat-form-field [floatLabel]="cropForm.value.pricePerPound">
-    <input matInput placeholder="Price Per Pound" type="number" name="pricePerPound" id="pricePerPound" [(ngModel)]="crop.pricePerPound"/>
-  </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button [mat-dialog-close]="false">Cancel</button>
-  <button mat-button [mat-dialog-close]="crop">Submit</button>
+  <button mat-button [mat-dialog-close]="cropForm">Submit</button>
 </mat-dialog-actions>

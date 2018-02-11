@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
+import {ICropVm} from '../../swagger-api';
+import {MAT_DIALOG_DATA} from "@angular/material";
 
 @Component({
   selector: 'app-confirm-delete-crop-dialog',
@@ -6,10 +8,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./confirm-delete-crop-dialog.component.scss']
 })
 export class ConfirmDeleteCropDialogComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
+  constructor(@Inject(MAT_DIALOG_DATA) private crop: ICropVm) {
   }
 
+  ngOnInit(): void {
+  }
 }

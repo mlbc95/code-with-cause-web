@@ -18,13 +18,13 @@ export class CreateCropDialogComponent implements OnInit {
     this.cropForm = this.formBuilder.group({
       name: ['', Validators.required],
       varieties: this.formBuilder.array([this.createVariety()]),
-      pricePerPound: ['', Validators.required]
+      pricePerPound: [0, Validators.required]
     });
 
     this.crop = {
-      name: '',
-      variety: [],
-      pricePerPound: 0
+      name: this.cropForm.value.name,
+      variety: this.cropForm.value.varieties,
+      pricePerPound: this.cropForm.value.pricePerPound
     };
   }
 
