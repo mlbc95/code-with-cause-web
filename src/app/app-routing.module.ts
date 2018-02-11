@@ -11,6 +11,7 @@ import {FarmManagementComponent} from "./farm-management/farm-management.compone
 import {CropManagementComponent} from "./crop-management/crop-management.component";
 import {UserManagementComponent} from "./user-management/user-management.component";
 import {HarvestEditComponent} from "./harvest-edit/harvest-edit.component";
+import {ReportingComponent} from "./reporting/reporting.component";
 
 const routes: Routes = [
   {
@@ -55,6 +56,11 @@ const routes: Routes = [
   {
     path: 'harvest-edit',
     component: HarvestEditComponent,
+    canActivate: [AuthGuard, AdminGuard]
+  },
+  {
+    path: 'reporting',
+    component: ReportingComponent,
     canActivate: [AuthGuard, AdminGuard]
   },
   {

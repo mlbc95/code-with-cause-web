@@ -27,21 +27,38 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.authenticationService.login(this.username, this.password)
-      .subscribe(() => {
+    this.authenticationService.login(this.username, this.password).subscribe(
+      (): void => {
         // login successful
         this.router.navigate(['/']);
-      }, err => {
-        console.error(err);
-        if (err.status === 500) {
-          this.snackBar.open('Username or password is incorrect', 'Undo', {
+        this.snackBar.open(
+          'Login successful',
+          'OK',
+          {
             duration: 2000
-          })
+          }
+        );
+      },
+      (error: any): void => {
+        console.error(error);
+        if (error.status === 500) {
+          this.snackBar.open(
+            'Username or password is incorrect',
+            'OK',
+            {
+              duration: 2000
+            }
+          );
         } else {
-          this.snackBar.open(err['statusText'], 'Undo', {
-            duration: 2000
-          })
+          this.snackBar.open(
+            error['statusText'],
+            'OK',
+            {
+              duration: 2000
+            }
+          );
         }
-      });
+      }
+    );
   }
 }

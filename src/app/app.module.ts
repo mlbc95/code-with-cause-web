@@ -32,6 +32,8 @@ import {CreateOrganizationDialogComponent} from './organization-management/creat
 import { CreateUserDialogComponent } from './user-management/create-user-dialog/create-user-dialog.component';
 import { ConfirmDeleteUserDialogComponent } from './user-management/confirm-delete-user-dialog/confirm-delete-user-dialog.component';
 import { EditUserDialogComponent } from './user-management/edit-user-dialog/edit-user-dialog.component';
+import { ReportingComponent } from './reporting/reporting.component';
+import { GenerateReportDialogComponent } from './reporting/generate-report-dialog/generate-report-dialog.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +59,8 @@ import { EditUserDialogComponent } from './user-management/edit-user-dialog/edit
     CreateUserDialogComponent,
     ConfirmDeleteUserDialogComponent,
     EditUserDialogComponent,
+    ReportingComponent,
+    GenerateReportDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -105,7 +109,8 @@ import { EditUserDialogComponent } from './user-management/edit-user-dialog/edit
     EditOrganizationDialogComponent,
     CreateUserDialogComponent,
     ConfirmDeleteUserDialogComponent,
-    EditUserDialogComponent
+    EditUserDialogComponent,
+    GenerateReportDialogComponent
   ]
 })
 export class AppModule {

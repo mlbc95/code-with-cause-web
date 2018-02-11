@@ -1,9 +1,9 @@
 import {EventEmitter, Injectable, Output} from '@angular/core';
 import 'rxjs/add/operator/map';
-import * as config from '../app.module';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {ILoginVm, SystemService} from '../swagger-api';
+import {MatSnackBar} from "@angular/material";
 
 @Injectable()
 export class AuthenticationService {
@@ -23,7 +23,9 @@ export class AuthenticationService {
     return this.loggedIn.asObservable();
   }
 
-  constructor(private http: HttpClient, private systemService: SystemService) {
+  constructor(private http: HttpClient,
+              private systemService: SystemService,
+              private snackBar: MatSnackBar) {
     // set token if saved in local storage
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser && currentUser.token;
@@ -69,10 +71,21 @@ export class AuthenticationService {
 
   logout(): void {
     // clear token remove user from local storage to log user out
+    let wasLoggedIn: boolean = this.loggedIn.getValue();
     this.loggedIn.next(false);
     this.getUsername.emit('');
     this.getAdmin.emit(false);
     this.token = null;
     localStorage.removeItem('currentUser');
+
+    if (wasLoggedIn) {
+      this.snackBar.open(
+        'Logout successful',
+        'OK',
+        {
+          duration: 2000
+        }
+      );
+    }
   }
 }
