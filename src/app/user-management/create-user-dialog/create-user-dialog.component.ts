@@ -9,6 +9,7 @@ import {UserRole} from "../../swagger-api/model/userRole";
 })
 export class CreateUserDialogComponent implements OnInit {
   user: INewUserParams;
+  confirmPassword: string = "";
 
   constructor() {
   }
