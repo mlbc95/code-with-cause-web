@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FarmService} from "../swagger-api/api/farm.service";
 import {IFarmVm} from "../swagger-api/model/iFarmVm";
-import {MatDialog} from "@angular/material";
+import {MatDialog, MatSnackBar} from "@angular/material";
 import {CreateFarmDialogComponent} from "./create-farm-dialog/create-farm-dialog.component";
 import {INewFarmParams} from "../swagger-api/model/iNewFarmParams";
 import {ConfirmDeleteFarmDialogComponent} from "./confirm-delete-farm-dialog/confirm-delete-farm-dialog.component";
@@ -19,7 +19,8 @@ export class FarmManagementComponent implements OnInit, OnDestroy {
   loading: boolean;
 
   constructor(private farmService: FarmService,
-              private matDialog: MatDialog) {
+              private matDialog: MatDialog,
+              private snackBar: MatSnackBar) {
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser.token;
     this.farmService.configuration = new Configuration({
@@ -41,6 +42,14 @@ export class FarmManagementComponent implements OnInit, OnDestroy {
       (error: Error): void => {
         console.error(error);
         this.loading = false;
+        this.snackBar.open(
+          'Failed to fetch farms',
+          'OK',
+          {
+            duration: 2000,
+            panelClass: "snack-bar-danger"
+          }
+        );
       }
     );
   }
@@ -66,16 +75,40 @@ export class FarmManagementComponent implements OnInit, OnDestroy {
                 (farms: Array<IFarmVm>): void => {
                   this.farms = farms;
                   this.loading = false;
+                  this.snackBar.open(
+                    'New farm created',
+                    'OK',
+                    {
+                      duration: 2000,
+                      panelClass: "snack-bar-success"
+                    }
+                  );
                 },
                 (error: Error): void => {
                   console.error(error);
                   this.loading = false;
+                  this.snackBar.open(
+                    'Failed to fetch farms',
+                    'OK',
+                    {
+                      duration: 2000,
+                      panelClass: "snack-bar-danger"
+                    }
+                  );
                 }
               );
             },
             (error: Error): void => {
               console.error(error);
               this.loading = false;
+              this.snackBar.open(
+                'Failed to create new farm',
+                'OK',
+                {
+                  duration: 2000,
+                  panelClass: "snack-bar-danger"
+                }
+              );
             }
           );
         }
@@ -101,16 +134,40 @@ export class FarmManagementComponent implements OnInit, OnDestroy {
                 (farms: Array<IFarmVm>): void => {
                   this.farms = farms;
                   this.loading = false;
+                  this.snackBar.open(
+                    'Farm deleted',
+                    'OK',
+                    {
+                      duration: 2000,
+                      panelClass: "snack-bar-success"
+                    }
+                  );
                 },
                 (error: Error): void => {
                   console.error(error);
                   this.loading = false;
+                  this.snackBar.open(
+                    'Failed to fetch farms',
+                    'OK',
+                    {
+                      duration: 2000,
+                      panelClass: "snack-bar-danger"
+                    }
+                  );
                 }
               );
             },
             (error: Error): void => {
               console.error(error);
               this.loading = false;
+              this.snackBar.open(
+                'Failed to delete farm',
+                'OK',
+                {
+                  duration: 2000,
+                  panelClass: "snack-bar-danger"
+                }
+              );
             }
           );
         }
@@ -136,16 +193,40 @@ export class FarmManagementComponent implements OnInit, OnDestroy {
                 (farms: Array<IFarmVm>): void => {
                   this.farms = farms;
                   this.loading = false;
+                  this.snackBar.open(
+                    'Farm updated',
+                    'OK',
+                    {
+                      duration: 2000,
+                      panelClass: "snack-bar-success"
+                    }
+                  );
                 },
                 (error: Error): void => {
                   console.error(error);
                   this.loading = false;
+                  this.snackBar.open(
+                    'Failed to fetch farms',
+                    'OK',
+                    {
+                      duration: 2000,
+                      panelClass: "snack-bar-danger"
+                    }
+                  );
                 }
               );
             },
             (error: Error): void => {
               console.error(error);
               this.loading = false;
+              this.snackBar.open(
+                'Failed to update farm',
+                'OK',
+                {
+                  duration: 2000,
+                  panelClass: "snack-bar-danger"
+                }
+              );
             }
           );
         }

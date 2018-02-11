@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CropService} from '../swagger-api';
 import {ICropVm} from '../swagger-api';
-import {MatDialog} from '@angular/material';
+import {MatDialog, MatSnackBar} from '@angular/material';
 import {CreateCropDialogComponent} from './create-crop-dialog/create-crop-dialog.component';
 import {INewCropParams} from '../swagger-api';
 import {ConfirmDeleteCropDialogComponent} from './confirm-delete-crop-dialog/confirm-delete-crop-dialog.component';
@@ -20,7 +20,8 @@ export class CropManagementComponent implements OnInit, OnDestroy {
   loading: boolean;
 
   constructor(private cropService: CropService,
-              private matDialog: MatDialog) {
+              private matDialog: MatDialog,
+              private snackBar: MatSnackBar) {
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser.token;
     cropService.configuration = new Configuration({
@@ -40,6 +41,14 @@ export class CropManagementComponent implements OnInit, OnDestroy {
       (error: Error): void => {
         console.error(error);
         this.loading = false;
+        this.snackBar.open(
+          'Failed to fetch crops',
+          'OK',
+          {
+            duration: 2000,
+            panelClass: "snack-bar-danger"
+          }
+        );
       }
     );
   }
@@ -79,16 +88,40 @@ export class CropManagementComponent implements OnInit, OnDestroy {
                 (crops: Array<ICropVm>): void => {
                   this.crops = crops;
                   this.loading = false;
+                  this.snackBar.open(
+                    'New crop created',
+                    'OK',
+                    {
+                      duration: 2000,
+                      panelClass: "snack-bar-success"
+                    }
+                  );
                 },
                 (error: Error): void => {
                   console.error(error);
                   this.loading = false;
+                  this.snackBar.open(
+                    'Failed to fetch crops',
+                    'OK',
+                    {
+                      duration: 2000,
+                      panelClass: "snack-bar-danger"
+                    }
+                  );
                 }
               );
             },
             (error: Error): void => {
               console.error(error);
               this.loading = false;
+              this.snackBar.open(
+                'Failed to create new crop',
+                'OK',
+                {
+                  duration: 2000,
+                  panelClass: "snack-bar-danger"
+                }
+              );
             }
           );
         }
@@ -114,16 +147,40 @@ export class CropManagementComponent implements OnInit, OnDestroy {
                 (crops: Array<ICropVm>): void => {
                   this.crops = crops;
                   this.loading = false;
+                  this.snackBar.open(
+                    'Crop deleted',
+                    'OK',
+                    {
+                      duration: 2000,
+                      panelClass: "snack-bar-success"
+                    }
+                  );
                 },
                 (error: Error): void => {
                   console.error(error);
                   this.loading = false;
+                  this.snackBar.open(
+                    'Failed to fetch crops',
+                    'OK',
+                    {
+                      duration: 2000,
+                      panelClass: "snack-bar-danger"
+                    }
+                  );
                 }
               );
             },
             (error: Error): void => {
               console.error(error);
               this.loading = false;
+              this.snackBar.open(
+                'Failed to delete crop',
+                'OK',
+                {
+                  duration: 2000,
+                  panelClass: "snack-bar-danger"
+                }
+              );
             }
           );
         }
@@ -157,16 +214,40 @@ export class CropManagementComponent implements OnInit, OnDestroy {
                 (crops: Array<ICropVm>): void => {
                   this.crops = crops;
                   this.loading = false;
+                  this.snackBar.open(
+                    'Crop updated',
+                    'OK',
+                    {
+                      duration: 2000,
+                      panelClass: "snack-bar-success"
+                    }
+                  );
                 },
                 (error: Error): void => {
                   console.error(error);
                   this.loading = false;
+                  this.snackBar.open(
+                    'Failed to fetch crops',
+                    'OK',
+                    {
+                      duration: 2000,
+                      panelClass: "snack-bar-danger"
+                    }
+                  );
                 }
               );
             },
             (error: Error): void => {
               console.error(error);
               this.loading = false;
+              this.snackBar.open(
+                'Failed to update crop',
+                'OK',
+                {
+                  duration: 2000,
+                  panelClass: "snack-bar-danger"
+                }
+              );
             }
           );
         }

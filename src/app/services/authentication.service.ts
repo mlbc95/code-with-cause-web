@@ -83,7 +83,8 @@ export class AuthenticationService {
         'Logout successful',
         'OK',
         {
-          duration: 2000
+          duration: 2000,
+          panelClass: "snack-bar-success"
         }
       );
     }

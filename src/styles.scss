@@ -88,3 +88,20 @@ $cw: calc((100vw - 15px - 15px) / 100);
 .inline-block {
   display: inline-block;
 }
+
+// SNACK BAR CLASSES
+.snack-bar-success {
+  background-color: $brand-green;
+
+  * {
+    color: white;
+  }
+}
+
+.snack-bar-danger {
+  background-color: $brand-pink;
+
+  * {
+    color: white;
+  }
+}

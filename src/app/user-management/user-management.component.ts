@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SystemService} from '../swagger-api/api/system.service';
 import {IUserVm} from '../swagger-api/model/iUserVm';
 import {INewUserParams} from '../swagger-api/model/iNewUserParams';
-import {MatDialog} from '@angular/material';
+import {MatDialog, MatSnackBar} from '@angular/material';
 import {EditUserDialogComponent} from './edit-user-dialog/edit-user-dialog.component';
 import {CreateUserDialogComponent} from './create-user-dialog/create-user-dialog.component';
 import {ConfirmDeleteUserDialogComponent} from './confirm-delete-user-dialog/confirm-delete-user-dialog.component';
@@ -20,7 +20,8 @@ export class UserManagementComponent implements OnInit, OnDestroy {
   loading: boolean;
 
   constructor(private systemService: SystemService,
-              private matDialog: MatDialog) {
+              private matDialog: MatDialog,
+              private snackBar: MatSnackBar) {
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser.token;
     systemService.configuration = new Configuration({
@@ -40,6 +41,14 @@ export class UserManagementComponent implements OnInit, OnDestroy {
       (error: Error): void => {
         console.error(error);
         this.loading = false;
+        this.snackBar.open(
+          'Failed to fetch users',
+          'OK',
+          {
+            duration: 2000,
+            panelClass: "snack-bar-danger"
+          }
+        );
       }
     );
   }
@@ -65,16 +74,40 @@ export class UserManagementComponent implements OnInit, OnDestroy {
                 (users: Array<IUserVm>): void => {
                   this.users = users;
                   this.loading = false;
+                  this.snackBar.open(
+                    'User created',
+                    'OK',
+                    {
+                      duration: 2000,
+                      panelClass: "snack-bar-success"
+                    }
+                  );
                 },
                 (error: Error): void => {
                   console.error(error);
                   this.loading = false;
+                  this.snackBar.open(
+                    'Failed to fetch users',
+                    'OK',
+                    {
+                      duration: 2000,
+                      panelClass: "snack-bar-danger"
+                    }
+                  );
                 }
               );
             },
             (error: Error): void => {
               console.error(error);
               this.loading = false;
+              this.snackBar.open(
+                'Failed to create user',
+                'OK',
+                {
+                  duration: 2000,
+                  panelClass: "snack-bar-danger"
+                }
+              );
             }
           );
         }
@@ -100,16 +133,40 @@ export class UserManagementComponent implements OnInit, OnDestroy {
                 (users: Array<IUserVm>): void => {
                   this.users = users;
                   this.loading = false;
+                  this.snackBar.open(
+                    'User deleted',
+                    'OK',
+                    {
+                      duration: 2000,
+                      panelClass: "snack-bar-success"
+                    }
+                  );
                 },
                 (error: Error): void => {
                   console.error(error);
                   this.loading = false;
+                  this.snackBar.open(
+                    'Failed to fetch users',
+                    'OK',
+                    {
+                      duration: 2000,
+                      panelClass: "snack-bar-danger"
+                    }
+                  );
                 }
               );
             },
             (error: Error): void => {
               console.error(error);
               this.loading = false;
+              this.snackBar.open(
+                'Failed to delete user',
+                'OK',
+                {
+                  duration: 2000,
+                  panelClass: "snack-bar-danger"
+                }
+              );
             }
           );
         }
@@ -135,16 +192,40 @@ export class UserManagementComponent implements OnInit, OnDestroy {
                 (users: Array<IUserVm>): void => {
                   this.users = users;
                   this.loading = false;
+                  this.snackBar.open(
+                    'User updated',
+                    'OK',
+                    {
+                      duration: 2000,
+                      panelClass: "snack-bar-success"
+                    }
+                  );
                 },
                 (error: Error): void => {
                   console.error(error);
                   this.loading = false;
+                  this.snackBar.open(
+                    'Failed to fetch users',
+                    'OK',
+                    {
+                      duration: 2000,
+                      panelClass: "snack-bar-danger"
+                    }
+                  );
                 }
               );
             },
             (error: Error): void => {
               console.error(error);
               this.loading = false;
+              this.snackBar.open(
+                'Failed to update user',
+                'OK',
+                {
+                  duration: 2000,
+                  panelClass: "snack-bar-danger"
+                }
+              );
             }
           );
         }

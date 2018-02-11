@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {OrganizationService} from "../swagger-api/api/organization.service";
-import {MatDialog} from "@angular/material";
+import {MatDialog, MatSnackBar} from "@angular/material";
 import {IOrganizationVm} from "../swagger-api/model/iOrganizationVm";
 import {INewOrganizationParams} from "../swagger-api/model/iNewOrganizationParams";
 import {CreateOrganizationDialogComponent} from "./create-organization-dialog/create-organization-dialog.component";
@@ -19,7 +19,8 @@ export class OrganizationManagementComponent implements OnInit, OnDestroy {
   loading: boolean = false;
 
   constructor(private organizationService: OrganizationService,
-              private matDialog: MatDialog) {
+              private matDialog: MatDialog,
+              private snackBar: MatSnackBar) {
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser.token;
     organizationService.configuration = new Configuration({
@@ -41,6 +42,14 @@ export class OrganizationManagementComponent implements OnInit, OnDestroy {
       (error: Error): void => {
         console.error(error);
         this.loading = false;
+        this.snackBar.open(
+          'Failed to fetch organizations',
+          'OK',
+          {
+            duration: 2000,
+            panelClass: "snack-bar-danger"
+          }
+        );
       }
     );
   }
@@ -66,16 +75,40 @@ export class OrganizationManagementComponent implements OnInit, OnDestroy {
                 (organizations: Array<IOrganizationVm>): void => {
                   this.organizations = organizations;
                   this.loading = false;
+                  this.snackBar.open(
+                    'Organization created',
+                    'OK',
+                    {
+                      duration: 2000,
+                      panelClass: "snack-bar-success"
+                    }
+                  );
                 },
                 (error: Error): void => {
                   console.error(error);
                   this.loading = false;
+                  this.snackBar.open(
+                    'Failed to fetch organizations',
+                    'OK',
+                    {
+                      duration: 2000,
+                      panelClass: "snack-bar-danger"
+                    }
+                  );
                 }
               );
             },
             (error: Error): void => {
               console.error(error);
               this.loading = false;
+              this.snackBar.open(
+                'Failed to create organization',
+                'OK',
+                {
+                  duration: 2000,
+                  panelClass: "snack-bar-danger"
+                }
+              );
             }
           );
         }
@@ -101,16 +134,40 @@ export class OrganizationManagementComponent implements OnInit, OnDestroy {
                 (organizations: Array<IOrganizationVm>): void => {
                   this.organizations = organizations;
                   this.loading = false;
+                  this.snackBar.open(
+                    'Deleted organization',
+                    'OK',
+                    {
+                      duration: 2000,
+                      panelClass: "snack-bar-success"
+                    }
+                  );
                 },
                 (error: Error): void => {
                   console.error(error);
                   this.loading = false;
+                  this.snackBar.open(
+                    'Failed to fetch organizations',
+                    'OK',
+                    {
+                      duration: 2000,
+                      panelClass: "snack-bar-danger"
+                    }
+                  );
                 }
               );
             },
             (error: Error): void => {
               console.error(error);
               this.loading = false;
+              this.snackBar.open(
+                'Failed to delete organization',
+                'OK',
+                {
+                  duration: 2000,
+                  panelClass: "snack-bar-danger"
+                }
+              );
             }
           );
         }
@@ -136,16 +193,40 @@ export class OrganizationManagementComponent implements OnInit, OnDestroy {
                 (organizations: Array<IOrganizationVm>): void => {
                   this.organizations = organizations;
                   this.loading = false;
+                  this.snackBar.open(
+                    'Organization updated',
+                    'OK',
+                    {
+                      duration: 2000,
+                      panelClass: "snack-bar-success"
+                    }
+                  );
                 },
                 (error: Error): void => {
                   console.error(error);
                   this.loading = false;
+                  this.snackBar.open(
+                    'Failed to fetch organizations',
+                    'OK',
+                    {
+                      duration: 2000,
+                      panelClass: "snack-bar-danger"
+                    }
+                  );
                 }
               );
             },
             (error: Error): void => {
               console.error(error);
               this.loading = false;
+              this.snackBar.open(
+                'Failed to update organization',
+                'OK',
+                {
+                  duration: 2000,
+                  panelClass: "snack-bar-danger"
+                }
+              );
             }
           );
         }

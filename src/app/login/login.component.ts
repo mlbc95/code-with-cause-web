@@ -36,7 +36,8 @@ export class LoginComponent implements OnInit {
           'Login successful',
           'OK',
           {
-            duration: 2000
+            duration: 2000,
+            panelClass: "snack-bar-success"
           }
         );
         this.loading = false;
@@ -48,7 +49,8 @@ export class LoginComponent implements OnInit {
             'Username or password is incorrect',
             'OK',
             {
-              duration: 2000
+              duration: 2000,
+              panelClass: "snack-bar-danger"
             }
           );
         } else {
@@ -56,7 +58,8 @@ export class LoginComponent implements OnInit {
             error['statusText'],
             'OK',
             {
-              duration: 2000
+              duration: 2000,
+              panelClass: "snack-bar-danger"
             }
           );
         }
