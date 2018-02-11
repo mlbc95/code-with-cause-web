@@ -9,6 +9,7 @@ import { FarmService } from './api/farm.service';
 import { HarvestService } from './api/harvest.service';
 import { HarvesterService } from './api/harvester.service';
 import { OrganizationService } from './api/organization.service';
+import { ReportingService } from './api/reporting.service';
 import { SystemService } from './api/system.service';
 
 @NgModule({
@@ -22,6 +23,7 @@ import { SystemService } from './api/system.service';
     HarvestService,
     HarvesterService,
     OrganizationService,
+    ReportingService,
     SystemService ]
 })
 export class ApiModule {
