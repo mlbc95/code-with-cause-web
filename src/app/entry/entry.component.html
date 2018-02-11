@@ -2,6 +2,12 @@
   <p-growl [(value)]="msgs"></p-growl>
 
   <div *ngIf="!harvestStarted" class="start text-center mx-auto">
+    <ng-container *ngIf="loading">
+      <div class="center-align">
+        <p-progressSpinner></p-progressSpinner>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="!loading">
     <mat-form-field class="farmField">
       <mat-select placeholder="Select a Farm" name="farm" [(ngModel)]="selectedFarm" #farmField="ngModel" required>
         <mat-option *ngFor="let farm of farms" [value]="farm">
@@ -14,6 +20,7 @@
     </mat-form-field>
     <button *ngIf="farmField.valid" mat-button class="btn-primary startButton" (click)="startHarvest()">Begin Harvest
     </button>
+    </ng-container>
   </div>
   <div *ngIf="harvestStarted">
     <form #harvestForm="ngForm" id="harvestForm" (submit)="submitEntry(harvestForm)">

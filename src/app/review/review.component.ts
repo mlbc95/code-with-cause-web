@@ -1,16 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { OrganizationService, HarvesterService, CropService, FarmService, EntryService, HarvestService, IEntryVm, ICropVm, IHarvesterVm, IHarvestVm } from '../swagger-api/index';
 import * as _ from 'lodash';
-import {Configuration} from "../swagger-api/configuration";
+import {Configuration, ConfigurationParameters} from "../swagger-api/configuration";
 
 @Component({
   selector: 'app-review',
   templateUrl: './review.component.html',
   styleUrls: ['./review.component.scss']
 })
-export class ReviewComponent implements OnInit {
+export class ReviewComponent implements OnInit, OnDestroy {
   token: string;
   harvest: IHarvestVm;
 
@@ -23,13 +23,20 @@ export class ReviewComponent implements OnInit {
     private organizationService: OrganizationService,
     private harvestService: HarvestService,
     private router: Router
-  ) {  let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  ) {
+    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser.token;
-    harvestService.configuration = new Configuration({
+    let config: ConfigurationParameters = {
       apiKeys: {
         Authorization: this.token
       }
-    });
+    };
+    entryService.configuration = new Configuration(config);
+    farmService.configuration = new Configuration(config);
+    cropService.configuration = new Configuration(config);
+    harvesterService.configuration = new Configuration(config);
+    organizationService.configuration = new Configuration(config);
+    harvestService.configuration = new Configuration(config);
   }
 
   harvestId:string;
@@ -46,10 +53,9 @@ export class ReviewComponent implements OnInit {
   harvesters: any[];
   today:any[]=[];
 
-
   harvester:string;
-  ngOnInit() {
 
+  ngOnInit(): void {
     this.cropService.getAll().subscribe(
       (crops: Array<ICropVm>): void => {
         this.cropsList=crops;
@@ -88,6 +94,14 @@ export class ReviewComponent implements OnInit {
     this.getEntryHarvester()
   });
   }
+
+  ngOnDestroy(): void {
+    this.entryService.configuration.apiKeys["Authorization"] = null;
+    this.farmService.configuration.apiKeys["Authorization"] = null;
+    this.cropService.configuration.apiKeys["Authorization"] = null;
+    this.harvesterService.configuration.apiKeys["Authorization"] = null;
+    this.organizationService.configuration.apiKeys["Authorization"] = null;
+    this.harvestService.configuration.apiKeys["Authorization"] = null;  }
 
   getEntryTime(){
     this.entries.forEach(e=>{

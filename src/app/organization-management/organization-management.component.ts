@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {OrganizationService} from "../swagger-api/api/organization.service";
 import {MatDialog} from "@angular/material";
 import {IOrganizationVm} from "../swagger-api/model/iOrganizationVm";
@@ -13,9 +13,10 @@ import {Configuration} from "../swagger-api/configuration";
   templateUrl: './organization-management.component.html',
   styleUrls: ['./organization-management.component.scss']
 })
-export class OrganizationManagementComponent implements OnInit {
+export class OrganizationManagementComponent implements OnInit, OnDestroy {
   token: string;
   organizations: Array<IOrganizationVm>;
+  loading: boolean = false;
 
   constructor(private organizationService: OrganizationService,
               private matDialog: MatDialog) {
@@ -31,11 +32,21 @@ export class OrganizationManagementComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loading = true;
     this.organizationService.getAll().subscribe(
       (organizations: Array<IOrganizationVm>): void => {
         this.organizations = organizations;
+        this.loading = false;
+      },
+      (error: Error): void => {
+        console.error(error);
+        this.loading = false;
       }
     );
+  }
+
+  ngOnDestroy(): void {
+    this.organizationService.configuration.apiKeys["Authorization"] = null;
   }
 
   createNewOrganization(): void {
@@ -48,16 +59,23 @@ export class OrganizationManagementComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
       (newOrganization: INewOrganizationParams): void => {
         if (newOrganization) {
+          this.loading = true;
           this.organizationService.registerOrganization(newOrganization).subscribe(
             (response: any): void => {
               this.organizationService.getAll().subscribe(
                 (organizations: Array<IOrganizationVm>): void => {
                   this.organizations = organizations;
+                  this.loading = false;
+                },
+                (error: Error): void => {
+                  console.error(error);
+                  this.loading = false;
                 }
               );
             },
             (error: Error): void => {
               console.error(error);
+              this.loading = false;
             }
           );
         }
@@ -76,16 +94,23 @@ export class OrganizationManagementComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
       (confirm: boolean): void => {
         if (confirm) {
+          this.loading = true;
           this.organizationService.deleteOrganization(organization._id).subscribe(
             (response: any): void => {
               this.organizationService.getAll().subscribe(
                 (organizations: Array<IOrganizationVm>): void => {
                   this.organizations = organizations;
+                  this.loading = false;
+                },
+                (error: Error): void => {
+                  console.error(error);
+                  this.loading = false;
                 }
               );
             },
             (error: Error): void => {
               console.error(error);
+              this.loading = false;
             }
           );
         }
@@ -104,16 +129,23 @@ export class OrganizationManagementComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
       (updatedOrganization: INewOrganizationParams): void => {
         if (updatedOrganization) {
+          this.loading = true;
           this.organizationService.updateOrganization(organization._id, updatedOrganization).subscribe(
             (response: any): void => {
               this.organizationService.getAll().subscribe(
                 (organizations: Array<IOrganizationVm>): void => {
                   this.organizations = organizations;
+                  this.loading = false;
+                },
+                (error: Error): void => {
+                  console.error(error);
+                  this.loading = false;
                 }
               );
             },
             (error: Error): void => {
               console.error(error);
+              this.loading = false;
             }
           );
         }

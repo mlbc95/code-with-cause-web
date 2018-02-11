@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CropService} from '../swagger-api';
 import {ICropVm} from '../swagger-api';
 import {MatDialog} from '@angular/material';
@@ -14,9 +14,10 @@ import {FormGroup} from '@angular/forms';
   templateUrl: './crop-management.component.html',
   styleUrls: ['./crop-management.component.scss']
 })
-export class CropManagementComponent implements OnInit {
+export class CropManagementComponent implements OnInit, OnDestroy {
   token: string;
   crops: Array<ICropVm> = [];
+  loading: boolean;
 
   constructor(private cropService: CropService,
               private matDialog: MatDialog) {
@@ -30,11 +31,21 @@ export class CropManagementComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loading = true;
     this.cropService.getAll().subscribe(
       (crops: Array<ICropVm>): void => {
         this.crops = crops;
+        this.loading = false;
+      },
+      (error: Error): void => {
+        console.error(error);
+        this.loading = false;
       }
     );
+  }
+
+  ngOnDestroy(): void {
+    this.cropService.configuration.apiKeys["Authorization"] = null;
   }
 
   createNewCrop(): void {
@@ -47,6 +58,7 @@ export class CropManagementComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
       (cropForm: FormGroup): void => {
         if (cropForm) {
+          this.loading = true;
           let varieties: string[] = [];
           for (let i in cropForm.value.varieties) {
             varieties.push(cropForm.value.varieties[i].variety);
@@ -66,11 +78,17 @@ export class CropManagementComponent implements OnInit {
               this.cropService.getAll().subscribe(
                 (crops: Array<ICropVm>): void => {
                   this.crops = crops;
+                  this.loading = false;
+                },
+                (error: Error): void => {
+                  console.error(error);
+                  this.loading = false;
                 }
               );
             },
             (error: Error): void => {
               console.error(error);
+              this.loading = false;
             }
           );
         }
@@ -89,16 +107,23 @@ export class CropManagementComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
       (confirm: boolean): void => {
         if (confirm) {
+          this.loading = true;
           this.cropService.deleteCrop(crop._id).subscribe(
             (response: any): void => {
               this.cropService.getAll().subscribe(
                 (crops: Array<ICropVm>): void => {
                   this.crops = crops;
+                  this.loading = false;
+                },
+                (error: Error): void => {
+                  console.error(error);
+                  this.loading = false;
                 }
               );
             },
             (error: Error): void => {
               console.error(error);
+              this.loading = false;
             }
           );
         }
@@ -116,6 +141,7 @@ export class CropManagementComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
       (cropForm: FormGroup): void => {
         if (cropForm) {
+          this.loading = true;
           let varieties: string[] = [];
           for (let i in cropForm.value.varieties) {
             varieties.push(cropForm.value.varieties[i].variety);
@@ -130,11 +156,17 @@ export class CropManagementComponent implements OnInit {
               this.cropService.getAll().subscribe(
                 (crops: Array<ICropVm>): void => {
                   this.crops = crops;
+                  this.loading = false;
+                },
+                (error: Error): void => {
+                  console.error(error);
+                  this.loading = false;
                 }
               );
             },
             (error: Error): void => {
               console.error(error);
+              this.loading = false;
             }
           );
         }

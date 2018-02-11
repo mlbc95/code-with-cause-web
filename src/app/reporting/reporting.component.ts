@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MatDialog} from "@angular/material";
 import {GenerateReportDialogComponent} from "./generate-report-dialog/generate-report-dialog.component";
 import {ReportingService} from "../swagger-api/api/reporting.service";
@@ -9,7 +9,7 @@ import {Configuration} from "../swagger-api/configuration";
   templateUrl: './reporting.component.html',
   styleUrls: ['./reporting.component.scss']
 })
-export class ReportingComponent implements OnInit {
+export class ReportingComponent implements OnInit, OnDestroy {
   token: string;
 
   constructor(private matDialog: MatDialog,
@@ -24,6 +24,10 @@ export class ReportingComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  ngOnDestroy(): void {
+    this.reportingService.configuration.apiKeys["Authorization"] = null;
   }
 
   generateNewReport(): void {

@@ -13,6 +13,7 @@ import {MatSnackBar} from '@angular/material';
 export class LoginComponent implements OnInit {
   username: string;
   password: string;
+  loading: boolean;
 
   constructor(private router: Router,
               private authenticationService: AuthenticationService,
@@ -22,11 +23,11 @@ export class LoginComponent implements OnInit {
     this.authenticationService.logout();
   }
 
-  ngOnInit() {
-
+  ngOnInit(): void {
   }
 
   login() {
+    this.loading = true;
     this.authenticationService.login(this.username, this.password).subscribe(
       (): void => {
         // login successful
@@ -38,6 +39,7 @@ export class LoginComponent implements OnInit {
             duration: 2000
           }
         );
+        this.loading = false;
       },
       (error: any): void => {
         console.error(error);
@@ -58,6 +60,7 @@ export class LoginComponent implements OnInit {
             }
           );
         }
+        this.loading = false;
       }
     );
   }

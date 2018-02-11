@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FarmService} from '../swagger-api/api/farm.service';
 import {IFarmVm} from '../swagger-api/model/iFarmVm';
 import {CropService} from '../swagger-api/api/crop.service';
@@ -23,7 +23,7 @@ import {IUserVm, SystemService} from '../swagger-api';
   templateUrl: './entry.component.html',
   styleUrls: ['./entry.component.scss']
 })
-export class EntryComponent implements OnInit {
+export class EntryComponent implements OnInit, OnDestroy {
   token: string;
   today: string;
   harvestStarted: boolean;
@@ -54,7 +54,8 @@ export class EntryComponent implements OnInit {
   selectedOrg: string;
   comment: string;
 
-  doneLoading: boolean = false
+  doneLoading: boolean = false;
+  loading: boolean;
 
   varieties: string[];
 
@@ -84,6 +85,8 @@ export class EntryComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.harvestStarted = false;
+    this.loading = true;
     let storedHarvestID = JSON.parse(localStorage.getItem('harvest_id'));
     // if (storedHarvestID) {
     //   this.harvestService.getHarvestById(storedHarvestID).subscribe((harvest) => {
@@ -94,9 +97,11 @@ export class EntryComponent implements OnInit {
     this.farmService.getAll().subscribe(
       (farms: Array<IFarmVm>): void => {
         this.farms = farms;
+        this.loading = false;
       },
       (error) => {
         console.error(error);
+        this.loading = false;
       }
     );
 
@@ -117,8 +122,16 @@ export class EntryComponent implements OnInit {
     );
 
     this.today = new Date().toLocaleDateString();
-    this.harvestStarted = false;
     this.editMode = false;
+  }
+
+  ngOnDestroy(): void {
+    this.entryService.configuration.apiKeys["Authorization"] = null;
+    this.farmService.configuration.apiKeys["Authorization"] = null;
+    this.cropService.configuration.apiKeys["Authorization"] = null;
+    this.harvesterService.configuration.apiKeys["Authorization"] = null;
+    this.organizationService.configuration.apiKeys["Authorization"] = null;
+    this.harvestService.configuration.apiKeys["Authorization"] = null;
   }
 
   startHarvest() {
@@ -156,7 +169,6 @@ export class EntryComponent implements OnInit {
       (error) => {
         console.log(error);
       });
-
   }
 
   submitEntry() {
