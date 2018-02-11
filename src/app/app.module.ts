@@ -5,7 +5,7 @@ import {environment} from '../environments/environment';
 import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatCardModule, MatDialogModule, MatExpansionModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatSliderModule, MatSnackBarModule} from '@angular/material';
+import {MatButtonModule, MatCardModule, MatCheckboxModule, MatDialogModule, MatExpansionModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatSliderModule, MatSnackBarModule} from '@angular/material';
 import {LoginComponent} from './login/login.component';
 import {EntryComponent} from './entry/entry.component';
 import {ReviewComponent} from './review/review.component';
@@ -18,11 +18,6 @@ import {AppRoutingModule} from './app-routing.module';
 import {AuthGuard} from './guards/auth.guard';
 import {AdminGuard} from './guards/admin.guard';
 import {AuthenticationService} from './services/authentication.service';
-import {
-  MatButtonModule, MatCardModule, MatDialogModule, MatExpansionModule, MatFormFieldModule, MatInputModule,
-  MatSelectModule,
-  MatSliderModule, MatSnackBarModule
-} from '@angular/material';
 import {UserManagementComponent} from './user-management/user-management.component';
 import {CropManagementComponent} from './crop-management/crop-management.component';
 import {FarmManagementComponent} from './farm-management/farm-management.component';
@@ -31,9 +26,9 @@ import {HarvestEditComponent} from './harvest-edit/harvest-edit.component';
 import {CreateFarmDialogComponent} from './farm-management/create-farm-dialog/create-farm-dialog.component';
 import {ConfirmDeleteFarmDialogComponent} from './farm-management/confirm-delete-farm-dialog/confirm-delete-farm-dialog.component';
 import {EditFarmDialogComponent} from './farm-management/edit-farm-dialog/edit-farm-dialog.component';
-import { EditOrganizationDialogComponent } from './organization-management/edit-organization-dialog/edit-organization-dialog.component';
-import { ConfirmDeleteOrganizationDialogComponent } from './organization-management/confirm-delete-organization-dialog/confirm-delete-organization-dialog.component';
-import { CreateOrganizationDialogComponent } from './organization-management/create-organization-dialog/create-organization-dialog.component';
+import {EditOrganizationDialogComponent} from './organization-management/edit-organization-dialog/edit-organization-dialog.component';
+import {ConfirmDeleteOrganizationDialogComponent} from './organization-management/confirm-delete-organization-dialog/confirm-delete-organization-dialog.component';
+import {CreateOrganizationDialogComponent} from './organization-management/create-organization-dialog/create-organization-dialog.component';
 
 @NgModule({
   declarations: [
@@ -85,7 +80,8 @@ import { CreateOrganizationDialogComponent } from './organization-management/cre
     MatExpansionModule,
     MatDialogModule,
     MatFormFieldModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatCheckboxModule
   ],
   providers: [
     AuthGuard,
@@ -96,7 +92,10 @@ import { CreateOrganizationDialogComponent } from './organization-management/cre
   entryComponents: [
     CreateFarmDialogComponent,
     ConfirmDeleteFarmDialogComponent,
-    EditFarmDialogComponent
+    EditFarmDialogComponent,
+    CreateOrganizationDialogComponent,
+    ConfirmDeleteOrganizationDialogComponent,
+    EditOrganizationDialogComponent
   ]
 })
 export class AppModule {

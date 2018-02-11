@@ -4,14 +4,13 @@
     <input matInput placeholder="Name" type="text" name="name" id="name" [(ngModel)]="organization.name">
   </mat-form-field>
   <mat-form-field>
-    <input matInput placeholder="Purchase or Donation" type="number" name="purchaseOrDonation" id="purchaseOrDonation" [(ngModel)]="organization.purchase"/>
-  </mat-form-field>
-  <mat-form-field>
     <input matInput placeholder="Contact Name" type="text" name="contactName" id="contactName" [(ngModel)]="organization.contactName"/>
   </mat-form-field>
   <mat-form-field>
     <input matInput placeholder="Phone Number" type="text" name="phoneNumber" id="phoneNumber" [(ngModel)]="organization.phoneNumber"/>
   </mat-form-field>
+  <mat-checkbox type="checkbox" name="purchaseOrDonation" id="purchaseOrDonation" [(ngModel)]="organization.purchase">Purchaser or Donor</mat-checkbox>
+</mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button [mat-dialog-close]="false">Cancel</button>
   <button mat-button [mat-dialog-close]="organization">Update</button>

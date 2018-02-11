@@ -57,7 +57,8 @@ export class OrganizationManagementComponent implements OnInit {
   deleteOrganization(organization: IOrganizationVm): void {
     let dialogRef = this.matDialog.open(ConfirmDeleteOrganizationDialogComponent,
       {
-        width: '90vw'
+        width: '90vw',
+        data: organization
       }
     );
 
