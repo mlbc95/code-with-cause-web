@@ -40,7 +40,7 @@ import {ConfirmDeleteCropDialogComponent} from './crop-management/confirm-delete
 import {CreateCropDialogComponent} from './crop-management/create-crop-dialog/create-crop-dialog.component';
 import {EditCropDialogComponent} from './crop-management/edit-crop-dialog/edit-crop-dialog.component';
 import {ReportingComponent} from './reporting/reporting.component';
-
+import { PrimengImportModule } from './primeng-module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -104,7 +104,8 @@ import {ReportingComponent} from './reporting/reporting.component';
     MatIconModule,
     MatSnackBarModule,
     MatCheckboxModule,
-    MatRadioModule
+    MatRadioModule,
+    PrimengImportModule
   ],
   providers: [
     AuthGuard,
