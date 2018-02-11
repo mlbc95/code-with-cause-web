@@ -6,6 +6,7 @@ import {INewOrganizationParams} from "../swagger-api/model/iNewOrganizationParam
 import {CreateOrganizationDialogComponent} from "./create-organization-dialog/create-organization-dialog.component";
 import {ConfirmDeleteOrganizationDialogComponent} from "./confirm-delete-organization-dialog/confirm-delete-organization-dialog.component";
 import {EditOrganizationDialogComponent} from "./edit-organization-dialog/edit-organization-dialog.component";
+import {Configuration} from "../swagger-api/configuration";
 
 @Component({
   selector: 'app-organization-management',
@@ -13,10 +14,19 @@ import {EditOrganizationDialogComponent} from "./edit-organization-dialog/edit-o
   styleUrls: ['./organization-management.component.scss']
 })
 export class OrganizationManagementComponent implements OnInit {
+  token: string;
   organizations: Array<IOrganizationVm>;
 
   constructor(private organizationService: OrganizationService,
               private matDialog: MatDialog) {
+    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    this.token = currentUser.token;
+    organizationService.configuration = new Configuration({
+      apiKeys: {
+        Authorization: this.token
+      }
+    });
+
     this.organizations = [];
   }
 

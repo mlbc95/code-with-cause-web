@@ -12,8 +12,7 @@ import {IHarvestVm} from "../swagger-api/model/iHarvestVm";
 import {IEntryVm} from "../swagger-api/model/iEntryVm";
 import {EntryService} from "../swagger-api/api/entry.service";
 import {IHarvestParams} from "../swagger-api/model/iHarvestParams";
-import {INewEntryParams} from "../swagger-api/model/iNewEntryParams";
-import {IHarvestParams} from "../swagger-api/model/iHarvestParams";
+import {Configuration, ConfigurationParameters} from "../swagger-api/configuration";
 
 @Component({
   selector: 'app-entry',
@@ -46,11 +45,22 @@ export class EntryComponent implements OnInit {
               private harvestService: HarvestService) {
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser.token;
+    let config: ConfigurationParameters = {
+      apiKeys: {
+        Authorization: this.token
+      }
+    };
+    entryService.configuration = new Configuration(config);
+    farmService.configuration = new Configuration(config);
+    cropService.configuration = new Configuration(config);
+    harvesterService.configuration = new Configuration(config);
+    organizationService.configuration = new Configuration(config);
+    harvestService.configuration = new Configuration(config);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     let storedHarvestID = JSON.parse(localStorage.getItem('harvest_id'));
-    if(storedHarvestID){
+    if (storedHarvestID) {
       this.harvestService.getHarvestById(storedHarvestID).subscribe((harvest) => {
         this.harvest = harvest;
       });

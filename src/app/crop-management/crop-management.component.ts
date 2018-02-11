@@ -15,13 +15,18 @@ import {FormGroup} from '@angular/forms';
   styleUrls: ['./crop-management.component.scss']
 })
 export class CropManagementComponent implements OnInit {
-  crops: Array<ICropVm> = [];
   token: string;
+  crops: Array<ICropVm> = [];
 
   constructor(private cropService: CropService,
               private matDialog: MatDialog) {
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser.token;
+    cropService.configuration = new Configuration({
+      apiKeys: {
+        Authorization: this.token
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -84,11 +89,6 @@ export class CropManagementComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
       (confirm: boolean): void => {
         if (confirm) {
-          this.cropService.configuration = new Configuration({
-            apiKeys: {
-              Authorization: this.token
-            }
-          });
           this.cropService.deleteCrop(crop._id).subscribe(
             (response: any): void => {
               this.cropService.getAll().subscribe(

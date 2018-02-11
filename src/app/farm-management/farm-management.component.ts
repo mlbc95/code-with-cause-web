@@ -6,6 +6,7 @@ import {CreateFarmDialogComponent} from "./create-farm-dialog/create-farm-dialog
 import {INewFarmParams} from "../swagger-api/model/iNewFarmParams";
 import {ConfirmDeleteFarmDialogComponent} from "./confirm-delete-farm-dialog/confirm-delete-farm-dialog.component";
 import {EditFarmDialogComponent} from "./edit-farm-dialog/edit-farm-dialog.component";
+import {Configuration} from "../swagger-api/configuration";
 
 @Component({
   selector: 'app-farm-management',
@@ -13,10 +14,19 @@ import {EditFarmDialogComponent} from "./edit-farm-dialog/edit-farm-dialog.compo
   styleUrls: ['./farm-management.component.scss']
 })
 export class FarmManagementComponent implements OnInit {
+  token: string;
   farms: Array<IFarmVm>;
 
   constructor(private farmService: FarmService,
               private matDialog: MatDialog) {
+    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    this.token = currentUser.token;
+    this.farmService.configuration = new Configuration({
+      apiKeys: {
+        Authorization: this.token
+      }
+    });
+
     this.farms = [];
   }
 

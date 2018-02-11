@@ -6,6 +6,7 @@ import {MatDialog} from "@angular/material";
 import {EditUserDialogComponent} from "./edit-user-dialog/edit-user-dialog.component";
 import {CreateUserDialogComponent} from "./create-user-dialog/create-user-dialog.component";
 import {ConfirmDeleteUserDialogComponent} from "./confirm-delete-user-dialog/confirm-delete-user-dialog.component";
+import {Configuration} from "../swagger-api/configuration";
 
 @Component({
   selector: 'app-user-management',
@@ -13,10 +14,18 @@ import {ConfirmDeleteUserDialogComponent} from "./confirm-delete-user-dialog/con
   styleUrls: ['./user-management.component.scss']
 })
 export class UserManagementComponent implements OnInit {
+  token: string;
   users: Array<IUserVm>;
 
   constructor(private systemService: SystemService,
               private matDialog: MatDialog) {
+    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    this.token = currentUser.token;
+    systemService.configuration = new Configuration({
+      apiKeys: {
+        Authorization: this.token
+      }
+    });
   }
 
   ngOnInit(): void {
