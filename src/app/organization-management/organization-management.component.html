@@ -1,0 +1,14 @@
+<h2 class="center-align">Organization Management</h2>
+<button type="button" class="btn btn-success max-width add-new-organization-button" (click)="createNewOrganization();">Add New Organization</button>
+<mat-accordion>
+  <ng-container *ngFor="let organization of organizations">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>{{organization.name}}</mat-panel-title>
+      </mat-expansion-panel-header>
+      <p>Type: {{organization.orgType}}</p>
+      <button type="button" (click)="deleteOrganization(organization);" class="btn btn-danger">Delete</button>
+      <button type="button" (click)="editOrganization(organization);" class="btn btn-info">Edit</button>
+    </mat-expansion-panel>
+  </ng-container>
+</mat-accordion>

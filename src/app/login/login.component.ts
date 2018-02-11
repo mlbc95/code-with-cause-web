@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
         // login successful
         this.router.navigate(['/']);
       }, err => {
-        console.log(err);
+        console.error(err);
         if (err.status === 500) {
           this.snackBar.open('Username or password is incorrect', 'Undo', {
             duration: 2000

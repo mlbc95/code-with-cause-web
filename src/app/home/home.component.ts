@@ -1,5 +1,6 @@
 import {AfterViewInit, Component, HostListener, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
+import {AuthenticationService} from "../services/authentication.service";
 
 @Component({
   selector: 'app-home',
@@ -8,8 +9,12 @@ import {Router} from "@angular/router";
 })
 export class HomeComponent implements OnInit, AfterViewInit {
   windowWidth: number = window.innerWidth;
+  isAdmin: boolean;
 
-  constructor(private router: Router) {
+  constructor(private router: Router,
+              private authenticationService: AuthenticationService) {
+    let currentUser: any = JSON.parse(localStorage.getItem("currentUser"));
+    this.isAdmin = currentUser.admin;
   }
 
   ngOnInit(): void {

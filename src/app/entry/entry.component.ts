@@ -52,7 +52,7 @@ export class EntryComponent implements OnInit {
         this.farms = farms;
       },
     (error) => {
-        console.log(error);
+        console.error(error);
       }
     );
     // this.cropService.getAll().subscribe(

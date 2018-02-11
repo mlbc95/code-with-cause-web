@@ -13,10 +13,11 @@ import {EditFarmDialogComponent} from "./edit-farm-dialog/edit-farm-dialog.compo
   styleUrls: ['./farm-management.component.scss']
 })
 export class FarmManagementComponent implements OnInit {
-  farms: Array<IFarmVm> = [];
+  farms: Array<IFarmVm>;
 
   constructor(private farmService: FarmService,
               private matDialog: MatDialog) {
+    this.farms = [];
   }
 
   ngOnInit(): void {
@@ -57,7 +58,8 @@ export class FarmManagementComponent implements OnInit {
   deleteFarm(farm: IFarmVm): void {
     let dialogRef = this.matDialog.open(ConfirmDeleteFarmDialogComponent,
       {
-        width: '90vw'
+        width: '90vw',
+        data: farm
       }
     );
 
