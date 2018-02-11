@@ -1,7 +1,9 @@
 @import "../../styles";
 
-#logo {
-  position: absolute;
+button {
+  height: 40px;
+  margin-top: $header-height / 2 - 20;
+}
 
   height: $header-height - $header-border-width;
   width: $header-height - $header-border-width;

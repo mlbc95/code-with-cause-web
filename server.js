@@ -1,7 +1,11 @@
 const express = require('express');
 const path = require('path');
 const app = express();
+const fs = require('fs')
 
+
+  // const cropData = JSON.parse(fs.readFileSync('./csvjson.json','utf8'))
+  // console.log(cropData)
 
 // Run the app by serving the static files
 // in the dist directory
