@@ -41,6 +41,7 @@ import {CreateCropDialogComponent} from './crop-management/create-crop-dialog/cr
 import {EditCropDialogComponent} from './crop-management/edit-crop-dialog/edit-crop-dialog.component';
 import {ReportingComponent} from './reporting/reporting.component';
 import { PrimengImportModule } from './primeng-module';
+import {ProgressSpinnerModule} from "primeng/primeng";
 @NgModule({
   declarations: [
     AppComponent,
@@ -105,7 +106,8 @@ import { PrimengImportModule } from './primeng-module';
     MatSnackBarModule,
     MatCheckboxModule,
     MatRadioModule,
-    PrimengImportModule
+    PrimengImportModule,
+    ProgressSpinnerModule
   ],
   providers: [
     AuthGuard,

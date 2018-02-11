@@ -18,3 +18,8 @@
   <br>
   <button mat-raised-button color="primary" class="btn-primary" type="submit">Login</button>
 </form>
+<ng-container *ngIf="loading">
+  <div class="center-align">
+    <p-progressSpinner></p-progressSpinner>
+  </div>
+</ng-container>

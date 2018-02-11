@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SystemService} from '../swagger-api/api/system.service';
 import {IUserVm} from '../swagger-api/model/iUserVm';
 import {INewUserParams} from '../swagger-api/model/iNewUserParams';
@@ -14,9 +14,10 @@ import {Configuration} from "../swagger-api/configuration";
   templateUrl: './user-management.component.html',
   styleUrls: ['./user-management.component.scss']
 })
-export class UserManagementComponent implements OnInit {
+export class UserManagementComponent implements OnInit, OnDestroy {
   token: string;
   users: Array<IUserVm>;
+  loading: boolean;
 
   constructor(private systemService: SystemService,
               private matDialog: MatDialog) {
@@ -30,11 +31,21 @@ export class UserManagementComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loading = true;
     this.systemService.getAllUsers().subscribe(
       (users: Array<IUserVm>): void => {
         this.users = users;
+        this.loading = false;
+      },
+      (error: Error): void => {
+        console.error(error);
+        this.loading = false;
       }
     );
+  }
+
+  ngOnDestroy(): void {
+    this.systemService.configuration.apiKeys["Authorization"] = null;
   }
 
   createNewUser(): void {
@@ -46,14 +57,21 @@ export class UserManagementComponent implements OnInit {
 
     dialogRef.afterClosed()
       .mergeMap((newUser: INewUserParams) => {
+        this.loading = true;
         return this.systemService.registerUser(newUser);
       })
       .mergeMap(() => {
         return this.systemService.getAllUsers();
       })
       .subscribe((users: Array<IUserVm>) => {
-        this.users = users;
-      });
+          this.users = users;
+          this.loading = false;
+        },
+        (error: Error) => {
+          console.error(error);
+          this.loading = false;
+        }
+      );
 
     // dialogRef.afterClosed().subscribe(
     //   (newUser: INewUserParams): void => {
@@ -86,16 +104,23 @@ export class UserManagementComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
       (confirm: boolean): void => {
         if (confirm) {
+          this.loading = true;
           this.systemService.deleteUserById(user._id).subscribe(
             (response: any): void => {
               this.systemService.getAllUsers().subscribe(
                 (users: Array<IUserVm>): void => {
                   this.users = users;
+                  this.loading = false;
+                },
+                (error: Error): void => {
+                  console.error(error);
+                  this.loading = false;
                 }
               );
             },
             (error: Error): void => {
               console.error(error);
+              this.loading = false;
             }
           );
         }
@@ -114,16 +139,23 @@ export class UserManagementComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
       (updatedUser: INewUserParams): void => {
         if (updatedUser) {
+          this.loading = true;
           this.systemService.udpateUserById(user._id, updatedUser).subscribe(
             (response: any): void => {
               this.systemService.getAllUsers().subscribe(
                 (users: Array<IUserVm>): void => {
                   this.users = users;
+                  this.loading = false;
+                },
+                (error: Error): void => {
+                  console.error(error);
+                  this.loading = false;
                 }
               );
             },
             (error: Error): void => {
               console.error(error);
+              this.loading = false;
             }
           );
         }
