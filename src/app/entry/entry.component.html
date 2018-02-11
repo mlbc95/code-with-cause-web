@@ -31,7 +31,7 @@
 
       <mat-form-field>
         <mat-select placeholder="Crop" [ngModel]="currentEntry.crop" name="crop" #cropField="ngModel" required>
-          <mat-option *ngFor="let crop of crops" value="{{crop._id}}">
+          <mat-option *ngFor="let crop of crops" value="{{crop}}">
             {{ crop.name }}
           </mat-option>
         </mat-select>
@@ -42,9 +42,8 @@
 
       <div *ngIf="currentEntry.crop && currentEntry.crop != null">
         <mat-form-field>
-          <mat-select placeholder="Variety" [(ngModel)]="currentEntry.selectedVariety" name="variety" required
-                      #varietyField="ngModel">
-            <mat-option *ngFor="let variety of varieties" value="{{variety}}">
+          <mat-select placeholder="Variety" [(ngModel)]="currentEntry.selectedVariety" name="variety" required #varietyField="ngModel">
+            <mat-option *ngFor="let variety of currentEntry.crop.variety" value="{{variety}}">
               {{ variety }}
             </mat-option>
           </mat-select>

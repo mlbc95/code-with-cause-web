@@ -12,6 +12,7 @@ import {IHarvestVm} from "../swagger-api/model/iHarvestVm";
 import {IEntryVm} from "../swagger-api/model/iEntryVm";
 import {EntryService} from "../swagger-api/api/entry.service";
 import {IHarvestParams} from "../swagger-api/model/iHarvestParams";
+import {INewEntryParams} from "../swagger-api/model/iNewEntryParams";
 
 @Component({
   selector: 'app-entry',
@@ -66,6 +67,7 @@ export class EntryComponent implements OnInit {
     this.cropService.getAll().subscribe(
       (crops: Array<ICropVm>): void => {
         this.crops = crops;
+        console.log(this.crops);
       },
       (error) => {
         console.log(error);
@@ -82,17 +84,7 @@ export class EntryComponent implements OnInit {
     this.harvestService.registerHarvest(newHarvest).subscribe((harvest) => {
       this.harvest = harvest;
       this.harvest.entries = [];
-      this.harvestStarted = true;
     });
-
-    let newEntry = {'crop': null, 'pounds': 0, 'priceTotal': 0, 'harvester': null, 'comments': '', 'recipient': null};
-    this.entryService.registerEntry(newEntry).subscribe(
-      (entry: IEntryVm): void => {
-        this.currentEntry = entry;
-      },
-      (error) => {
-        console.log(error);
-      });
 
     this.harvesterService.getAll().subscribe(
       (harvesters: Array<IHarvesterVm>): void => {
@@ -112,6 +104,9 @@ export class EntryComponent implements OnInit {
       (error) => {
         console.log(error);
       });
+
+    //this.currentEntry = {'crop': this.currentEntry.crop, 'pounds': 0, 'priceTotal': 0, 'harvester': this.currentEntry.harvester, 'comments': '', 'recipient': this.currentEntry.recipient};
+
   }
 
   submitEntry() {
