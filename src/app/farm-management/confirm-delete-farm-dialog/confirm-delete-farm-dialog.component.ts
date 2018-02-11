@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {IFarmVm} from "../../swagger-api/model/iFarmVm";
+import {IFarmVm} from '../../swagger-api';
 import {MAT_DIALOG_DATA} from "@angular/material";
 
 @Component({
