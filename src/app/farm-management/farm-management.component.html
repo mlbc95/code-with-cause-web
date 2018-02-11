@@ -7,8 +7,9 @@
         <mat-panel-title>{{farm.name}}</mat-panel-title>
       </mat-expansion-panel-header>
       <p>Latitude: {{farm.lat}}</p>
-      <p>Longitude: {{farm._long}}</p>
+      <p>Longitude: {{farm.lng}}</p>
       <button type="button" (click)="deleteFarm(farm);" class="btn btn-danger">Delete</button>
+      <button type="button" (click)="editFarm(farm);" class="btn btn-info">Edit</button>
     </mat-expansion-panel>
   </ng-container>
 </mat-accordion>

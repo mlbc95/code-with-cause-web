@@ -1,3 +1,14 @@
-<p>
-  user-management works!
-</p>
+<h2 class="center-align">User Management</h2>
+<button type="button" class="btn btn-success max-width add-new-user-button" (click)="createNewUser();">Add New User</button>
+<mat-accordion>
+  <ng-container *ngFor="let user of users">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>{{user.username}}</mat-panel-title>
+      </mat-expansion-panel-header>
+      <p>Role: {{user.role}}</p>
+      <button type="button" (click)="deleteUser(user);" class="btn btn-danger">Delete</button>
+      <button type="button" (click)="editUser(user);" class="btn btn-info">Edit</button>
+    </mat-expansion-panel>
+  </ng-container>
+</mat-accordion>

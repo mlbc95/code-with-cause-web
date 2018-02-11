@@ -14,4 +14,5 @@ export * from './iNewOrganizationParams';
 export * from './iNewUserParams';
 export * from './iOrganizationVm';
 export * from './iUserVm';
+export * from './organizationType';
 export * from './userRole';

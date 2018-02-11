@@ -1,7 +1,6 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 $brand-green: #4bb758;
-$border: #3e9749;
 $brand-grey: #4b4d4f;
 $brand-pink: #ad2679;
 $brand-orange: #f27f30;
@@ -9,8 +8,13 @@ $brand-yellow: #fce363;
 
 // HEADER AND FOOTER VARIABLES
 $header-height: 60px;
-$footer-height: 40px;
+$header-color: darken($brand-green, 2);
+$header-border-color: darken($header-color, 10);
 $header-border-width: 3px;
+
+$footer-height: 40px;
+$footer-color: $header-color;
+$footer-border-color: $header-border-color;
 $footer-border-width: $header-border-width;
 
 html, body {

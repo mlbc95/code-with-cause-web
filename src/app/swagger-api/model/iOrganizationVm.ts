@@ -9,14 +9,13 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { OrganizationType } from './organizationType';
 
 
 export interface IOrganizationVm {
-    purchase?: boolean;
+    orgType?: OrganizationType;
     name?: string;
     createdOn?: Date;
     updatedOn?: Date;
-    contactName?: string;
-    phoneNumber?: string;
     _id?: string;
 }

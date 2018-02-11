@@ -2,8 +2,8 @@
 
 .header {
   height: $header-height;
-  border-bottom: $header-border-width solid $border;
-  background-color: $brand-green;
+  border-bottom: $header-border-width solid $header-border-color;
+  background-color: $header-color;
   width: 100%;
 
   position: fixed;
@@ -20,8 +20,8 @@
 
 .footer {
   height: $footer-height;
-  border-top: $footer-border-width solid $border;
-  background-color: $brand-green;
+  border-top: $footer-border-width solid $footer-border-color;
+  background-color: $footer-color;
   width: 100%;
 
   position: fixed;
