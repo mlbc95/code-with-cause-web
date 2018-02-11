@@ -13,6 +13,6 @@ export class CreateOrganizationDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.organization = {purchase: false, name: "", contactName: "", phoneNumber: ""};
+    this.organization = {type: OrganizationType.Purchase, name: ""};
   }
 }

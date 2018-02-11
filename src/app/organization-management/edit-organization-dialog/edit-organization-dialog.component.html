@@ -3,13 +3,12 @@
   <mat-form-field>
     <input matInput placeholder="Name" type="text" name="name" id="name" [(ngModel)]="organization.name">
   </mat-form-field>
-  <mat-form-field>
-    <input matInput placeholder="Contact Name" type="text" name="contactName" id="contactName" [(ngModel)]="organization.contactName"/>
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput placeholder="Phone Number" type="text" name="phoneNumber" id="phoneNumber" [(ngModel)]="organization.phoneNumber"/>
-  </mat-form-field>
-  <mat-checkbox type="checkbox" name="purchaseOrDonation" id="purchaseOrDonation" [(ngModel)]="organization.purchase">Purchaser or Donor</mat-checkbox>
+  <br/>
+  <mat-radio-group>
+    <mat-radio-button value="Purchased" (change)="changed($event);" [checked]="organization.type == 'Purchased'">Purchased</mat-radio-button>
+    <mat-radio-button value="Donated" (change)="changed($event);" [checked]="organization.type == 'Donated'">Donated</mat-radio-button>
+    <mat-radio-button value="Internal" (change)="changed($event);" [checked]="organization.type == 'Internal'">Internal</mat-radio-button>
+  </mat-radio-group>
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button [mat-dialog-close]="false">Cancel</button>

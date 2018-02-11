@@ -13,10 +13,11 @@ import {EditOrganizationDialogComponent} from "./edit-organization-dialog/edit-o
   styleUrls: ['./organization-management.component.scss']
 })
 export class OrganizationManagementComponent implements OnInit {
-  organizations: Array<IOrganizationVm> = [];
+  organizations: Array<IOrganizationVm>;
 
   constructor(private organizationService: OrganizationService,
               private matDialog: MatDialog) {
+    this.organizations = [];
   }
 
   ngOnInit(): void {

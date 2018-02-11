@@ -5,7 +5,7 @@ import {environment} from '../environments/environment';
 import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatCardModule, MatCheckboxModule, MatDialogModule, MatExpansionModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatSliderModule, MatSnackBarModule} from '@angular/material';
+import {MatButtonModule, MatCardModule, MatCheckboxModule, MatDialogModule, MatExpansionModule, MatFormFieldModule, MatInputModule, MatRadioButton, MatRadioModule, MatSelectModule, MatSliderModule, MatSnackBarModule} from '@angular/material';
 import {LoginComponent} from './login/login.component';
 import {EntryComponent} from './entry/entry.component';
 import {ReviewComponent} from './review/review.component';
@@ -29,6 +29,9 @@ import {EditFarmDialogComponent} from './farm-management/edit-farm-dialog/edit-f
 import {EditOrganizationDialogComponent} from './organization-management/edit-organization-dialog/edit-organization-dialog.component';
 import {ConfirmDeleteOrganizationDialogComponent} from './organization-management/confirm-delete-organization-dialog/confirm-delete-organization-dialog.component';
 import {CreateOrganizationDialogComponent} from './organization-management/create-organization-dialog/create-organization-dialog.component';
+import { CreateUserDialogComponent } from './user-management/create-user-dialog/create-user-dialog.component';
+import { ConfirmDeleteUserDialogComponent } from './user-management/confirm-delete-user-dialog/confirm-delete-user-dialog.component';
+import { EditUserDialogComponent } from './user-management/edit-user-dialog/edit-user-dialog.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +54,9 @@ import {CreateOrganizationDialogComponent} from './organization-management/creat
     EditOrganizationDialogComponent,
     ConfirmDeleteOrganizationDialogComponent,
     CreateOrganizationDialogComponent,
+    CreateUserDialogComponent,
+    ConfirmDeleteUserDialogComponent,
+    EditUserDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -81,7 +87,8 @@ import {CreateOrganizationDialogComponent} from './organization-management/creat
     MatDialogModule,
     MatFormFieldModule,
     MatSnackBarModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatRadioModule
   ],
   providers: [
     AuthGuard,
@@ -95,7 +102,10 @@ import {CreateOrganizationDialogComponent} from './organization-management/creat
     EditFarmDialogComponent,
     CreateOrganizationDialogComponent,
     ConfirmDeleteOrganizationDialogComponent,
-    EditOrganizationDialogComponent
+    EditOrganizationDialogComponent,
+    CreateUserDialogComponent,
+    ConfirmDeleteUserDialogComponent,
+    EditUserDialogComponent
   ]
 })
 export class AppModule {
