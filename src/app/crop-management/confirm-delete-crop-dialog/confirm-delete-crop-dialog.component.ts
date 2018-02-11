@@ -8,7 +8,7 @@ import {MAT_DIALOG_DATA} from "@angular/material";
   styleUrls: ['./confirm-delete-crop-dialog.component.scss']
 })
 export class ConfirmDeleteCropDialogComponent implements OnInit {
-  constructor(@Inject(MAT_DIALOG_DATA) private crop: ICropVm) {
+  constructor(@Inject(MAT_DIALOG_DATA) public crop: ICropVm) {
   }
 
   ngOnInit(): void {

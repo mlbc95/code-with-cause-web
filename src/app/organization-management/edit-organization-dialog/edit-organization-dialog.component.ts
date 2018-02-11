@@ -8,7 +8,7 @@ import {MAT_DIALOG_DATA} from "@angular/material";
   styleUrls: ['./edit-organization-dialog.component.scss']
 })
 export class EditOrganizationDialogComponent implements OnInit {
-  constructor(@Inject(MAT_DIALOG_DATA) private organization: INewOrganizationParams) {
+  constructor(@Inject(MAT_DIALOG_DATA) public organization: INewOrganizationParams) {
   }
 
   ngOnInit(): void {

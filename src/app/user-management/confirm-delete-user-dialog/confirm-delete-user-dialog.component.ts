@@ -8,7 +8,7 @@ import {MAT_DIALOG_DATA} from "@angular/material";
   styleUrls: ['./confirm-delete-user-dialog.component.scss']
 })
 export class ConfirmDeleteUserDialogComponent implements OnInit {
-  constructor(@Inject(MAT_DIALOG_DATA) private user: IUserVm) {
+  constructor(@Inject(MAT_DIALOG_DATA) public user: IUserVm) {
   }
 
   ngOnInit(): void {

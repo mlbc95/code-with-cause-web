@@ -8,7 +8,7 @@ import {MAT_DIALOG_DATA} from "@angular/material";
   styleUrls: ['./confirm-delete-farm-dialog.component.scss']
 })
 export class ConfirmDeleteFarmDialogComponent implements OnInit {
-  constructor(@Inject(MAT_DIALOG_DATA) private farm: IFarmVm) {
+  constructor(@Inject(MAT_DIALOG_DATA) public farm: IFarmVm) {
   }
 
   ngOnInit(): void {

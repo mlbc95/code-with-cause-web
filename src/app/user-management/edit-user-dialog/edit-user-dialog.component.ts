@@ -8,7 +8,7 @@ import {MAT_DIALOG_DATA} from "@angular/material";
   styleUrls: ['./edit-user-dialog.component.scss']
 })
 export class EditUserDialogComponent implements OnInit {
-  constructor(@Inject(MAT_DIALOG_DATA) private user: INewUserParams) {
+  constructor(@Inject(MAT_DIALOG_DATA) public user: INewUserParams) {
   }
 
   ngOnInit(): void {

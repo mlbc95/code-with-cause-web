@@ -8,7 +8,7 @@ import {IOrganizationVm} from "../../swagger-api/model/iOrganizationVm";
   styleUrls: ['./confirm-delete-organization-dialog.component.scss']
 })
 export class ConfirmDeleteOrganizationDialogComponent implements OnInit {
-  constructor(@Inject(MAT_DIALOG_DATA) private organization: IOrganizationVm) {
+  constructor(@Inject(MAT_DIALOG_DATA) public organization: IOrganizationVm) {
   }
 
   ngOnInit() {
