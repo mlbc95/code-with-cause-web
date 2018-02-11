@@ -20,8 +20,7 @@ import {AdminGuard} from './guards/admin.guard';
 import {AuthenticationService} from './services/authentication.service';
 import {
   MatButtonModule, MatCardModule, MatDialogModule, MatExpansionModule, MatFormFieldModule, MatInputModule,
-  MatSelectModule,
-  MatSliderModule, MatSnackBarModule
+  MatSelectModule, MatSliderModule, MatSnackBarModule, MatChipsModule, MatIconModule
 } from '@angular/material';
 import {UserManagementComponent} from './user-management/user-management.component';
 import {CropManagementComponent} from './crop-management/crop-management.component';
@@ -29,8 +28,11 @@ import {FarmManagementComponent} from './farm-management/farm-management.compone
 import {RecipientManagementComponent} from './recipient-management/recipient-management.component';
 import {HarvestEditComponent} from './harvest-edit/harvest-edit.component';
 import {CreateFarmDialogComponent} from './farm-management/create-farm-dialog/create-farm-dialog.component';
-import { ConfirmDeleteFarmDialogComponent } from './farm-management/confirm-delete-farm-dialog/confirm-delete-farm-dialog.component';
-import { EditFarmDialogComponent } from './farm-management/edit-farm-dialog/edit-farm-dialog.component';
+import {ConfirmDeleteFarmDialogComponent} from './farm-management/confirm-delete-farm-dialog/confirm-delete-farm-dialog.component';
+import {EditFarmDialogComponent} from './farm-management/edit-farm-dialog/edit-farm-dialog.component';
+import {CreateCropDialogComponent} from './crop-management/create-crop-dialog/create-crop-dialog.component';
+import {ConfirmDeleteCropDialogComponent} from './crop-management/confirm-delete-crop-dialog/confirm-delete-crop-dialog.component';
+import {EditCropDialogComponent} from './crop-management/edit-crop-dialog/edit-crop-dialog.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +52,9 @@ import { EditFarmDialogComponent } from './farm-management/edit-farm-dialog/edit
     CreateFarmDialogComponent,
     ConfirmDeleteFarmDialogComponent,
     EditFarmDialogComponent,
+    CreateCropDialogComponent,
+    EditCropDialogComponent,
+    ConfirmDeleteCropDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -79,7 +84,9 @@ import { EditFarmDialogComponent } from './farm-management/edit-farm-dialog/edit
     MatExpansionModule,
     MatDialogModule,
     MatFormFieldModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatChipsModule,
+    MatIconModule
   ],
   providers: [
     AuthGuard,
@@ -90,7 +97,10 @@ import { EditFarmDialogComponent } from './farm-management/edit-farm-dialog/edit
   entryComponents: [
     CreateFarmDialogComponent,
     ConfirmDeleteFarmDialogComponent,
-    EditFarmDialogComponent
+    EditFarmDialogComponent,
+    CreateCropDialogComponent,
+    ConfirmDeleteCropDialogComponent,
+    EditCropDialogComponent
   ]
 })
 export class AppModule {
