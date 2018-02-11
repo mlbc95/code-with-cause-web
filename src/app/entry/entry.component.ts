@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Crop, Entry, Farm, Harvest, Organization} from "../model";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {FarmService} from "../swagger-api/api/farm.service";
@@ -12,6 +12,9 @@ import {IHarvesterVm} from "../swagger-api/model/iHarvesterVm";
 import {INewEntryParams} from "../swagger-api/model/iNewEntryParams";
 import {INewHarvestParams} from "../swagger-api/model/iNewHarvestParams";
 import {HarvestService} from "../swagger-api/api/harvest.service";
+import {IHarvestVm} from "../swagger-api/model/iHarvestVm";
+import {IEntryVm} from "../swagger-api/model/iEntryVm";
+import {EntryService} from "../swagger-api/api/entry.service";
 
 @Component({
   selector: 'app-entry',
@@ -22,7 +25,6 @@ export class EntryComponent implements OnInit {
   today: string;
   harvestStarted: boolean;
   editMode: boolean;
-  entryIndex: number;
 
   // dropdown lists
   farms: IFarmVm[];
@@ -30,31 +32,36 @@ export class EntryComponent implements OnInit {
   crops: ICropVm[];
   harvesters: string[];
 
-  harvest: INewHarvestParams;
-  currentEntry: INewEntryParams;
+  harvest: IHarvestVm;
+  currentEntry: IEntryVm;
 
   varieties: string[];
 
-  constructor(private farmService: FarmService,
+  constructor(private entryService: EntryService,
+              private farmService: FarmService,
               private cropService: CropService,
               private harvesterService: HarvesterService,
               private organizationService: OrganizationService,
-              private harvestService: HarvestService) { }
+              private harvestService: HarvestService) {
+  }
 
   ngOnInit() {
-    let storedHarvest = JSON.parse(localStorage.getItem('harvest'));
+    let storedHarvest = JSON.parse(localStorage.getItem('harvest_id'));
     if(storedHarvest){
-      this.harvest = storedHarvest;
+      this.harvestService.getHarvestById(newHarvest).subscribe((harvest) => {
+        this.harvest = harvest;
+      });
     }
 
     this.farmService.getAll().subscribe(
       (farms: Array<IFarmVm>): void => {
         this.farms = farms;
       },
-    (error) => {
+      (error) => {
         console.error(error);
       }
     );
+
     this.cropService.getAll().subscribe(
       (crops: Array<ICropVm>): void => {
         this.crops = crops;
@@ -63,24 +70,27 @@ export class EntryComponent implements OnInit {
         console.log(error);
       }
     );
+
     this.today = new Date().toLocaleDateString();
     this.harvestStarted = false;
     this.editMode = false;
-    this.entryIndex = 0;
     this.harvest.entries = [];
-    this.currentEntry = {'crop':null, 'pounds':0, 'priceTotal':0, 'harvester':null, 'comments':'', 'recipient':null};
   }
 
-  onCropChanged(event) {
-    const cropId = event.value;
-    this.currentEntry.crop = cropId;
-    this.varieties = this.crops.filter(c => c._id === cropId)[0].variety;
-  }
-
-  startHarvest(){
-    this.harvestService.registerHarvest().subscribe((harvest) => {
-
+  startHarvest() {
+    this.harvestService.registerHarvest(this.harvest).subscribe((harvest) => {
+      this.harvest = harvest;
     });
+
+    let newEntry = {'crop': null, 'pounds': 0, 'priceTotal': 0, 'harvester': null, 'comments': '', 'recipient': null};
+    this.entryService.registerEntry(newEntry).subscribe(
+      (entry: IEntryVm): void => {
+        this.currentEntry = entry;
+      },
+      (error) => {
+        console.log(error);
+      });
+
     this.harvesterService.getAll().subscribe(
       (harvesters: Array<IHarvesterVm>): void => {
         this.harvesters = [];
@@ -102,10 +112,16 @@ export class EntryComponent implements OnInit {
       });
   }
 
-  submitEntry(){
+  submitEntry() {
     this.harvest.entries.push(this.currentEntry);
-    this.currentEntry = {'crop':null, 'pounds':0, 'priceTotal':0, 'harvester':null, 'comments':'', 'recipient':null};
-    this.entryIndex++;
+    this.currentEntry = {
+      'crop': null,
+      'pounds': 0,
+      'priceTotal': 0,
+      'harvester': null,
+      'comments': '',
+      'recipient': null
+    };
     //save whole harvest to local storage in case of browser refresh
     localStorage.setItem('harvest', JSON.stringify({
       harvest: this.harvest
@@ -113,25 +129,24 @@ export class EntryComponent implements OnInit {
     console.log(this.harvest);
   }
 
-  submitHarvest(){
+  submitHarvest() {
     this.submitEntry();
     // go to review page which shows all entries, each with an edit button
   }
 
-  sendHarvest(){
+  sendHarvest() {
 
     // clear this harvest from local storage
     localStorage.removeItem('harvest');
     this.harvestStarted = false;
   }
 
-  backAnEntry(){
-    this.entryIndex--;
+  backAnEntry() {
     this.currentEntry = this.harvest.entries[this.entryIndex];
     console.log(this.currentEntry);
   }
 
-  goToEntry(){
+  goToEntry() {
 
   }
 

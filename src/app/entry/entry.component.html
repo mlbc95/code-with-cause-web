@@ -31,7 +31,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-select placeholder="Crop" [ngModel]="currentEntry.crop" (change)="onCropChanged($event)" name="crop" #cropField="ngModel" required>
+        <mat-select placeholder="Crop" [ngModel]="currentEntry.crop" name="crop" #cropField="ngModel" required>
           <mat-option *ngFor="let crop of crops" value="{{crop._id}}">
             {{ crop.name }}
           </mat-option>
