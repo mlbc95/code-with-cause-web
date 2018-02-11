@@ -35,6 +35,15 @@ export class EntryComponent implements OnInit {
   harvest: IHarvestVm;
   currentEntry: IEntryVm;
 
+  harvester:string;
+  crop:string;
+  pound:number;
+  priceTotal:number;
+  farm:string;
+  recipent:string;
+  selectedVar:string;
+  comment:string;
+
   varieties: string[];
 
   constructor(private entryService: EntryService,
@@ -93,8 +102,13 @@ export class EntryComponent implements OnInit {
   startHarvest() {
     let newHarvest: IHarvestParams = {'farm': this.selectedFarm._id};
     this.harvestService.registerHarvest(newHarvest).subscribe((harvest) => {
+      console.log(harvest)
       this.harvest = harvest;
       this.harvest.entries = [];
+      localStorage.setItem("harvest_id",JSON.stringify({
+        harvest: this.harvest._id}
+      ));
+      this.harvestStarted= true;
     });
 
     this.harvesterService.getAll().subscribe(
