@@ -55,42 +55,31 @@ export class UserManagementComponent implements OnInit, OnDestroy {
       }
     );
 
-    dialogRef.afterClosed()
-      .mergeMap((newUser: INewUserParams) => {
-        this.loading = true;
-        return this.systemService.registerUser(newUser);
-      })
-      .mergeMap(() => {
-        return this.systemService.getAllUsers();
-      })
-      .subscribe((users: Array<IUserVm>) => {
-          this.users = users;
-          this.loading = false;
-        },
-        (error: Error) => {
-          console.error(error);
-          this.loading = false;
+    dialogRef.afterClosed().subscribe(
+      (newUser: INewUserParams): void => {
+        if (newUser) {
+          this.loading = true;
+          this.systemService.registerUser(newUser).subscribe(
+            (response: any): void => {
+              this.systemService.getAllUsers().subscribe(
+                (users: Array<IUserVm>): void => {
+                  this.users = users;
+                  this.loading = false;
+                },
+                (error: Error): void => {
+                  console.error(error);
+                  this.loading = false;
+                }
+              );
+            },
+            (error: Error): void => {
+              console.error(error);
+              this.loading = false;
+            }
+          );
         }
-      );
-
-    // dialogRef.afterClosed().subscribe(
-    //   (newUser: INewUserParams): void => {
-    //     if (newUser) {
-    //       this.systemService.registerUser(newUser).subscribe(
-    //         (response: any): void => {
-    //           this.systemService.getAllUsers().subscribe(
-    //             (users: Array<IUserVm>): void => {
-    //               this.users = users;
-    //             }
-    //           );
-    //         },
-    //         (error: Error): void => {
-    //           console.error(error);
-    //         }
-    //       );
-    //     }
-    //   }
-    // );
+      }
+    );
   }
 
   deleteUser(user: IUserVm): void {
