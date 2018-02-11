@@ -1,7 +1,7 @@
 <div class="frame">
   <div *ngIf="!harvestStarted" class="start text-center mx-auto">
     <mat-form-field class="farmField">
-      <mat-select placeholder="Select a Farm" name="farm" [(ngModel)]="harvest.farm" #farmField="ngModel" required>
+      <mat-select placeholder="Select a Farm" name="farm" [(ngModel)]="selectedFarm" #farmField="ngModel" required>
         <mat-option *ngFor="let farm of farms" [value]="farm">
           {{ farm.name }}
         </mat-option>
@@ -14,8 +14,7 @@
   </div>
   <div *ngIf="harvestStarted">
     <form #harvestForm="ngForm" id="harvestForm" (submit)="submitEntry(harvestForm)">
-      <button mat-button id="backButton"class="btn-primary" (click)="backAnEntry();">Back</button>
-      <mat-form-field class="date">
+      <mat-form-field>
         <input matInput placeholder="Date" value="{{today}}" disabled>
       </mat-form-field>
       <mat-form-field>

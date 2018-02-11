@@ -1,6 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {Crop, Entry, Farm, Harvest, Organization} from "../model";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {FarmService} from "../swagger-api/api/farm.service";
 import {IFarmVm} from "../swagger-api/model/iFarmVm";
 import {CropService} from "../swagger-api/api/crop.service";
@@ -9,12 +7,11 @@ import {OrganizationService} from "../swagger-api/api/organization.service";
 import {ICropVm} from "../swagger-api/model/iCropVm";
 import {IOrganizationVm} from "../swagger-api/model/iOrganizationVm";
 import {IHarvesterVm} from "../swagger-api/model/iHarvesterVm";
-import {INewEntryParams} from "../swagger-api/model/iNewEntryParams";
-import {INewHarvestParams} from "../swagger-api/model/iNewHarvestParams";
 import {HarvestService} from "../swagger-api/api/harvest.service";
 import {IHarvestVm} from "../swagger-api/model/iHarvestVm";
 import {IEntryVm} from "../swagger-api/model/iEntryVm";
 import {EntryService} from "../swagger-api/api/entry.service";
+import {IHarvestParams} from "../swagger-api/model/iHarvestParams";
 
 @Component({
   selector: 'app-entry',
@@ -22,6 +19,7 @@ import {EntryService} from "../swagger-api/api/entry.service";
   styleUrls: ['./entry.component.scss']
 })
 export class EntryComponent implements OnInit {
+  token: string;
   today: string;
   harvestStarted: boolean;
   editMode: boolean;
@@ -32,6 +30,7 @@ export class EntryComponent implements OnInit {
   crops: ICropVm[];
   harvesters: string[];
 
+  selectedFarm: IFarmVm;
   harvest: IHarvestVm;
   currentEntry: IEntryVm;
 
@@ -43,12 +42,14 @@ export class EntryComponent implements OnInit {
               private harvesterService: HarvesterService,
               private organizationService: OrganizationService,
               private harvestService: HarvestService) {
+    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    this.token = currentUser.token;
   }
 
   ngOnInit() {
-    let storedHarvest = JSON.parse(localStorage.getItem('harvest_id'));
-    if(storedHarvest){
-      this.harvestService.getHarvestById(newHarvest).subscribe((harvest) => {
+    let storedHarvestID = JSON.parse(localStorage.getItem('harvest_id'));
+    if(storedHarvestID){
+      this.harvestService.getHarvestById(storedHarvestID).subscribe((harvest) => {
         this.harvest = harvest;
       });
     }
@@ -74,12 +75,14 @@ export class EntryComponent implements OnInit {
     this.today = new Date().toLocaleDateString();
     this.harvestStarted = false;
     this.editMode = false;
-    this.harvest.entries = [];
   }
 
   startHarvest() {
-    this.harvestService.registerHarvest(this.harvest).subscribe((harvest) => {
+    let newHarvest: IHarvestParams = {'farm': this.selectedFarm._id};
+    this.harvestService.registerHarvest(newHarvest).subscribe((harvest) => {
       this.harvest = harvest;
+      this.harvest.entries = [];
+      this.harvestStarted = true;
     });
 
     let newEntry = {'crop': null, 'pounds': 0, 'priceTotal': 0, 'harvester': null, 'comments': '', 'recipient': null};
@@ -105,7 +108,6 @@ export class EntryComponent implements OnInit {
     this.organizationService.getAll().subscribe(
       (organizations: Array<IOrganizationVm>): void => {
         this.organizations = organizations;
-        this.harvestStarted = true;
       },
       (error) => {
         console.log(error);
@@ -114,16 +116,16 @@ export class EntryComponent implements OnInit {
 
   submitEntry() {
     this.harvest.entries.push(this.currentEntry);
-    this.currentEntry = {
-      'crop': null,
-      'pounds': 0,
-      'priceTotal': 0,
-      'harvester': null,
-      'comments': '',
-      'recipient': null
-    };
+    let newEntry = {'crop': null, 'pounds': 0, 'priceTotal': 0, 'harvester': null, 'comments': '', 'recipient': null};
+    this.entryService.registerEntry(newEntry).subscribe(
+      (entry: IEntryVm): void => {
+        this.currentEntry = entry;
+      },
+      (error) => {
+        console.log(error);
+      });
     //save whole harvest to local storage in case of browser refresh
-    localStorage.setItem('harvest', JSON.stringify({
+    localStorage.setItem('harvest_id', JSON.stringify({
       harvest: this.harvest
     }));
     console.log(this.harvest);
@@ -137,12 +139,11 @@ export class EntryComponent implements OnInit {
   sendHarvest() {
 
     // clear this harvest from local storage
-    localStorage.removeItem('harvest');
+    localStorage.removeItem('harvest_id');
     this.harvestStarted = false;
   }
 
   backAnEntry() {
-    this.currentEntry = this.harvest.entries[this.entryIndex];
     console.log(this.currentEntry);
   }
 
