@@ -4,3 +4,8 @@ button {
   height: 40px;
   margin-top: $header-height / 2 - 20;
 }
+
+#logo {
+  height: $header-height - $header-border-width;
+  width: $header-height - $header-border-width;
+}
