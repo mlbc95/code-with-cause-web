@@ -32,6 +32,7 @@ import {CreateOrganizationDialogComponent} from './organization-management/creat
 import { CreateUserDialogComponent } from './user-management/create-user-dialog/create-user-dialog.component';
 import { ConfirmDeleteUserDialogComponent } from './user-management/confirm-delete-user-dialog/confirm-delete-user-dialog.component';
 import { EditUserDialogComponent } from './user-management/edit-user-dialog/edit-user-dialog.component';
+import { PrimengImportModule } from './primeng-module';
 
 @NgModule({
   declarations: [
@@ -88,7 +89,8 @@ import { EditUserDialogComponent } from './user-management/edit-user-dialog/edit
     MatFormFieldModule,
     MatSnackBarModule,
     MatCheckboxModule,
-    MatRadioModule
+    MatRadioModule,
+    PrimengImportModule
   ],
   providers: [
     AuthGuard,

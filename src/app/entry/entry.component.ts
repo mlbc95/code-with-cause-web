@@ -13,6 +13,9 @@ import {IEntryVm} from "../swagger-api/model/iEntryVm";
 import {EntryService} from "../swagger-api/api/entry.service";
 import {IHarvestParams} from "../swagger-api/model/iHarvestParams";
 import {INewEntryParams} from "../swagger-api/model/iNewEntryParams";
+import * as _ from 'lodash';
+import {Message} from 'primeng/api';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-entry',
@@ -24,45 +27,56 @@ export class EntryComponent implements OnInit {
   today: string;
   harvestStarted: boolean;
   editMode: boolean;
+  msgs: Message[] = [];
 
   // dropdown lists
-  farms: IFarmVm[];
-  organizations: IOrganizationVm[];
-  crops: ICropVm[];
-  harvesters: string[];
+  farms: any[]=[];
+  organizations: any[]=[];
+  crops: any[]=[];
+  variety:any[]=[];
+  harvesters: any[];
+
 
   selectedFarm: IFarmVm;
   harvest: IHarvestVm;
   currentEntry: IEntryVm;
+  cropsList: ICropVm[];
 
   harvester:string;
-  crop:string;
-  pound:number;
+  cropSleceted:string;
+  pounds:number;
   priceTotal:number;
   farm:string;
   recipent:string;
   selectedVar:string;
+  selectedHarvester:string;
+  selectedOrg:string;
   comment:string;
 
+  doneLoading:boolean=false
+
   varieties: string[];
+
+  entryIdArray:any[]=[];
 
   constructor(private entryService: EntryService,
               private farmService: FarmService,
               private cropService: CropService,
               private harvesterService: HarvesterService,
               private organizationService: OrganizationService,
-              private harvestService: HarvestService) {
+              private harvestService: HarvestService,
+              private router: Router) {
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser.token;
   }
 
   ngOnInit() {
     let storedHarvestID = JSON.parse(localStorage.getItem('harvest_id'));
-    if(storedHarvestID){
-      this.harvestService.getHarvestById(storedHarvestID).subscribe((harvest) => {
-        this.harvest = harvest;
-      });
-    }
+    // if(storedHarvestID){
+    //   this.harvestService.getHarvestById(storedHarvestID).subscribe((harvest) => {
+    //     this.harvest = harvest;
+    //   });
+    //}
 
     this.farmService.getAll().subscribe(
       (farms: Array<IFarmVm>): void => {
@@ -75,10 +89,16 @@ export class EntryComponent implements OnInit {
 
     this.cropService.getAll().subscribe(
       (crops: Array<ICropVm>): void => {
-        this.crops = crops;
+        this.cropsList=crops;
+        crops.forEach(c=>{
+          this.crops.push({label:c.name,value:c._id})
+        })
+        
         console.log(this.crops);
+        this.doneLoading=true;
       },
       (error) => {
+        console.log("error")
         console.log(error);
       }
     );
@@ -103,8 +123,9 @@ export class EntryComponent implements OnInit {
     this.harvesterService.getAll().subscribe(
       (harvesters: Array<IHarvesterVm>): void => {
         this.harvesters = [];
-        harvesters.forEach((harvester) => {
-          this.harvesters.push(harvester.firstName + " " + harvester.lastName);
+        harvesters.forEach((h) => {
+          let temp = h.firstName + " " + h.lastName
+          this.harvesters.push({label:temp,value:h._id});
         });
       },
       (error) => {
@@ -113,36 +134,74 @@ export class EntryComponent implements OnInit {
     );
     this.organizationService.getAll().subscribe(
       (organizations: Array<IOrganizationVm>): void => {
-        this.organizations = organizations;
+        organizations.forEach(o=>{
+          this.organizations.push({label:o.name,value:o._id})
+        })
+        console.log(organizations)
       },
       (error) => {
         console.log(error);
       });
-
-    //this.currentEntry = {'crop': this.currentEntry.crop, 'pounds': 0, 'priceTotal': 0, 'harvester': this.currentEntry.harvester, 'comments': '', 'recipient': this.currentEntry.recipient};
 
   }
 
   submitEntry() {
-    this.harvest.entries.push(this.currentEntry);
-    let newEntry = {'crop': null, 'pounds': 0, 'priceTotal': 0, 'harvester': null, 'comments': '', 'recipient': null};
+   
+    let newEntry = {'crop': this.cropSleceted, 'pounds': this.pounds, 'priceTotal': this.priceTotal, 'harvester': this.selectedHarvester, 'comments': this.comment, 'recipient': this.recipent};
     this.entryService.registerEntry(newEntry).subscribe(
       (entry: IEntryVm): void => {
-        this.currentEntry = entry;
+        console.log(entry);
+        this.msgs = [];
+        this.msgs.push({severity:'success', summary:'Success', detail:'Entry Saved! Your saving Trees'});
+        this.entryIdArray.push(entry._id)
+        localStorage.setItem('entry_id', JSON.stringify({
+          entries:this.entryIdArray
+        }));
       },
       (error) => {
         console.log(error);
       });
-    //save whole harvest to local storage in case of browser refresh
-    localStorage.setItem('harvest_id', JSON.stringify({
-      harvest: this.harvest
-    }));
-    console.log(this.harvest);
+    
   }
 
   submitHarvest() {
-    this.submitEntry();
+   let harvestId = JSON.parse(localStorage.getItem('harvest_id'));
+   let entryId = JSON.parse(localStorage.getItem('entry_id'))
+   console.log(entryId.entries)
+   console.log(harvestId.harvest)
+
+   let harvestParams = {farm:this.selectedFarm._id,entries:entryId.entries,harvestId:harvestId.harvest}
+   console.log(harvestParams)
+   this.harvestService.registerHarvest(harvestParams)
+   .subscribe(data=>{
+   this.router.navigate([`/review-harvest/${harvestId.harvest}`])
+  },
+   (error) => {
+    console.log(error);
+  });
     // go to review page which shows all entries, each with an edit button
+  }
+  calcPrice(){
+    let pricePerPound;
+    let res = _.findIndex(this.cropsList,{_id:this.cropSleceted});
+    pricePerPound = this.cropsList[res].pricePerPound;
+    console.log(this.pounds,pricePerPound)
+    this.priceTotal = pricePerPound * this.pounds
+  }
+  filterVar(){
+ this.variety=[];
+    let cropName = _.filter(this.crops,{value:this.cropSleceted})
+   let res=_.filter(this.cropsList, {name:cropName[0].label});
+    res.forEach(v=>{
+      if(v.variety.length>1){
+        v.variety.forEach(vv =>{
+          this.variety.push({label:vv,value:vv})
+        })
+      }else{
+        this.variety.push({label:v.variety,value:v.variety})
+        
+      }
+    })
   }
 
   sendHarvest() {
