@@ -270,4 +270,54 @@ export class SystemService {
         );
     }
 
+    /**
+     * 
+     * 
+     * @param id 
+     * @param updateUserParams 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public udpateUserById(id: string, updateUserParams: INewUserParams, observe?: 'body', reportProgress?: boolean): Observable<IUserVm>;
+    public udpateUserById(id: string, updateUserParams: INewUserParams, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<IUserVm>>;
+    public udpateUserById(id: string, updateUserParams: INewUserParams, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<IUserVm>>;
+    public udpateUserById(id: string, updateUserParams: INewUserParams, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling udpateUserById.');
+        }
+        if (updateUserParams === null || updateUserParams === undefined) {
+            throw new Error('Required parameter updateUserParams was null or undefined when calling udpateUserById.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/json'
+        ];
+        let httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set("Content-Type", httpContentTypeSelected);
+        }
+
+        return this.httpClient.put<IUserVm>(`${this.basePath}/users/${encodeURIComponent(String(id))}`,
+            updateUserParams,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
 }

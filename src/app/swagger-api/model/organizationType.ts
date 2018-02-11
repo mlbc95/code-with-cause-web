@@ -9,13 +9,12 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { OrganizationType } from './organizationType';
 
 
-export interface IOrganizationVm {
-    orgType?: OrganizationType;
-    name?: string;
-    createdOn?: Date;
-    updatedOn?: Date;
-    _id?: string;
+export type OrganizationType = 'Purchased' | 'Donated' | 'Internal';
+
+export const OrganizationType = {
+    Purchased: 'Purchased' as OrganizationType,
+    Donated: 'Donated' as OrganizationType,
+    Internal: 'Internal' as OrganizationType
 }
