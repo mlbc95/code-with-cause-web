@@ -13,4 +13,8 @@ export class EditOrganizationDialogComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  changed(event: any) {
+    this.organization.orgType = event.value;
+  }
 }

@@ -93,18 +93,18 @@ export class UserManagementComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
       (updatedUser: INewUserParams): void => {
         if (updatedUser) {
-          // this.systemService.updateUser(user._id, updatedUser).subscribe(
-          //   (response: any): void => {
-          //     this.systemService.getAllUsers().subscribe(
-          //       (users: Array<IUserVm>): void => {
-          //         this.users = users;
-          //       }
-          //     );
-          //   },
-          //   (error: Error): void => {
-          //     console.error(error);
-          //   }
-          // );
+          this.systemService.udpateUserById(user._id, updatedUser).subscribe(
+            (response: any): void => {
+              this.systemService.getAllUsers().subscribe(
+                (users: Array<IUserVm>): void => {
+                  this.users = users;
+                }
+              );
+            },
+            (error: Error): void => {
+              console.error(error);
+            }
+          );
         }
       }
     );

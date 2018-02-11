@@ -64,7 +64,6 @@ export class AuthenticationService {
       this.loggedIn.next(true);
 
       this.getUsername.emit(username);
-      // console.log(this.isLoggedIn)
     });
   }
 
