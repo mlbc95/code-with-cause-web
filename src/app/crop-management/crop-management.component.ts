@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {CropService} from '../swagger-api';
 import {ICropVm} from '../swagger-api';
-import {MatDialog} from "@angular/material";
-import {CreateCropDialogComponent} from "./create-crop-dialog/create-crop-dialog.component";
+import {MatDialog} from '@angular/material';
+import {CreateCropDialogComponent} from './create-crop-dialog/create-crop-dialog.component';
 import {INewCropParams} from '../swagger-api';
-import {ConfirmDeleteCropDialogComponent} from "./confirm-delete-crop-dialog/confirm-delete-crop-dialog.component";
-import {EditCropDialogComponent} from "./edit-crop-dialog/edit-crop-dialog.component";
+import {ConfirmDeleteCropDialogComponent} from './confirm-delete-crop-dialog/confirm-delete-crop-dialog.component';
+import {EditCropDialogComponent} from './edit-crop-dialog/edit-crop-dialog.component';
 import {Configuration} from '../swagger-api';
 import {FormGroup} from '@angular/forms';
 
@@ -41,16 +41,16 @@ export class CropManagementComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(
       (cropForm: FormGroup): void => {
-        let varieties: string[] = [];
-        for (let i in cropForm.value.varieties) {
-          varieties.push(cropForm.value.varieties[i].variety);
-        }
-        let newCrop: INewCropParams = {
-          name: cropForm.value.name,
-          variety: varieties,
-          pricePerPound: cropForm.value.pricePerPound
-        };
-        if (newCrop) {
+        if (cropForm) {
+          let varieties: string[] = [];
+          for (let i in cropForm.value.varieties) {
+            varieties.push(cropForm.value.varieties[i].variety);
+          }
+          let newCrop: INewCropParams = {
+            name: cropForm.value.name,
+            variety: varieties,
+            pricePerPound: cropForm.value.pricePerPound
+          };
           this.cropService.configuration = new Configuration({
             apiKeys: {
               Authorization: this.token
@@ -113,10 +113,18 @@ export class CropManagementComponent implements OnInit {
         data: crop
       }
     );
-
     dialogRef.afterClosed().subscribe(
-      (updatedCrop: INewCropParams): void => {
-        if (updatedCrop) {
+      (cropForm: FormGroup): void => {
+        if (cropForm) {
+          let varieties: string[] = [];
+          for (let i in cropForm.value.varieties) {
+            varieties.push(cropForm.value.varieties[i].variety);
+          }
+          let updatedCrop: INewCropParams = {
+            name: cropForm.value.name,
+            variety: varieties,
+            pricePerPound: cropForm.value.pricePerPound
+          };
           this.cropService.updateCrop(crop._id, updatedCrop).subscribe(
             (response: any): void => {
               this.cropService.getAll().subscribe(
