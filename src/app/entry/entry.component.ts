@@ -147,7 +147,7 @@ export class EntryComponent implements OnInit {
 
   submitEntry() {
    
-    let newEntry = {'crop': this.cropSleceted, 'pounds': this.pounds, 'priceTotal': this.priceTotal, 'harvester': this.selectedHarvester, 'comments': this.comment, 'recipient': this.recipent};
+    let newEntry = {'crop': this.cropSleceted, 'pounds': this.pounds, 'priceTotal': this.priceTotal, 'harvester': this.selectedHarvester, 'comments': this.comment, 'recipient': this.selectedOrg};
     this.entryService.registerEntry(newEntry).subscribe(
       (entry: IEntryVm): void => {
         console.log(entry);
