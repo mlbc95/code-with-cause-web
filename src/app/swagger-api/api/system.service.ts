@@ -18,6 +18,7 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs/Observable';
 
+import { ICropVm } from '../model/iCropVm';
 import { ILoginParams } from '../model/iLoginParams';
 import { ILoginVm } from '../model/iLoginVm';
 import { INewUserParams } from '../model/iNewUserParams';
@@ -169,6 +170,43 @@ export class SystemService {
         ];
 
         return this.httpClient.get<IUserVm>(`${this.basePath}/users/${encodeURIComponent(String(username))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public importCrops(observe?: 'body', reportProgress?: boolean): Observable<Array<ICropVm>>;
+    public importCrops(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<ICropVm>>>;
+    public importCrops(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<ICropVm>>>;
+    public importCrops(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'application/json'
+        ];
+        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/json'
+        ];
+
+        return this.httpClient.get<Array<ICropVm>>(`${this.basePath}/system/importCrops`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

@@ -18,6 +18,7 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs/Observable';
 
+import { IPercentageReportResponse } from '../model/iPercentageReportResponse';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -62,9 +63,9 @@ export class ReportingService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getSalesPercentage(percentageType: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getSalesPercentage(percentageType: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getSalesPercentage(percentageType: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getSalesPercentage(percentageType: string, observe?: 'body', reportProgress?: boolean): Observable<IPercentageReportResponse>;
+    public getSalesPercentage(percentageType: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<IPercentageReportResponse>>;
+    public getSalesPercentage(percentageType: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<IPercentageReportResponse>>;
     public getSalesPercentage(percentageType: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (percentageType === null || percentageType === undefined) {
             throw new Error('Required parameter percentageType was null or undefined when calling getSalesPercentage.');
@@ -91,7 +92,7 @@ export class ReportingService {
             'application/json'
         ];
 
-        return this.httpClient.get<any>(`${this.basePath}/reports/percentage`,
+        return this.httpClient.get<IPercentageReportResponse>(`${this.basePath}/reports/percentage`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,

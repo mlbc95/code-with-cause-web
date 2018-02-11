@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit {
     this.isLoggedIn$ = this.authService.isLoggedIn;
   }
 
-  goHome(): void {
+  clicked(): void {
     this.router.navigate(["/home"])
   }
 }

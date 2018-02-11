@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {SystemService} from "../swagger-api/api/system.service";
-import {IUserVm} from "../swagger-api/model/iUserVm";
-import {INewUserParams} from "../swagger-api/model/iNewUserParams";
-import {MatDialog} from "@angular/material";
-import {EditUserDialogComponent} from "./edit-user-dialog/edit-user-dialog.component";
-import {CreateUserDialogComponent} from "./create-user-dialog/create-user-dialog.component";
-import {ConfirmDeleteUserDialogComponent} from "./confirm-delete-user-dialog/confirm-delete-user-dialog.component";
+import {SystemService} from '../swagger-api/api/system.service';
+import {IUserVm} from '../swagger-api/model/iUserVm';
+import {INewUserParams} from '../swagger-api/model/iNewUserParams';
+import {MatDialog} from '@angular/material';
+import {EditUserDialogComponent} from './edit-user-dialog/edit-user-dialog.component';
+import {CreateUserDialogComponent} from './create-user-dialog/create-user-dialog.component';
+import {ConfirmDeleteUserDialogComponent} from './confirm-delete-user-dialog/confirm-delete-user-dialog.component';
+import 'rxjs/add/operator/mergeMap';
 import {Configuration} from "../swagger-api/configuration";
 
 @Component({
@@ -43,24 +44,35 @@ export class UserManagementComponent implements OnInit {
       }
     );
 
-    dialogRef.afterClosed().subscribe(
-      (newUser: INewUserParams): void => {
-        if (newUser) {
-          this.systemService.registerUser(newUser).subscribe(
-            (response: any): void => {
-              this.systemService.getAllUsers().subscribe(
-                (users: Array<IUserVm>): void => {
-                  this.users = users;
-                }
-              );
-            },
-            (error: Error): void => {
-              console.error(error);
-            }
-          );
-        }
-      }
-    );
+    dialogRef.afterClosed()
+      .mergeMap((newUser: INewUserParams) => {
+        return this.systemService.registerUser(newUser);
+      })
+      .mergeMap(() => {
+        return this.systemService.getAllUsers();
+      })
+      .subscribe((users: Array<IUserVm>) => {
+        this.users = users;
+      });
+
+    // dialogRef.afterClosed().subscribe(
+    //   (newUser: INewUserParams): void => {
+    //     if (newUser) {
+    //       this.systemService.registerUser(newUser).subscribe(
+    //         (response: any): void => {
+    //           this.systemService.getAllUsers().subscribe(
+    //             (users: Array<IUserVm>): void => {
+    //               this.users = users;
+    //             }
+    //           );
+    //         },
+    //         (error: Error): void => {
+    //           console.error(error);
+    //         }
+    //       );
+    //     }
+    //   }
+    // );
   }
 
   deleteUser(user: IUserVm): void {
