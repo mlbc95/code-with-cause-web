@@ -9,10 +9,10 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { INewEntryParams } from './iNewEntryParams';
 
 
-export interface INewHarvestParams {
-    entries: Array<INewEntryParams>;
+export interface IHarvestParams {
     farm: string;
+    entries?: Array<string>;
+    harvestId?: string;
 }
