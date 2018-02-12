@@ -16,7 +16,7 @@ import { IFarmVm } from './iFarmVm';
 export interface IHarvestVm {
     farm: IFarmVm;
     entries: Array<IEntryVm>;
-    createdOn: Date;
-    updatedOn: Date;
+    createdOn?: Date;
+    updatedOn?: Date;
     _id?: string;
 }

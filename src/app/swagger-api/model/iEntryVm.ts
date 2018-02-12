@@ -21,8 +21,8 @@ export interface IEntryVm {
     harvester: IHarvesterVm;
     comments: string;
     recipient: IOrganizationVm;
-    createdOn: Date;
-    updatedOn: Date;
     selectedVariety: string;
+    createdOn?: Date;
+    updatedOn?: Date;
     _id?: string;
 }

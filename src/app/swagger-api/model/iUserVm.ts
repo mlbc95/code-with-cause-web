@@ -15,8 +15,8 @@ import { UserRole } from './userRole';
 export interface IUserVm {
     username?: string;
     password?: string;
+    role?: UserRole;
     createdOn?: Date;
     updatedOn?: Date;
-    role?: UserRole;
     _id?: string;
 }
