@@ -1,9 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Router } from '@angular/router';
-import { OrganizationService, HarvesterService, CropService, FarmService, EntryService, HarvestService, IEntryVm, ICropVm, IHarvesterVm, IHarvestVm } from '../swagger-api/index';
+import {ActivatedRoute, Router} from '@angular/router';
+import {
+  CropService, EntryService, FarmService, HarvesterService, HarvestService, ICropVm, IEntryVm, IHarvesterVm, IHarvestVm,
+  OrganizationService
+} from '../swagger-api/index';
 import * as _ from 'lodash';
-import {Configuration, ConfigurationParameters} from "../swagger-api/configuration";
+import {Configuration, ConfigurationParameters} from '../swagger-api/configuration';
+import {Observable} from 'rxjs/Observable';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-review',
@@ -14,19 +18,17 @@ export class ReviewComponent implements OnInit, OnDestroy {
   token: string;
   harvest: IHarvestVm;
 
-  constructor(
-    public _activatedRoute:ActivatedRoute,
-    private entryService: EntryService,
-    private farmService: FarmService,
-    private cropService: CropService,
-    private harvesterService: HarvesterService,
-    private organizationService: OrganizationService,
-    private harvestService: HarvestService,
-    private router: Router
-  ) {
-    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  constructor(public _activatedRoute: ActivatedRoute,
+              private entryService: EntryService,
+              private farmService: FarmService,
+              private cropService: CropService,
+              private harvesterService: HarvesterService,
+              private organizationService: OrganizationService,
+              private harvestService: HarvestService,
+              private router: Router) {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser.token;
-    let config: ConfigurationParameters = {
+    const config: ConfigurationParameters = {
       apiKeys: {
         Authorization: this.token
       }
@@ -39,116 +41,106 @@ export class ReviewComponent implements OnInit, OnDestroy {
     harvestService.configuration = new Configuration(config);
   }
 
-  harvestId:string;
-  entries:any[];
-  entryCrop:any[]=[];
-  entryHarvester:any[]=[];
-  crops: any[]=[];
+  harvestId: string;
+  entries: IEntryVm[];
+  entryCrop: any[] = [];
+  entryHarvester: any[] = [];
+  crops: ICropVm[] = [];
   cropsList: ICropVm[];
-  doneLoading:boolean=false;
-  variety:any[]=[];
-  priceTotal:number;
-  pounds:number;
-  cropSleceted:string;
-  harvesters: any[];
-  today:any[]=[];
+  doneLoading = false;
+  variety: any[] = [];
+  priceTotal: number;
+  pounds: number;
+  cropSleceted: string;
+  harvesters: IHarvesterVm[];
+  today: any[] = [];
 
-  harvester:string;
+  harvester: string;
 
   ngOnInit(): void {
-    this.cropService.getAll().subscribe(
-      (crops: Array<ICropVm>): void => {
-        this.cropsList=crops;
-        crops.forEach(c=>{
-          this.crops.push({label:c.name,value:c._id})
-        })
 
-      },
-      (error) => {
-        console.log("error")
-        console.log(error);
-      }
-    );
+    // Get Crops and Harvesters
+    Observable
+      .combineLatest(
+        this.cropService.getAll(),
+        this.harvesterService.getAll()
+      )
+      .subscribe((data: [ICropVm[], IHarvesterVm[]]) => {
+        const [crops, harvesters] = data;
+        this.crops = crops;
+        this.harvesters = harvesters;
+      }, (error: HttpErrorResponse) => {
+        console.log('Error', error);
+      });
 
-    this.harvesterService.getAll().subscribe(
-      (harvesters: Array<IHarvesterVm>): void => {
-        this.harvesters = [];
-        harvesters.forEach((h) => {
-          let temp = h.firstName + " " + h.lastName
-          this.harvesters.push({label:temp,value:h._id});
-        });
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-
-  this.harvestId= this._activatedRoute.snapshot.params['id'];
-  console.log(this.harvestId)
-  this.harvestService.getHarvestById(this.harvestId)
-  .subscribe(data=>{
-    this.entries = data.entries;
-    console.log(this.entries)
-    this.getEntryTime();
-    this.getEntryCrop()
-    this.getEntryHarvester()
-  });
+    this.harvestId = this._activatedRoute.snapshot.params['id'];
+    this.harvestService.getHarvestById(this.harvestId)
+      .subscribe((data: IHarvestVm) => {
+        this.entries = data.entries;
+        this.getEntryTime();
+        this.getEntryCrop();
+        this.getEntryHarvester();
+      });
   }
 
   ngOnDestroy(): void {
-    this.entryService.configuration.apiKeys["Authorization"] = null;
-    this.farmService.configuration.apiKeys["Authorization"] = null;
-    this.cropService.configuration.apiKeys["Authorization"] = null;
-    this.harvesterService.configuration.apiKeys["Authorization"] = null;
-    this.organizationService.configuration.apiKeys["Authorization"] = null;
-    this.harvestService.configuration.apiKeys["Authorization"] = null;  }
-
-  getEntryTime(){
-    this.entries.forEach(e=>{
-      this.today.push(e.createdOn)
-       })
-  }
-  getEntryCrop(){
-      this.entries.forEach(e=>{
-     let temp= _.find(this.crops,{value:e.crop})
-     this.entryCrop.push(temp)
-      })
-  }
-  getEntryHarvester(){
-    this.entries.forEach(e=>{
-      console.log('test')
-     let temp= _.find(this.harvesters,{value:e.harvester})
-     this.entryHarvester.push(temp);
-     console.log(this.entryHarvester)
-
-    })
-    console.log(this.entryHarvester)
-
-    this.doneLoading=true;
+    this.entryService.configuration.apiKeys['Authorization'] = null;
+    this.farmService.configuration.apiKeys['Authorization'] = null;
+    this.cropService.configuration.apiKeys['Authorization'] = null;
+    this.harvesterService.configuration.apiKeys['Authorization'] = null;
+    this.organizationService.configuration.apiKeys['Authorization'] = null;
+    this.harvestService.configuration.apiKeys['Authorization'] = null;
   }
 
-  calcPrice(){
-    let pricePerPound;
-    let res = _.findIndex(this.cropsList,{_id:this.cropSleceted});
-    pricePerPound = this.cropsList[res].pricePerPound;
-    console.log(this.pounds,pricePerPound)
-    this.priceTotal = pricePerPound * this.pounds
+  getEntryTime() {
+    this.entries.forEach(e => {
+      this.today.push(e.createdOn);
+    });
   }
-  filterVar(){
- this.variety=[];
-    let cropName = _.filter(this.crops,{value:this.cropSleceted})
-   let res=_.filter(this.cropsList, {name:cropName[0].label});
-    res.forEach(v=>{
-      if(v.variety.length>1){
-        v.variety.forEach(vv =>{
-          this.variety.push({label:vv,value:vv})
-        })
-      }else{
-        this.variety.push({label:v.variety,value:v.variety})
 
-      }
-    })
+  getEntryCrop() {
+    this.entries.forEach(e => {
+      const temp = _.find(this.crops, {value: e.crop});
+      this.entryCrop.push(temp);
+    });
   }
+
+  getEntryHarvester() {
+    this.entries.forEach(e => {
+      console.log('test');
+      const temp = _.find(this.harvesters, {value: e.harvester});
+      this.entryHarvester.push(temp);
+      console.log(this.entryHarvester);
+
+    });
+    console.log(this.entryHarvester);
+
+    this.doneLoading = true;
+  }
+
+  // calcPrice() {
+  //   let pricePerPound;
+  //   const res = _.findIndex(this.cropsList, {_id: this.cropSleceted});
+  //   pricePerPound = this.cropsList[res].pricePerPound;
+  //   console.log(this.pounds, pricePerPound);
+  //   this.priceTotal = pricePerPound * this.pounds;
+  // }
+  //
+  // filterVar() {
+  //   this.variety = [];
+  //   const cropName = _.filter(this.crops, {value: this.cropSleceted});
+  //   const res = _.filter(this.cropsList, {name: cropName[0].label});
+  //   res.forEach(v => {
+  //     if (v.variety.length > 1) {
+  //       v.variety.forEach(vv => {
+  //         this.variety.push({label: vv, value: vv});
+  //       });
+  //     } else {
+  //       this.variety.push({label: v.variety, value: v.variety});
+  //
+  //     }
+  //   });
+  // }
 
 
 }

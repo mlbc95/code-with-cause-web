@@ -3,7 +3,7 @@ import 'rxjs/add/operator/map';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {HttpClient} from '@angular/common/http';
 import {ILoginVm, SystemService} from '../swagger-api';
-import {MatSnackBar} from "@angular/material";
+import {MatSnackBar} from '@angular/material';
 
 @Injectable()
 export class AuthenticationService {
@@ -27,7 +27,7 @@ export class AuthenticationService {
               private systemService: SystemService,
               private snackBar: MatSnackBar) {
     // set token if saved in local storage
-    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser && currentUser.token;
 
     if (currentUser) {
@@ -41,9 +41,9 @@ export class AuthenticationService {
       password: password
     }).map((response: ILoginVm) => {
       // login successful if there's a jwt token in the response
-      let token = response && response.authToken;
-      let role = response && response.role;
-      let admin: boolean = false;
+      const token = response && response.authToken;
+      const role = response && response.role;
+      let admin = false;
       username = response && response.username;
 
       if (role === 'Admin') {
@@ -71,7 +71,7 @@ export class AuthenticationService {
 
   logout(): void {
     // clear token remove user from local storage to log user out
-    let wasLoggedIn: boolean = this.loggedIn.getValue();
+    const wasLoggedIn: boolean = this.loggedIn.getValue();
     this.loggedIn.next(false);
     this.getUsername.emit('');
     this.getAdmin.emit(false);
@@ -84,7 +84,7 @@ export class AuthenticationService {
         'OK',
         {
           duration: 2000,
-          panelClass: "snack-bar-success"
+          panelClass: 'snack-bar-success'
         }
       );
     }

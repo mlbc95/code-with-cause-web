@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
           'OK',
           {
             duration: 2000,
-            panelClass: "snack-bar-success"
+            panelClass: 'snack-bar-success'
           }
         );
         this.loading = false;
@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
             'OK',
             {
               duration: 2000,
-              panelClass: "snack-bar-danger"
+              panelClass: 'snack-bar-danger'
             }
           );
         } else {
@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
             'OK',
             {
               duration: 2000,
-              panelClass: "snack-bar-danger"
+              panelClass: 'snack-bar-danger'
             }
           );
         }

@@ -1,25 +1,14 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FarmService} from '../swagger-api/api/farm.service';
-import {IFarmVm} from '../swagger-api/model/iFarmVm';
-import {CropService} from '../swagger-api/api/crop.service';
-import {HarvesterService} from '../swagger-api/api/harvester.service';
-import {OrganizationService} from '../swagger-api/api/organization.service';
-import {ICropVm} from '../swagger-api/model/iCropVm';
-import {IOrganizationVm} from '../swagger-api/model/iOrganizationVm';
-import {IHarvesterVm} from '../swagger-api/model/iHarvesterVm';
-import {HarvestService} from '../swagger-api/api/harvest.service';
-import {IHarvestVm} from '../swagger-api/model/iHarvestVm';
-import {IEntryVm} from '../swagger-api/model/iEntryVm';
-import {EntryService} from '../swagger-api/api/entry.service';
-import {IHarvestParams} from '../swagger-api/model/iHarvestParams';
+import {
+  Configuration, ConfigurationParameters, CropService, EntryService, FarmService, HarvesterService, HarvestService, ICropVm, IEntryVm,
+  IFarmVm, IHarvesterVm, IHarvestParams, IHarvestVm, INewEntryParams, IOrganizationVm, IUserVm, OrganizationService, SystemService
+} from '../swagger-api';
 import {Message} from 'primeng/api';
 import {Router} from '@angular/router';
-import {INewEntryParams, IUserVm, SystemService} from '../swagger-api';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/combineLatest';
 import {HttpErrorResponse} from '@angular/common/http';
-import {Configuration, ConfigurationParameters} from '../swagger-api/configuration';
 
 @Component({
   selector: 'app-entry',
@@ -78,7 +67,7 @@ export class EntryComponent implements OnInit, OnDestroy {
               private fb: FormBuilder) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser.token;
-    let config: ConfigurationParameters = {
+    const config: ConfigurationParameters = {
       apiKeys: {
         Authorization: this.token
       }
@@ -137,7 +126,7 @@ export class EntryComponent implements OnInit, OnDestroy {
   }
 
   startHarvest() {
-    const newHarvest: IHarvestParams = {'farm': this.selectedFarm._id};
+    const newHarvest: IHarvestParams = {'farmId': this.selectedFarm._id};
     this.harvestService.registerHarvest(newHarvest)
       .mergeMap((harvest: IHarvestVm) => {
         this.harvest = harvest;
@@ -162,13 +151,12 @@ export class EntryComponent implements OnInit, OnDestroy {
 
   submitEntry() {
     const newEntry: INewEntryParams = {
-      crop: this.form.get('crop').value,
+      cropId: this.form.get('crop').value,
       selectedVariety: this.form.get('variety').value,
-      recipient: this.form.get('recipient').value,
+      recipientId: this.form.get('recipient').value,
       pounds: this.form.get('pounds').value,
       comments: this.form.get('comment').value,
-      harvester: this.form.get('harvester').value,
-      priceTotal: this.form.get('priceTotal').value
+      harvesterId: this.form.get('harvester').value
     };
 
     this.entryService.registerEntry(newEntry)
@@ -212,12 +200,12 @@ export class EntryComponent implements OnInit, OnDestroy {
   }
 
   submitHarvest() {
-    let harvestId = JSON.parse(localStorage.getItem('harvest_id'));
-    let entryId = JSON.parse(localStorage.getItem('entry_id'));
+    const harvestId = JSON.parse(localStorage.getItem('harvest_id'));
+    const entryId = JSON.parse(localStorage.getItem('entry_id'));
     console.log(entryId.entries);
     console.log(harvestId.harvest);
 
-    let harvestParams = {farm: this.selectedFarm._id, entries: entryId.entries, harvestId: harvestId.harvest};
+    const harvestParams = {farmId: this.selectedFarm._id, entries: entryId.entries, harvestId: harvestId.harvest};
     console.log(harvestParams);
     this.harvestService.registerHarvest(harvestParams)
       .subscribe(data => {

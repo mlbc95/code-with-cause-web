@@ -1,13 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {SystemService} from '../swagger-api/api/system.service';
-import {IUserVm} from '../swagger-api/model/iUserVm';
-import {INewUserParams} from '../swagger-api/model/iNewUserParams';
+import {Configuration, INewUserParams, IUserVm, SystemService} from '../swagger-api';
 import {MatDialog, MatSnackBar} from '@angular/material';
 import {EditUserDialogComponent} from './edit-user-dialog/edit-user-dialog.component';
 import {CreateUserDialogComponent} from './create-user-dialog/create-user-dialog.component';
 import {ConfirmDeleteUserDialogComponent} from './confirm-delete-user-dialog/confirm-delete-user-dialog.component';
 import 'rxjs/add/operator/mergeMap';
-import {Configuration} from "../swagger-api/configuration";
 
 @Component({
   selector: 'app-user-management',
@@ -22,7 +19,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
   constructor(private systemService: SystemService,
               private matDialog: MatDialog,
               private snackBar: MatSnackBar) {
-    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser.token;
     systemService.configuration = new Configuration({
       apiKeys: {
@@ -46,7 +43,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
           'OK',
           {
             duration: 2000,
-            panelClass: "snack-bar-danger"
+            panelClass: 'snack-bar-danger'
           }
         );
       }
@@ -54,11 +51,11 @@ export class UserManagementComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.systemService.configuration.apiKeys["Authorization"] = null;
+    this.systemService.configuration.apiKeys['Authorization'] = null;
   }
 
   createNewUser(): void {
-    let dialogRef = this.matDialog.open(CreateUserDialogComponent,
+    const dialogRef = this.matDialog.open(CreateUserDialogComponent,
       {
         width: '90vw'
       }
@@ -79,7 +76,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
                     'OK',
                     {
                       duration: 2000,
-                      panelClass: "snack-bar-success"
+                      panelClass: 'snack-bar-success'
                     }
                   );
                 },
@@ -91,7 +88,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
                     'OK',
                     {
                       duration: 2000,
-                      panelClass: "snack-bar-danger"
+                      panelClass: 'snack-bar-danger'
                     }
                   );
                 }
@@ -105,7 +102,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
                 'OK',
                 {
                   duration: 2000,
-                  panelClass: "snack-bar-danger"
+                  panelClass: 'snack-bar-danger'
                 }
               );
             }
@@ -116,7 +113,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
   }
 
   deleteUser(user: IUserVm): void {
-    let dialogRef = this.matDialog.open(ConfirmDeleteUserDialogComponent,
+    const dialogRef = this.matDialog.open(ConfirmDeleteUserDialogComponent,
       {
         width: '90vw',
         data: user
@@ -138,7 +135,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
                     'OK',
                     {
                       duration: 2000,
-                      panelClass: "snack-bar-success"
+                      panelClass: 'snack-bar-success'
                     }
                   );
                 },
@@ -150,7 +147,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
                     'OK',
                     {
                       duration: 2000,
-                      panelClass: "snack-bar-danger"
+                      panelClass: 'snack-bar-danger'
                     }
                   );
                 }
@@ -164,7 +161,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
                 'OK',
                 {
                   duration: 2000,
-                  panelClass: "snack-bar-danger"
+                  panelClass: 'snack-bar-danger'
                 }
               );
             }
@@ -175,7 +172,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
   }
 
   editUser(user: IUserVm): void {
-    let dialogRef = this.matDialog.open(EditUserDialogComponent,
+    const dialogRef = this.matDialog.open(EditUserDialogComponent,
       {
         width: '90vw',
         data: user
@@ -197,7 +194,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
                     'OK',
                     {
                       duration: 2000,
-                      panelClass: "snack-bar-success"
+                      panelClass: 'snack-bar-success'
                     }
                   );
                 },
@@ -209,7 +206,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
                     'OK',
                     {
                       duration: 2000,
-                      panelClass: "snack-bar-danger"
+                      panelClass: 'snack-bar-danger'
                     }
                   );
                 }
@@ -223,7 +220,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
                 'OK',
                 {
                   duration: 2000,
-                  panelClass: "snack-bar-danger"
+                  panelClass: 'snack-bar-danger'
                 }
               );
             }
