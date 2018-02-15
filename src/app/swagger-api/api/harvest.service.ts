@@ -97,53 +97,6 @@ export class HarvestService {
     /**
      * 
      * 
-     * @param date 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getByDate(date: Date, observe?: 'body', reportProgress?: boolean): Observable<Array<IHarvestVm>>;
-    public getByDate(date: Date, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<IHarvestVm>>>;
-    public getByDate(date: Date, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<IHarvestVm>>>;
-    public getByDate(date: Date, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (date === null || date === undefined) {
-            throw new Error('Required parameter date was null or undefined when calling getByDate.');
-        }
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (date !== undefined) {
-            queryParameters = queryParameters.set('date', <any>date.toISOString());
-        }
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        let consumes: string[] = [
-            'application/json'
-        ];
-
-        return this.httpClient.get<Array<IHarvestVm>>(`${this.basePath}/harvests/getQuery`,
-            {
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * 
-     * 
      * @param id 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.

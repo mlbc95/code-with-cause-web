@@ -12,7 +12,7 @@
 
 
 export interface IHarvestParams {
-    farm: string;
-    entries?: Array<string>;
+    farmId: string;
+    entriesIds?: Array<string>;
     harvestId?: string;
 }
