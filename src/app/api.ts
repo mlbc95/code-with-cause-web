@@ -19,7 +19,6 @@ import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
 
 import * as moment from 'moment';
-import {BaseClient} from './services/base-client.service';
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
@@ -43,13 +42,13 @@ export class UserClient extends BaseClient {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(newUserParams);
-
+        
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -71,7 +70,7 @@ export class UserClient extends BaseClient {
     }
 
     protected processRegisterUser(response: HttpResponse<Blob>): Observable<UserVm> {
-        const status = response.status;
+        const status = response.status; 
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
@@ -96,14 +95,14 @@ export class UserClient extends BaseClient {
         let url_ = this.baseUrl + "/users/{username}";
         if (username === undefined || username === null)
             throw new Error("The parameter 'username' must be defined.");
-        url_ = url_.replace("{username}", encodeURIComponent("" + username));
+        url_ = url_.replace("{username}", encodeURIComponent("" + username)); 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -125,7 +124,7 @@ export class UserClient extends BaseClient {
     }
 
     protected processGetUserByUsername(response: HttpResponse<Blob>): Observable<UserVm> {
-        const status = response.status;
+        const status = response.status; 
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
@@ -151,13 +150,13 @@ export class UserClient extends BaseClient {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(loginParams);
-
+        
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -179,7 +178,7 @@ export class UserClient extends BaseClient {
     }
 
     protected processLogin(response: HttpResponse<Blob>): Observable<LoginVm> {
-        const status = response.status;
+        const status = response.status; 
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
@@ -208,7 +207,7 @@ export class UserClient extends BaseClient {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -230,7 +229,7 @@ export class UserClient extends BaseClient {
     }
 
     protected processGetAllUsers(response: HttpResponse<Blob>): Observable<UserVm[]> {
-        const status = response.status;
+        const status = response.status; 
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
@@ -259,14 +258,14 @@ export class UserClient extends BaseClient {
         let url_ = this.baseUrl + "/users/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -288,7 +287,7 @@ export class UserClient extends BaseClient {
     }
 
     protected processDeleteUserById(response: HttpResponse<Blob>): Observable<UserVm> {
-        const status = response.status;
+        const status = response.status; 
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
@@ -313,17 +312,17 @@ export class UserClient extends BaseClient {
         let url_ = this.baseUrl + "/users/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(updateUserParams);
-
+        
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -345,7 +344,7 @@ export class UserClient extends BaseClient {
     }
 
     protected processUdpateUserById(response: HttpResponse<Blob>): Observable<UserVm> {
-        const status = response.status;
+        const status = response.status; 
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
@@ -384,13 +383,13 @@ export class EntryClient extends BaseClient {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(newEntryParams);
-
+        
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -412,7 +411,7 @@ export class EntryClient extends BaseClient {
     }
 
     protected processRegisterEntry(response: HttpResponse<Blob>): Observable<EntryVm> {
-        const status = response.status;
+        const status = response.status; 
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
@@ -441,7 +440,7 @@ export class EntryClient extends BaseClient {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -463,7 +462,7 @@ export class EntryClient extends BaseClient {
     }
 
     protected processGetAll(response: HttpResponse<Blob>): Observable<EntryVm[]> {
-        const status = response.status;
+        const status = response.status; 
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
@@ -492,14 +491,14 @@ export class EntryClient extends BaseClient {
         let url_ = this.baseUrl + "/entries/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -521,7 +520,7 @@ export class EntryClient extends BaseClient {
     }
 
     protected processGetSingleEntry(response: HttpResponse<Blob>): Observable<EntryVm> {
-        const status = response.status;
+        const status = response.status; 
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
@@ -546,17 +545,17 @@ export class EntryClient extends BaseClient {
         let url_ = this.baseUrl + "/entries/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(updatedEntryParams);
-
+        
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -578,7 +577,7 @@ export class EntryClient extends BaseClient {
     }
 
     protected processUpdateEntry(response: HttpResponse<Blob>): Observable<EntryVm> {
-        const status = response.status;
+        const status = response.status; 
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
@@ -603,14 +602,14 @@ export class EntryClient extends BaseClient {
         let url_ = this.baseUrl + "/entries/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -632,7 +631,7 @@ export class EntryClient extends BaseClient {
     }
 
     protected processDeleteEntry(response: HttpResponse<Blob>): Observable<EntryVm> {
-        const status = response.status;
+        const status = response.status; 
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
@@ -671,13 +670,13 @@ export class FarmClient extends BaseClient {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(newFarmParams);
-
+        
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -699,7 +698,7 @@ export class FarmClient extends BaseClient {
     }
 
     protected processRegisterFarm(response: HttpResponse<Blob>): Observable<FarmVm> {
-        const status = response.status;
+        const status = response.status; 
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
@@ -728,7 +727,7 @@ export class FarmClient extends BaseClient {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -750,7 +749,7 @@ export class FarmClient extends BaseClient {
     }
 
     protected processGetAll(response: HttpResponse<Blob>): Observable<FarmVm[]> {
-        const status = response.status;
+        const status = response.status; 
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
@@ -779,14 +778,14 @@ export class FarmClient extends BaseClient {
         let url_ = this.baseUrl + "/farms/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -808,7 +807,7 @@ export class FarmClient extends BaseClient {
     }
 
     protected processDeleteById(response: HttpResponse<Blob>): Observable<FarmVm[]> {
-        const status = response.status;
+        const status = response.status; 
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
@@ -837,17 +836,17 @@ export class FarmClient extends BaseClient {
         let url_ = this.baseUrl + "/farms/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(newFarmParams);
-
+        
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -869,7 +868,7 @@ export class FarmClient extends BaseClient {
     }
 
     protected processUpdateById(response: HttpResponse<Blob>): Observable<FarmVm> {
-        const status = response.status;
+        const status = response.status; 
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
@@ -908,13 +907,13 @@ export class CropClient extends BaseClient {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(newCropParams);
-
+        
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -936,7 +935,7 @@ export class CropClient extends BaseClient {
     }
 
     protected processRegisterCrop(response: HttpResponse<Blob>): Observable<CropVm> {
-        const status = response.status;
+        const status = response.status; 
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
@@ -965,7 +964,7 @@ export class CropClient extends BaseClient {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -987,7 +986,7 @@ export class CropClient extends BaseClient {
     }
 
     protected processGetAll(response: HttpResponse<Blob>): Observable<CropVm[]> {
-        const status = response.status;
+        const status = response.status; 
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
@@ -1016,14 +1015,14 @@ export class CropClient extends BaseClient {
         let url_ = this.baseUrl + "/crops/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -1045,7 +1044,7 @@ export class CropClient extends BaseClient {
     }
 
     protected processGetSingleCrop(response: HttpResponse<Blob>): Observable<CropVm> {
-        const status = response.status;
+        const status = response.status; 
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
@@ -1070,17 +1069,17 @@ export class CropClient extends BaseClient {
         let url_ = this.baseUrl + "/crops/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(updateCropParams);
-
+        
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -1102,7 +1101,7 @@ export class CropClient extends BaseClient {
     }
 
     protected processUpdateCrop(response: HttpResponse<Blob>): Observable<CropVm> {
-        const status = response.status;
+        const status = response.status; 
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
@@ -1127,14 +1126,14 @@ export class CropClient extends BaseClient {
         let url_ = this.baseUrl + "/crops/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -1156,7 +1155,7 @@ export class CropClient extends BaseClient {
     }
 
     protected processDeleteCrop(response: HttpResponse<Blob>): Observable<CropVm> {
-        const status = response.status;
+        const status = response.status; 
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
@@ -1195,13 +1194,13 @@ export class HarvesterClient extends BaseClient {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(newHarvesterParams);
-
+        
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -1223,7 +1222,7 @@ export class HarvesterClient extends BaseClient {
     }
 
     protected processRegisterHarvester(response: HttpResponse<Blob>): Observable<HarvesterVm> {
-        const status = response.status;
+        const status = response.status; 
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
@@ -1252,7 +1251,7 @@ export class HarvesterClient extends BaseClient {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -1274,7 +1273,7 @@ export class HarvesterClient extends BaseClient {
     }
 
     protected processGetAll(response: HttpResponse<Blob>): Observable<HarvesterVm[]> {
-        const status = response.status;
+        const status = response.status; 
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
@@ -1303,14 +1302,14 @@ export class HarvesterClient extends BaseClient {
         let url_ = this.baseUrl + "/harvesters/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -1332,7 +1331,7 @@ export class HarvesterClient extends BaseClient {
     }
 
     protected processDeleteHarvesterById(response: HttpResponse<Blob>): Observable<HarvesterVm> {
-        const status = response.status;
+        const status = response.status; 
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
@@ -1371,13 +1370,13 @@ export class OrganizationClient extends BaseClient {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(newOrganizationParams);
-
+        
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -1399,7 +1398,7 @@ export class OrganizationClient extends BaseClient {
     }
 
     protected processRegisterOrganization(response: HttpResponse<Blob>): Observable<OrganizationVm> {
-        const status = response.status;
+        const status = response.status; 
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
@@ -1428,7 +1427,7 @@ export class OrganizationClient extends BaseClient {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -1450,7 +1449,7 @@ export class OrganizationClient extends BaseClient {
     }
 
     protected processGetAll(response: HttpResponse<Blob>): Observable<OrganizationVm[]> {
-        const status = response.status;
+        const status = response.status; 
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
@@ -1479,17 +1478,17 @@ export class OrganizationClient extends BaseClient {
         let url_ = this.baseUrl + "/organization/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(newOrganizationParams);
-
+        
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -1511,7 +1510,7 @@ export class OrganizationClient extends BaseClient {
     }
 
     protected processUpdateOrganization(response: HttpResponse<Blob>): Observable<OrganizationVm> {
-        const status = response.status;
+        const status = response.status; 
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
@@ -1536,14 +1535,14 @@ export class OrganizationClient extends BaseClient {
         let url_ = this.baseUrl + "/organization/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -1565,7 +1564,7 @@ export class OrganizationClient extends BaseClient {
     }
 
     protected processDeleteOrganization(response: HttpResponse<Blob>): Observable<OrganizationVm> {
-        const status = response.status;
+        const status = response.status; 
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
@@ -1604,13 +1603,13 @@ export class HarvestClient extends BaseClient {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(harvestParams);
-
+        
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -1632,7 +1631,7 @@ export class HarvestClient extends BaseClient {
     }
 
     protected processRegisterHarvest(response: HttpResponse<Blob>): Observable<HarvestVm> {
-        const status = response.status;
+        const status = response.status; 
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
@@ -1661,7 +1660,7 @@ export class HarvestClient extends BaseClient {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -1683,7 +1682,7 @@ export class HarvestClient extends BaseClient {
     }
 
     protected processGetAll(response: HttpResponse<Blob>): Observable<HarvestVm[]> {
-        const status = response.status;
+        const status = response.status; 
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
@@ -1712,14 +1711,14 @@ export class HarvestClient extends BaseClient {
         let url_ = this.baseUrl + "/harvests/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -1741,7 +1740,7 @@ export class HarvestClient extends BaseClient {
     }
 
     protected processGetHarvestById(response: HttpResponse<Blob>): Observable<HarvestVm> {
-        const status = response.status;
+        const status = response.status; 
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
@@ -1780,14 +1779,14 @@ export class ReportingClient extends BaseClient {
         if (percentageType === undefined || percentageType === null)
             throw new Error("The parameter 'percentageType' must be defined and cannot be null.");
         else
-            url_ += "percentageType=" + encodeURIComponent("" + percentageType) + "&";
+            url_ += "percentageType=" + encodeURIComponent("" + percentageType) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -1809,7 +1808,7 @@ export class ReportingClient extends BaseClient {
     }
 
     protected processGetSalesPercentage(response: HttpResponse<Blob>): Observable<PercentageReportResponse> {
-        const status = response.status;
+        const status = response.status; 
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
@@ -1835,14 +1834,14 @@ export class ReportingClient extends BaseClient {
         if (weightOrValue === undefined || weightOrValue === null)
             throw new Error("The parameter 'weightOrValue' must be defined and cannot be null.");
         else
-            url_ += "weightOrValue=" + encodeURIComponent("" + weightOrValue) + "&";
+            url_ += "weightOrValue=" + encodeURIComponent("" + weightOrValue) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -1864,7 +1863,7 @@ export class ReportingClient extends BaseClient {
     }
 
     protected processGetTotalWeightOrValue(response: HttpResponse<Blob>): Observable<any> {
-        const status = response.status;
+        const status = response.status; 
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
@@ -1907,12 +1906,12 @@ export class SystemClient extends BaseClient {
     importCrops(): Observable<CropVm[]> {
         let url_ = this.baseUrl + "/system/importCrops";
         url_ = url_.replace(/[?&]$/, "");
-        
+
         let options_ : any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -1934,7 +1933,7 @@ export class SystemClient extends BaseClient {
     }
 
     protected processImportCrops(response: HttpResponse<Blob>): Observable<CropVm[]> {
-        const status = response.status;
+        const status = response.status; 
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
@@ -1958,8 +1957,8 @@ export class SystemClient extends BaseClient {
 }
 
 export enum UserRole {
-    Admin = <any>"Admin",
-    User = <any>"User",
+    Admin = <any>"Admin", 
+    User = <any>"User", 
 }
 
 export class UserVm implements IUserVm {
@@ -2004,7 +2003,7 @@ export class UserVm implements IUserVm {
         data["createdOn"] = this.createdOn ? this.createdOn.toISOString() : <any>null;
         data["updatedOn"] = this.updatedOn ? this.updatedOn.toISOString() : <any>null;
         data["_id"] = this._id !== undefined ? this._id : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -2050,7 +2049,7 @@ export class INewUserParams implements IINewUserParams {
         data["username"] = this.username !== undefined ? this.username : <any>null;
         data["password"] = this.password !== undefined ? this.password : <any>null;
         data["role"] = this.role !== undefined ? this.role : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -2096,7 +2095,7 @@ export class LoginVm implements ILoginVm {
         data["username"] = this.username !== undefined ? this.username : <any>null;
         data["role"] = this.role !== undefined ? this.role : <any>null;
         data["_id"] = this._id !== undefined ? this._id : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -2137,7 +2136,7 @@ export class ILoginParams implements IILoginParams {
         data = typeof data === 'object' ? data : {};
         data["username"] = this.username !== undefined ? this.username : <any>null;
         data["password"] = this.password !== undefined ? this.password : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -2196,7 +2195,7 @@ export class CropVm implements ICropVm {
         data["createdOn"] = this.createdOn ? this.createdOn.toISOString() : <any>null;
         data["updatedOn"] = this.updatedOn ? this.updatedOn.toISOString() : <any>null;
         data["_id"] = this._id !== undefined ? this._id : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -2248,7 +2247,7 @@ export class HarvesterVm implements IHarvesterVm {
         data["createdOn"] = this.createdOn ? this.createdOn.toISOString() : <any>null;
         data["updatedOn"] = this.updatedOn ? this.updatedOn.toISOString() : <any>null;
         data["_id"] = this._id !== undefined ? this._id : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -2261,9 +2260,9 @@ export interface IHarvesterVm {
 }
 
 export enum OrganizationType {
-    Purchased = <any>"Purchased",
-    Donated = <any>"Donated",
-    Internal = <any>"Internal",
+    Purchased = <any>"Purchased", 
+    Donated = <any>"Donated", 
+    Internal = <any>"Internal", 
 }
 
 export class OrganizationVm implements IOrganizationVm {
@@ -2305,7 +2304,7 @@ export class OrganizationVm implements IOrganizationVm {
         data["createdOn"] = this.createdOn ? this.createdOn.toISOString() : <any>null;
         data["updatedOn"] = this.updatedOn ? this.updatedOn.toISOString() : <any>null;
         data["_id"] = this._id !== undefined ? this._id : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -2371,7 +2370,7 @@ export class EntryVm implements IEntryVm {
         data["createdOn"] = this.createdOn ? this.createdOn.toISOString() : <any>null;
         data["updatedOn"] = this.updatedOn ? this.updatedOn.toISOString() : <any>null;
         data["_id"] = this._id !== undefined ? this._id : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -2430,7 +2429,7 @@ export class INewEntryParams implements IINewEntryParams {
         data["comments"] = this.comments !== undefined ? this.comments : <any>null;
         data["recipientId"] = this.recipientId !== undefined ? this.recipientId : <any>null;
         data["selectedVariety"] = this.selectedVariety !== undefined ? this.selectedVariety : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -2485,7 +2484,7 @@ export class FarmVm implements IFarmVm {
         data["createdOn"] = this.createdOn ? this.createdOn.toISOString() : <any>null;
         data["updatedOn"] = this.updatedOn ? this.updatedOn.toISOString() : <any>null;
         data["_id"] = this._id !== undefined ? this._id : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -2531,7 +2530,7 @@ export class INewFarmParams implements IINewFarmParams {
         data["name"] = this.name !== undefined ? this.name : <any>null;
         data["lat"] = this.lat !== undefined ? this.lat : <any>null;
         data["lng"] = this.lng !== undefined ? this.lng : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -2582,7 +2581,7 @@ export class INewCropParams implements IINewCropParams {
                 data["variety"].push(item);
         }
         data["pricePerPound"] = this.pricePerPound !== undefined ? this.pricePerPound : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -2622,7 +2621,7 @@ export class INewHarvesterParams implements IINewHarvesterParams {
         data = typeof data === 'object' ? data : {};
         data["lastName"] = this.lastName !== undefined ? this.lastName : <any>null;
         data["firstName"] = this.firstName !== undefined ? this.firstName : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -2661,7 +2660,7 @@ export class INewOrganizationParams implements IINewOrganizationParams {
         data = typeof data === 'object' ? data : {};
         data["name"] = this.name !== undefined ? this.name : <any>null;
         data["orgType"] = this.orgType !== undefined ? this.orgType : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -2717,7 +2716,7 @@ export class HarvestVm implements IHarvestVm {
         data["createdOn"] = this.createdOn ? this.createdOn.toISOString() : <any>null;
         data["updatedOn"] = this.updatedOn ? this.updatedOn.toISOString() : <any>null;
         data["_id"] = this._id !== undefined ? this._id : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -2770,7 +2769,7 @@ export class IHarvestParams implements IIHarvestParams {
                 data["entriesIds"].push(item);
         }
         data["harvestId"] = this.harvestId !== undefined ? this.harvestId : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -2813,7 +2812,7 @@ export class PercentageReportResponse implements IPercentageReportResponse {
         data["type"] = this.type !== undefined ? this.type : <any>null;
         data["createdOn"] = this.createdOn ? this.createdOn.toISOString() : <any>null;
         data["percentage"] = this.percentage !== undefined ? this.percentage : <any>null;
-        return data;
+        return data; 
     }
 }
 
@@ -2825,10 +2824,10 @@ export interface IPercentageReportResponse {
 
 export class SwaggerException extends Error {
     message: string;
-    status: number;
-    response: string;
+    status: number; 
+    response: string; 
     headers: { [key: string]: any; };
-    result: any;
+    result: any; 
 
     constructor(message: string, status: number, response: string, headers: { [key: string]: any; }, result: any) {
         super();
@@ -2860,12 +2859,12 @@ function blobToText(blob: any): Observable<string> {
             observer.next("");
             observer.complete();
         } else {
-            let reader = new FileReader();
-            reader.onload = function() {
+            let reader = new FileReader(); 
+            reader.onload = function() { 
                 observer.next(this.result);
                 observer.complete();
             }
-            reader.readAsText(blob);
+            reader.readAsText(blob); 
         }
     });
 }
