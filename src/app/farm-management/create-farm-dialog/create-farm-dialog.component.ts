@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {INewFarmParams} from "../../swagger-api/model/iNewFarmParams";
+import {INewFarmParams} from '../../api';
 
 @Component({
   selector: 'app-create-farm-dialog',
@@ -13,6 +13,6 @@ export class CreateFarmDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.farm = {name: "", lat: 0, lng: 0};
+    this.farm = new INewFarmParams({name: '', lat: 0, lng: 0});
   }
 }

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {INewCropParams} from '../../swagger-api';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {INewCropParams} from '../../api';
 
 @Component({
   selector: 'app-create-crop-dialog',
@@ -21,21 +21,21 @@ export class CreateCropDialogComponent implements OnInit {
       pricePerPound: [0, Validators.required]
     });
 
-    this.crop = {
+    this.crop = new INewCropParams({
       name: this.cropForm.value.name,
       variety: this.cropForm.value.varieties,
       pricePerPound: this.cropForm.value.pricePerPound
-    };
+    });
   }
 
   getVarieties(cropForm) {
-    return cropForm.get('varieties').controls
+    return cropForm.get('varieties').controls;
   }
 
   createVariety(): FormGroup {
     return this.formBuilder.group({
       variety: ['', Validators.required]
-    })
+    });
   }
 
   addVariety(): void {

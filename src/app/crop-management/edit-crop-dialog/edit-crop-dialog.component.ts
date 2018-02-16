@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {ICropVm} from '../../swagger-api';
-import {MAT_DIALOG_DATA} from "@angular/material";
+import {MAT_DIALOG_DATA} from '@angular/material';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {CropVm} from '../../api';
 
 @Component({
   selector: 'app-edit-crop-dialog',
@@ -10,9 +10,10 @@ import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 })
 export class EditCropDialogComponent implements OnInit {
   cropForm: FormGroup;
+
   // crop: INewCropParams;
 
-  constructor(@Inject(MAT_DIALOG_DATA) private crop: ICropVm,
+  constructor(@Inject(MAT_DIALOG_DATA) private crop: CropVm,
               private formBuilder: FormBuilder) {
   }
 
@@ -25,11 +26,11 @@ export class EditCropDialogComponent implements OnInit {
   }
 
   getVarieties(cropForm) {
-    return cropForm.get('varieties').controls
+    return cropForm.get('varieties').controls;
   }
 
   initVariety() {
-    let arr: any[] = [];
+    const arr: any[] = [];
     this.crop.variety.forEach((variety: string) => {
       arr.push(this.formBuilder.group({
         variety: [variety, Validators.required]
@@ -41,7 +42,7 @@ export class EditCropDialogComponent implements OnInit {
   createVariety(): FormGroup {
     return this.formBuilder.group({
       variety: ['', Validators.required]
-    })
+    });
   }
 
   addVariety(): void {

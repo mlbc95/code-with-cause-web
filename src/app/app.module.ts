@@ -1,13 +1,11 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import {ApiModule, Configuration} from './swagger-api';
-import {environment} from '../environments/environment';
 import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
-  MatButtonModule, MatCardModule, MatCheckboxModule, MatChipsModule, MatDialogModule, MatExpansionModule, MatFormFieldModule, MatIconModule,
-  MatInputModule, MatRadioButton, MatRadioModule, MatSelectModule, MatSliderModule, MatSnackBarModule
+  MatButtonModule, MatCardModule, MatCheckboxModule, MatChipsModule, MatDialogModule, MatExpansionModule, MatFormFieldModule,
+  MatIconModule, MatInputModule, MatRadioModule, MatSelectModule, MatSliderModule, MatSnackBarModule
 } from '@angular/material';
 import {LoginComponent} from './login/login.component';
 import {EntryComponent} from './entry/entry.component';
@@ -40,8 +38,14 @@ import {ConfirmDeleteCropDialogComponent} from './crop-management/confirm-delete
 import {CreateCropDialogComponent} from './crop-management/create-crop-dialog/create-crop-dialog.component';
 import {EditCropDialogComponent} from './crop-management/edit-crop-dialog/edit-crop-dialog.component';
 import {ReportingComponent} from './reporting/reporting.component';
-import { PrimengImportModule } from './primeng-module';
-import {ProgressSpinnerModule} from "primeng/primeng";
+import {PrimengImportModule} from './primeng-module';
+import {ProgressSpinnerModule} from 'primeng/primeng';
+import {
+  API_BASE_URL, CropClient, EntryClient, FarmClient, HarvestClient, HarvesterClient, OrganizationClient, ReportingClient,
+  SystemClient, UserClient
+} from './api';
+import {environment} from '../environments/environment';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -83,7 +87,6 @@ import {ProgressSpinnerModule} from "primeng/primeng";
     ReactiveFormsModule,
     FormsModule,
     ReactiveFormsModule,
-    ApiModule.forRoot(apiConfiguration),
     MatButtonModule,
     MatSelectModule,
     ReactiveFormsModule,
@@ -110,9 +113,19 @@ import {ProgressSpinnerModule} from "primeng/primeng";
     ProgressSpinnerModule
   ],
   providers: [
+    {provide: API_BASE_URL, useFactory: baseUrl},
     AuthGuard,
     AdminGuard,
-    AuthenticationService
+    AuthenticationService,
+    UserClient,
+    CropClient,
+    FarmClient,
+    OrganizationClient,
+    HarvesterClient,
+    HarvestClient,
+    EntryClient,
+    SystemClient,
+    ReportingClient
   ],
   bootstrap: [AppComponent],
   entryComponents: [
@@ -135,14 +148,18 @@ import {ProgressSpinnerModule} from "primeng/primeng";
 export class AppModule {
 }
 
-export function apiConfiguration(): Configuration {
-  if (environment.production) {
-    return new Configuration({
-      basePath: 'https://codewithcause.herokuapp.com/api'
-    });
-  } else {
-    return new Configuration({
-      basePath: 'http://localhost:8080/api'
-    });
-  }
+// export function apiConfiguration(): Configuration {
+//   if (environment.production) {
+//     return new Configuration({
+//       basePath: 'https://codewithcause.herokuapp.com/api'
+//     });
+//   } else {
+//     return new Configuration({
+//       basePath: 'http://localhost:8080/api'
+//     });
+//   }
+// }
+
+export function baseUrl(): string {
+  return environment.production ? window.location.origin + '/api' : 'http://localhost:8080/api';
 }

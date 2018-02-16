@@ -1,12 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FarmService} from "../swagger-api/api/farm.service";
-import {IFarmVm} from "../swagger-api/model/iFarmVm";
-import {MatDialog, MatSnackBar} from "@angular/material";
-import {CreateFarmDialogComponent} from "./create-farm-dialog/create-farm-dialog.component";
-import {INewFarmParams} from "../swagger-api/model/iNewFarmParams";
-import {ConfirmDeleteFarmDialogComponent} from "./confirm-delete-farm-dialog/confirm-delete-farm-dialog.component";
-import {EditFarmDialogComponent} from "./edit-farm-dialog/edit-farm-dialog.component";
-import {Configuration} from "../swagger-api/configuration";
+import {MatDialog, MatSnackBar} from '@angular/material';
+import {CreateFarmDialogComponent} from './create-farm-dialog/create-farm-dialog.component';
+import {ConfirmDeleteFarmDialogComponent} from './confirm-delete-farm-dialog/confirm-delete-farm-dialog.component';
+import {EditFarmDialogComponent} from './edit-farm-dialog/edit-farm-dialog.component';
+import {FarmClient, FarmVm, INewFarmParams} from '../api';
 
 @Component({
   selector: 'app-farm-management',
@@ -15,19 +12,14 @@ import {Configuration} from "../swagger-api/configuration";
 })
 export class FarmManagementComponent implements OnInit, OnDestroy {
   token: string;
-  farms: Array<IFarmVm>;
+  farms: Array<FarmVm>;
   loading: boolean;
 
-  constructor(private farmService: FarmService,
+  constructor(private farmService: FarmClient,
               private matDialog: MatDialog,
               private snackBar: MatSnackBar) {
-    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser.token;
-    this.farmService.configuration = new Configuration({
-      apiKeys: {
-        Authorization: this.token
-      }
-    });
 
     this.farms = [];
   }
@@ -35,7 +27,7 @@ export class FarmManagementComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loading = true;
     this.farmService.getAll().subscribe(
-      (farms: Array<IFarmVm>): void => {
+      (farms: Array<FarmVm>): void => {
         this.farms = farms;
         this.loading = false;
       },
@@ -47,7 +39,7 @@ export class FarmManagementComponent implements OnInit, OnDestroy {
           'OK',
           {
             duration: 2000,
-            panelClass: "snack-bar-danger"
+            panelClass: 'snack-bar-danger'
           }
         );
       }
@@ -55,11 +47,11 @@ export class FarmManagementComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.farmService.configuration.apiKeys["Authorization"] = null;
+    // this.farmService.configuration.apiKeys['Authorization'] = null;
   }
 
   createNewFarm(): void {
-    let dialogRef = this.matDialog.open(CreateFarmDialogComponent,
+    const dialogRef = this.matDialog.open(CreateFarmDialogComponent,
       {
         width: '90vw'
       }
@@ -72,7 +64,7 @@ export class FarmManagementComponent implements OnInit, OnDestroy {
           this.farmService.registerFarm(newFarm).subscribe(
             (response: any): void => {
               this.farmService.getAll().subscribe(
-                (farms: Array<IFarmVm>): void => {
+                (farms: Array<FarmVm>): void => {
                   this.farms = farms;
                   this.loading = false;
                   this.snackBar.open(
@@ -80,7 +72,7 @@ export class FarmManagementComponent implements OnInit, OnDestroy {
                     'OK',
                     {
                       duration: 2000,
-                      panelClass: "snack-bar-success"
+                      panelClass: 'snack-bar-success'
                     }
                   );
                 },
@@ -92,7 +84,7 @@ export class FarmManagementComponent implements OnInit, OnDestroy {
                     'OK',
                     {
                       duration: 2000,
-                      panelClass: "snack-bar-danger"
+                      panelClass: 'snack-bar-danger'
                     }
                   );
                 }
@@ -106,7 +98,7 @@ export class FarmManagementComponent implements OnInit, OnDestroy {
                 'OK',
                 {
                   duration: 2000,
-                  panelClass: "snack-bar-danger"
+                  panelClass: 'snack-bar-danger'
                 }
               );
             }
@@ -116,8 +108,8 @@ export class FarmManagementComponent implements OnInit, OnDestroy {
     );
   }
 
-  deleteFarm(farm: IFarmVm): void {
-    let dialogRef = this.matDialog.open(ConfirmDeleteFarmDialogComponent,
+  deleteFarm(farm: FarmVm): void {
+    const dialogRef = this.matDialog.open(ConfirmDeleteFarmDialogComponent,
       {
         width: '90vw',
         data: farm
@@ -131,7 +123,7 @@ export class FarmManagementComponent implements OnInit, OnDestroy {
           this.farmService.deleteById(farm._id).subscribe(
             (response: any): void => {
               this.farmService.getAll().subscribe(
-                (farms: Array<IFarmVm>): void => {
+                (farms: Array<FarmVm>): void => {
                   this.farms = farms;
                   this.loading = false;
                   this.snackBar.open(
@@ -139,7 +131,7 @@ export class FarmManagementComponent implements OnInit, OnDestroy {
                     'OK',
                     {
                       duration: 2000,
-                      panelClass: "snack-bar-success"
+                      panelClass: 'snack-bar-success'
                     }
                   );
                 },
@@ -151,7 +143,7 @@ export class FarmManagementComponent implements OnInit, OnDestroy {
                     'OK',
                     {
                       duration: 2000,
-                      panelClass: "snack-bar-danger"
+                      panelClass: 'snack-bar-danger'
                     }
                   );
                 }
@@ -165,7 +157,7 @@ export class FarmManagementComponent implements OnInit, OnDestroy {
                 'OK',
                 {
                   duration: 2000,
-                  panelClass: "snack-bar-danger"
+                  panelClass: 'snack-bar-danger'
                 }
               );
             }
@@ -175,8 +167,8 @@ export class FarmManagementComponent implements OnInit, OnDestroy {
     );
   }
 
-  editFarm(farm: IFarmVm): void {
-    let dialogRef = this.matDialog.open(EditFarmDialogComponent,
+  editFarm(farm: FarmVm): void {
+    const dialogRef = this.matDialog.open(EditFarmDialogComponent,
       {
         width: '90vw',
         data: farm
@@ -190,7 +182,7 @@ export class FarmManagementComponent implements OnInit, OnDestroy {
           this.farmService.updateById(farm._id, updatedFarm).subscribe(
             (response: any): void => {
               this.farmService.getAll().subscribe(
-                (farms: Array<IFarmVm>): void => {
+                (farms: Array<FarmVm>): void => {
                   this.farms = farms;
                   this.loading = false;
                   this.snackBar.open(
@@ -198,7 +190,7 @@ export class FarmManagementComponent implements OnInit, OnDestroy {
                     'OK',
                     {
                       duration: 2000,
-                      panelClass: "snack-bar-success"
+                      panelClass: 'snack-bar-success'
                     }
                   );
                 },
@@ -210,7 +202,7 @@ export class FarmManagementComponent implements OnInit, OnDestroy {
                     'OK',
                     {
                       duration: 2000,
-                      panelClass: "snack-bar-danger"
+                      panelClass: 'snack-bar-danger'
                     }
                   );
                 }
@@ -224,7 +216,7 @@ export class FarmManagementComponent implements OnInit, OnDestroy {
                 'OK',
                 {
                   duration: 2000,
-                  panelClass: "snack-bar-danger"
+                  panelClass: 'snack-bar-danger'
                 }
               );
             }

@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {IFarmVm} from '../../swagger-api';
-import {MAT_DIALOG_DATA} from "@angular/material";
+import {MAT_DIALOG_DATA} from '@angular/material';
+import {FarmVm} from '../../api';
 
 @Component({
   selector: 'app-confirm-delete-farm-dialog',
@@ -8,7 +8,7 @@ import {MAT_DIALOG_DATA} from "@angular/material";
   styleUrls: ['./confirm-delete-farm-dialog.component.scss']
 })
 export class ConfirmDeleteFarmDialogComponent implements OnInit {
-  constructor(@Inject(MAT_DIALOG_DATA) public farm: IFarmVm) {
+  constructor(@Inject(MAT_DIALOG_DATA) public farm: FarmVm) {
   }
 
   ngOnInit(): void {

@@ -1,6 +1,7 @@
 import {AfterViewInit, Component, HostListener, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
-import {AuthenticationService} from "../services/authentication.service";
+import {Router} from '@angular/router';
+import {AuthenticationService} from '../services/authentication.service';
+import {CropVm, SystemClient} from '../api';
 
 @Component({
   selector: 'app-home',
@@ -12,8 +13,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
   isAdmin: boolean;
 
   constructor(private router: Router,
-              private authenticationService: AuthenticationService) {
-    let currentUser: any = JSON.parse(localStorage.getItem("currentUser"));
+              private authenticationService: AuthenticationService,
+              private systemClient: SystemClient) {
+    const currentUser: any = JSON.parse(localStorage.getItem('currentUser'));
     this.isAdmin = currentUser.admin;
   }
 
@@ -31,5 +33,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
   @HostListener('window:resize', ['$event'])
   resize(event: any) {
     this.windowWidth = window.innerWidth;
+  }
+
+  importClick() {
+    this.systemClient.importCrops()
+      .subscribe((crops: CropVm[]) => {
+        console.log(crops);
+      }, (error: any) => {
+        console.log(error);
+      });
   }
 }

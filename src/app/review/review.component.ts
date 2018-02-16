@@ -1,13 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {
-  CropService, EntryService, FarmService, HarvesterService, HarvestService, ICropVm, IEntryVm, IHarvesterVm, IHarvestVm,
-  OrganizationService
-} from '../swagger-api/index';
 import * as _ from 'lodash';
-import {Configuration, ConfigurationParameters} from '../swagger-api/configuration';
 import {Observable} from 'rxjs/Observable';
 import {HttpErrorResponse} from '@angular/common/http';
+import {
+  CropClient, CropVm, EntryClient, EntryVm, FarmClient, HarvestClient, HarvesterClient, HarvesterVm, HarvestVm,
+  OrganizationClient
+} from '../api';
 
 @Component({
   selector: 'app-review',
@@ -16,43 +15,43 @@ import {HttpErrorResponse} from '@angular/common/http';
 })
 export class ReviewComponent implements OnInit, OnDestroy {
   token: string;
-  harvest: IHarvestVm;
+  harvest: HarvestVm;
 
   constructor(public _activatedRoute: ActivatedRoute,
-              private entryService: EntryService,
-              private farmService: FarmService,
-              private cropService: CropService,
-              private harvesterService: HarvesterService,
-              private organizationService: OrganizationService,
-              private harvestService: HarvestService,
+              private entryService: EntryClient,
+              private farmService: FarmClient,
+              private cropService: CropClient,
+              private harvesterService: HarvesterClient,
+              private organizationService: OrganizationClient,
+              private harvestService: HarvestClient,
               private router: Router) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser.token;
-    const config: ConfigurationParameters = {
-      apiKeys: {
-        Authorization: this.token
-      }
-    };
-    entryService.configuration = new Configuration(config);
-    farmService.configuration = new Configuration(config);
-    cropService.configuration = new Configuration(config);
-    harvesterService.configuration = new Configuration(config);
-    organizationService.configuration = new Configuration(config);
-    harvestService.configuration = new Configuration(config);
+    // const config: ConfigurationParameters = {
+    //   apiKeys: {
+    //     Authorization: this.token
+    //   }
+    // };
+    // entryService.configuration = new Configuration(config);
+    // farmService.configuration = new Configuration(config);
+    // cropService.configuration = new Configuration(config);
+    // harvesterService.configuration = new Configuration(config);
+    // organizationService.configuration = new Configuration(config);
+    // harvestService.configuration = new Configuration(config);
   }
 
   harvestId: string;
-  entries: IEntryVm[];
+  entries: EntryVm[];
   entryCrop: any[] = [];
   entryHarvester: any[] = [];
-  crops: ICropVm[] = [];
-  cropsList: ICropVm[];
+  crops: CropVm[] = [];
+  cropsList: CropVm[];
   doneLoading = false;
   variety: any[] = [];
   priceTotal: number;
   pounds: number;
   cropSleceted: string;
-  harvesters: IHarvesterVm[];
+  harvesters: HarvesterVm[];
   today: any[] = [];
 
   harvester: string;
@@ -65,7 +64,7 @@ export class ReviewComponent implements OnInit, OnDestroy {
         this.cropService.getAll(),
         this.harvesterService.getAll()
       )
-      .subscribe((data: [ICropVm[], IHarvesterVm[]]) => {
+      .subscribe((data: [CropVm[], HarvesterVm[]]) => {
         const [crops, harvesters] = data;
         this.crops = crops;
         this.harvesters = harvesters;
@@ -75,7 +74,7 @@ export class ReviewComponent implements OnInit, OnDestroy {
 
     this.harvestId = this._activatedRoute.snapshot.params['id'];
     this.harvestService.getHarvestById(this.harvestId)
-      .subscribe((data: IHarvestVm) => {
+      .subscribe((data: HarvestVm) => {
         this.entries = data.entries;
         this.getEntryTime();
         this.getEntryCrop();
@@ -84,12 +83,12 @@ export class ReviewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.entryService.configuration.apiKeys['Authorization'] = null;
-    this.farmService.configuration.apiKeys['Authorization'] = null;
-    this.cropService.configuration.apiKeys['Authorization'] = null;
-    this.harvesterService.configuration.apiKeys['Authorization'] = null;
-    this.organizationService.configuration.apiKeys['Authorization'] = null;
-    this.harvestService.configuration.apiKeys['Authorization'] = null;
+    // this.entryService.configuration.apiKeys['Authorization'] = null;
+    // this.farmService.configuration.apiKeys['Authorization'] = null;
+    // this.cropService.configuration.apiKeys['Authorization'] = null;
+    // this.harvesterService.configuration.apiKeys['Authorization'] = null;
+    // this.organizationService.configuration.apiKeys['Authorization'] = null;
+    // this.harvestService.configuration.apiKeys['Authorization'] = null;
   }
 
   getEntryTime() {

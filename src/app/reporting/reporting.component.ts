@@ -1,9 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material';
 import {GenerateReportDialogComponent} from './generate-report-dialog/generate-report-dialog.component';
-import {ReportingService} from '../swagger-api/api/reporting.service';
-import {Configuration} from '../swagger-api/configuration';
 import 'rxjs/add/operator/filter';
+import {ReportingClient} from '../api';
 
 @Component({
   selector: 'app-reporting',
@@ -14,21 +13,21 @@ export class ReportingComponent implements OnInit, OnDestroy {
   token: string;
 
   constructor(private matDialog: MatDialog,
-              private reportingService: ReportingService) {
+              private reportingService: ReportingClient) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser.token;
-    reportingService.configuration = new Configuration({
-      apiKeys: {
-        Authorization: this.token
-      }
-    });
+    // reportingService.configuration = new Configuration({
+    //   apiKeys: {
+    //     Authorization: this.token
+    //   }
+    // });
   }
 
   ngOnInit(): void {
   }
 
   ngOnDestroy(): void {
-    this.reportingService.configuration.apiKeys['Authorization'] = null;
+    // this.reportingService.configuration.apiKeys['Authorization'] = null;
   }
 
   generateNewReport(): void {

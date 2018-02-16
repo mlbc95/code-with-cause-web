@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {INewOrganizationParams} from "../../swagger-api/model/iNewOrganizationParams";
-import {MAT_DIALOG_DATA} from "@angular/material";
+import {MAT_DIALOG_DATA} from '@angular/material';
+import {INewOrganizationParams} from '../../api';
 
 @Component({
   selector: 'app-edit-organization-dialog',
@@ -15,6 +15,6 @@ export class EditOrganizationDialogComponent implements OnInit {
   }
 
   changed(event: any) {
-    this.organization.orgType = event.value;
+    // this.organization.orgType = event.value;
   }
 }

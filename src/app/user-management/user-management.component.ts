@@ -1,10 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Configuration, INewUserParams, IUserVm, SystemService} from '../swagger-api';
 import {MatDialog, MatSnackBar} from '@angular/material';
 import {EditUserDialogComponent} from './edit-user-dialog/edit-user-dialog.component';
 import {CreateUserDialogComponent} from './create-user-dialog/create-user-dialog.component';
 import {ConfirmDeleteUserDialogComponent} from './confirm-delete-user-dialog/confirm-delete-user-dialog.component';
 import 'rxjs/add/operator/mergeMap';
+import {INewUserParams, UserClient, UserVm} from '../api';
 
 @Component({
   selector: 'app-user-management',
@@ -13,25 +13,25 @@ import 'rxjs/add/operator/mergeMap';
 })
 export class UserManagementComponent implements OnInit, OnDestroy {
   token: string;
-  users: Array<IUserVm>;
+  users: Array<UserVm>;
   loading: boolean;
 
-  constructor(private systemService: SystemService,
+  constructor(private systemService: UserClient,
               private matDialog: MatDialog,
               private snackBar: MatSnackBar) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser.token;
-    systemService.configuration = new Configuration({
-      apiKeys: {
-        Authorization: this.token
-      }
-    });
+    // systemService.configuration = new Configuration({
+    //   apiKeys: {
+    //     Authorization: this.token
+    //   }
+    // });
   }
 
   ngOnInit(): void {
     this.loading = true;
     this.systemService.getAllUsers().subscribe(
-      (users: Array<IUserVm>): void => {
+      (users: Array<UserVm>): void => {
         this.users = users;
         this.loading = false;
       },
@@ -51,7 +51,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.systemService.configuration.apiKeys['Authorization'] = null;
+    // this.systemService.configuration.apiKeys['Authorization'] = null;
   }
 
   createNewUser(): void {
@@ -68,7 +68,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
           this.systemService.registerUser(newUser).subscribe(
             (response: any): void => {
               this.systemService.getAllUsers().subscribe(
-                (users: Array<IUserVm>): void => {
+                (users: Array<UserVm>): void => {
                   this.users = users;
                   this.loading = false;
                   this.snackBar.open(
@@ -112,7 +112,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
     );
   }
 
-  deleteUser(user: IUserVm): void {
+  deleteUser(user: UserVm): void {
     const dialogRef = this.matDialog.open(ConfirmDeleteUserDialogComponent,
       {
         width: '90vw',
@@ -127,7 +127,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
           this.systemService.deleteUserById(user._id).subscribe(
             (response: any): void => {
               this.systemService.getAllUsers().subscribe(
-                (users: Array<IUserVm>): void => {
+                (users: Array<UserVm>): void => {
                   this.users = users;
                   this.loading = false;
                   this.snackBar.open(
@@ -171,7 +171,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
     );
   }
 
-  editUser(user: IUserVm): void {
+  editUser(user: UserVm): void {
     const dialogRef = this.matDialog.open(EditUserDialogComponent,
       {
         width: '90vw',
@@ -186,7 +186,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
           this.systemService.udpateUserById(user._id, updatedUser).subscribe(
             (response: any): void => {
               this.systemService.getAllUsers().subscribe(
-                (users: Array<IUserVm>): void => {
+                (users: Array<UserVm>): void => {
                   this.users = users;
                   this.loading = false;
                   this.snackBar.open(

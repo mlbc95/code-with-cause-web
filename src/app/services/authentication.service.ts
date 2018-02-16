@@ -2,8 +2,9 @@ import {EventEmitter, Injectable, Output} from '@angular/core';
 import 'rxjs/add/operator/map';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {HttpClient} from '@angular/common/http';
-import {ILoginVm, SystemService} from '../swagger-api';
+// import {ILoginVm, SystemService} from '../swagger-api';
 import {MatSnackBar} from '@angular/material';
+import {ILoginParams, ILoginVm, UserClient, UserRole} from '../api';
 
 @Injectable()
 export class AuthenticationService {
@@ -24,7 +25,7 @@ export class AuthenticationService {
   }
 
   constructor(private http: HttpClient,
-              private systemService: SystemService,
+              private userClient: UserClient,
               private snackBar: MatSnackBar) {
     // set token if saved in local storage
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -36,17 +37,14 @@ export class AuthenticationService {
   }
 
   login(username: string, password: string) {
-    return this.systemService.login({
-      username: username,
-      password: password
-    }).map((response: ILoginVm) => {
+    return this.userClient.login(new ILoginParams({username, password})).map((response: ILoginVm) => {
       // login successful if there's a jwt token in the response
       const token = response && response.authToken;
       const role = response && response.role;
       let admin = false;
       username = response && response.username;
 
-      if (role === 'Admin') {
+      if (role === UserRole.Admin) {
         admin = true;
       }
 

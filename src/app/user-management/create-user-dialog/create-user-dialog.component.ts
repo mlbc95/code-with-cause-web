@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {INewUserParams} from "../../swagger-api/model/iNewUserParams";
-import {UserRole} from "../../swagger-api/model/userRole";
+import {INewUserParams, UserRole} from '../../api';
 
 @Component({
   selector: 'app-create-user-dialog',
@@ -9,16 +8,16 @@ import {UserRole} from "../../swagger-api/model/userRole";
 })
 export class CreateUserDialogComponent implements OnInit {
   user: INewUserParams;
-  confirmPassword: string = "";
+  confirmPassword = '';
 
   constructor() {
   }
 
   ngOnInit(): void {
-    this.user = {username: "", password: "", role: UserRole.User};
+    this.user = new INewUserParams({username: '', password: '', role: UserRole.User});
   }
 
   changed(event: any) {
-    this.user.role = event.value;
+    // this.user.role = event.value;
   }
 }

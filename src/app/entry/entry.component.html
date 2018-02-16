@@ -139,22 +139,22 @@
 
 <div class="frame">
   <div *ngIf="!harvestStarted" class="start text-center mx-auto">
-    <ng-container *ngIf="loading">
+    <ng-container *ngIf="!doneLoading">
       <div class="center-align">
         <p-progressSpinner></p-progressSpinner>
       </div>
     </ng-container>
-    <ng-container *ngIf="!loading">
-    <mat-form-field class="farmField">
-      <mat-select placeholder="Select a Farm" name="farm" [(ngModel)]="selectedFarm" required #farmField="ngModel">
-        <mat-option *ngFor="let farm of farms" [value]="farm">{{farm.name}}</mat-option>
-      </mat-select>
-      <mat-error>
-        <span *ngIf="!farmField.valid && farmField.touched">Please select a farm</span>
-      </mat-error>
-    </mat-form-field>
-    <button *ngIf="farmField.valid" mat-button class="btn-primary startButton" (click)="startHarvest()">Begin Harvest
-    </button>
+    <ng-container *ngIf="doneLoading">
+      <mat-form-field class="farmField">
+        <mat-select placeholder="Select a Farm" name="farm" [(ngModel)]="selectedFarm" required #farmField="ngModel">
+          <mat-option *ngFor="let farm of farms" [value]="farm">{{farm.name}}</mat-option>
+        </mat-select>
+        <mat-error>
+          <span *ngIf="!farmField.valid && farmField.touched">Please select a farm</span>
+        </mat-error>
+      </mat-form-field>
+      <button *ngIf="farmField.valid" mat-button class="btn-primary startButton" (click)="startHarvest()">Begin Harvest
+      </button>
     </ng-container>
   </div>
   <div *ngIf="harvestStarted">
@@ -195,7 +195,7 @@
                   (change)="onPoundChanged($event)"></mat-slider>
 
       <mat-form-field class="priceTotal">
-        <input matInput placeholder="Total Price" formControlName="priceTotal" [value]="priceTotal" disabled>
+        <input matInput placeholder="Total Price" formControlName="priceTotal" [value]="priceTotal" disabled="true">
       </mat-form-field>
 
       <mat-form-field class="comments">
@@ -214,7 +214,9 @@
       </mat-form-field>
 
       <div *ngIf="!editMode" class="center-align buttons">
-        <button mat-button type="button" class="btn-primary" (click)="submitEntry();" [disabled]="!form.valid">Next Entry</button>
+        <button mat-button type="button" class="btn-primary" (click)="submitEntry();" [disabled]="!form.valid">Next
+          Entry
+        </button>
         <button mat-button type="submit" class="btn-secondary">Submit Harvest</button>
       </div>
       <div *ngIf="editMode"></div>

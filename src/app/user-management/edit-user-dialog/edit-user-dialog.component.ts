@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {INewUserParams} from "../../swagger-api/model/iNewUserParams";
-import {MAT_DIALOG_DATA} from "@angular/material";
+import {MAT_DIALOG_DATA} from '@angular/material';
+import {INewUserParams} from '../../api';
 
 @Component({
   selector: 'app-edit-user-dialog',
@@ -15,6 +15,6 @@ export class EditUserDialogComponent implements OnInit {
   }
 
   changed(event: any) {
-    this.user.role = event.value;
+    // this.user.role = event.value;
   }
 }

@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {INewFarmParams} from '../../swagger-api';
-import {MAT_DIALOG_DATA} from "@angular/material";
+import {MAT_DIALOG_DATA} from '@angular/material';
+import {INewFarmParams} from '../../api';
 
 @Component({
   selector: 'app-edit-farm-dialog',

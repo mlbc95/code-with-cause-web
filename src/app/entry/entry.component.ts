@@ -1,14 +1,18 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {
-  Configuration, ConfigurationParameters, CropService, EntryService, FarmService, HarvesterService, HarvestService, ICropVm, IEntryVm,
-  IFarmVm, IHarvesterVm, IHarvestParams, IHarvestVm, INewEntryParams, IOrganizationVm, IUserVm, OrganizationService, SystemService
-} from '../swagger-api';
+// import {
+//   Configuration, ConfigurationParameters, CropService, EntryService, FarmService, HarvesterService, HarvestService, ICropVm, IEntryVm,
+//   IFarmVm, IHarvesterVm, IHarvestParams, IHarvestVm, INewEntryParams, IOrganizationVm, IUserVm, OrganizationService, SystemService
+// } from '../swagger-api';
 import {Message} from 'primeng/api';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/combineLatest';
 import {HttpErrorResponse} from '@angular/common/http';
+import {
+  CropClient, CropVm, EntryClient, EntryVm, FarmClient, FarmVm, HarvestClient, HarvesterClient, HarvesterVm, HarvestVm,
+  IHarvestParams, INewEntryParams, OrganizationClient, OrganizationVm, UserClient, UserVm
+} from '../api';
 
 @Component({
   selector: 'app-entry',
@@ -23,19 +27,19 @@ export class EntryComponent implements OnInit, OnDestroy {
   msgs: Message[] = [];
 
   // dropdown lists
-  farms: IFarmVm[] = [];
-  organizations: IOrganizationVm[];
-  crops: ICropVm[];
+  farms: FarmVm[] = [];
+  organizations: OrganizationVm[];
+  crops: CropVm[];
   variety: any[] = [];
-  harvesters: IHarvesterVm[];
+  harvesters: HarvesterVm[];
 
 
-  selectedFarm: IFarmVm;
-  harvest: IHarvestVm;
-  currentEntry: IEntryVm;
-  cropsList: ICropVm[];
-  cropTest: ICropVm;
-  users: IUserVm[];
+  selectedFarm: FarmVm;
+  harvest: HarvestVm;
+  currentEntry: EntryVm;
+  cropsList: CropVm[];
+  cropTest: CropVm;
+  users: UserVm[];
 
   harvester: string;
   cropSleceted: string;
@@ -56,28 +60,28 @@ export class EntryComponent implements OnInit, OnDestroy {
 
   form: FormGroup;
 
-  constructor(private entryService: EntryService,
-              private farmService: FarmService,
-              private cropService: CropService,
-              private harvesterService: HarvesterService,
-              private organizationService: OrganizationService,
-              private harvestService: HarvestService,
+  constructor(private entryService: EntryClient,
+              private farmService: FarmClient,
+              private cropService: CropClient,
+              private harvesterService: HarvesterClient,
+              private organizationService: OrganizationClient,
+              private harvestService: HarvestClient,
               private router: Router,
-              private systemService: SystemService,
+              private userService: UserClient,
               private fb: FormBuilder) {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    this.token = currentUser.token;
-    const config: ConfigurationParameters = {
-      apiKeys: {
-        Authorization: this.token
-      }
-    };
-    entryService.configuration = new Configuration(config);
-    farmService.configuration = new Configuration(config);
-    cropService.configuration = new Configuration(config);
-    harvesterService.configuration = new Configuration(config);
-    organizationService.configuration = new Configuration(config);
-    harvestService.configuration = new Configuration(config);
+    // const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    // this.token = currentUser.token;
+    // const config: ConfigurationParameters = {
+    //   apiKeys: {
+    //     Authorization: this.token
+    //   }
+    // };
+    // entryService.configuration = new Configuration(config);
+    // farmService.configuration = new Configuration(config);
+    // cropService.configuration = new Configuration(config);
+    // harvesterService.configuration = new Configuration(config);
+    // organizationService.configuration = new Configuration(config);
+    // harvestService.configuration = new Configuration(config);
   }
 
   ngOnInit() {
@@ -90,10 +94,11 @@ export class EntryComponent implements OnInit, OnDestroy {
         this.farmService.getAll(),
         this.cropService.getAll()
       )
-      .subscribe((data: [IFarmVm[], ICropVm[]]) => {
+      .subscribe((data: [FarmVm[], CropVm[]]) => {
         const [farms, crops] = data;
         this.farms = farms;
         this.crops = crops;
+        this.doneLoading = true;
       });
     // const storedHarvestID = JSON.parse(localStorage.getItem('harvest_id'));
     // if (storedHarvestID) {
@@ -117,18 +122,19 @@ export class EntryComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.entryService.configuration.apiKeys['Authorization'] = null;
-    this.farmService.configuration.apiKeys['Authorization'] = null;
-    this.cropService.configuration.apiKeys['Authorization'] = null;
-    this.harvesterService.configuration.apiKeys['Authorization'] = null;
-    this.organizationService.configuration.apiKeys['Authorization'] = null;
-    this.harvestService.configuration.apiKeys['Authorization'] = null;
+    // this.entryService.configuration.apiKeys['Authorization'] = null;
+    // this.farmService.configuration.apiKeys['Authorization'] = null;
+    // this.cropService.configuration.apiKeys['Authorization'] = null;
+    // this.harvesterService.configuration.apiKeys['Authorization'] = null;
+    // this.organizationService.configuration.apiKeys['Authorization'] = null;
+    // this.harvestService.configuration.apiKeys['Authorization'] = null;
   }
 
   startHarvest() {
-    const newHarvest: IHarvestParams = {'farmId': this.selectedFarm._id};
+    const newHarvest: IHarvestParams = new IHarvestParams();
+    newHarvest.farmId = this.selectedFarm._id;
     this.harvestService.registerHarvest(newHarvest)
-      .mergeMap((harvest: IHarvestVm) => {
+      .mergeMap((harvest: HarvestVm) => {
         this.harvest = harvest;
         this.harvest.entries = [];
         localStorage.setItem('harvest_id', JSON.stringify({harvest: this.harvest._id}));
@@ -137,10 +143,10 @@ export class EntryComponent implements OnInit, OnDestroy {
           .combineLatest(
             this.harvesterService.getAll(),
             this.organizationService.getAll(),
-            this.systemService.getAllUsers()
+            this.userService.getAllUsers()
           );
       })
-      .subscribe((data: [IHarvesterVm[], IOrganizationVm[], IUserVm[]]) => {
+      .subscribe((data: [HarvesterVm[], OrganizationVm[], UserVm[]]) => {
         const [harvesters, organizations, users] = data;
         this.harvesters = harvesters;
         this.users = users;
@@ -150,17 +156,18 @@ export class EntryComponent implements OnInit, OnDestroy {
   }
 
   submitEntry() {
-    const newEntry: INewEntryParams = {
-      cropId: this.form.get('crop').value,
-      selectedVariety: this.form.get('variety').value,
-      recipientId: this.form.get('recipient').value,
-      pounds: this.form.get('pounds').value,
-      comments: this.form.get('comment').value,
-      harvesterId: this.form.get('harvester').value
-    };
+    // const newEntry: INewEntryParams = {
+    //   cropId: this.form.get('crop').value,
+    //   selectedVariety: this.form.get('variety').value,
+    //   recipientId: this.form.get('recipient').value,
+    //   pounds: this.form.get('pounds').value,
+    //   comments: this.form.get('comment').value,
+    //   harvesterId: this.form.get('harvester').value
+    // };
+    const newEntry: INewEntryParams = new INewEntryParams(this.form.value);
 
     this.entryService.registerEntry(newEntry)
-      .subscribe((entry: IEntryVm) => {
+      .subscribe((entry: EntryVm) => {
         console.log('New Entry', entry);
         this.msgs = [];
         this.msgs.push({severity: 'success', summary: 'Success', detail: 'Entry Saved! You\'re saving Trees'});
@@ -205,8 +212,11 @@ export class EntryComponent implements OnInit, OnDestroy {
     console.log(entryId.entries);
     console.log(harvestId.harvest);
 
-    const harvestParams = {farmId: this.selectedFarm._id, entries: entryId.entries, harvestId: harvestId.harvest};
-    console.log(harvestParams);
+    const harvestParams: IHarvestParams = new IHarvestParams({
+      farmId: this.selectedFarm._id,
+      entriesIds: entryId.entries,
+      harvestId: harvestId.harvest
+    });
     this.harvestService.registerHarvest(harvestParams)
       .subscribe(data => {
           this.router.navigate([`/review-harvest/${harvestId.harvest}`]);

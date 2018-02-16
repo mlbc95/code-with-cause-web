@@ -5,9 +5,9 @@
   </mat-form-field>
   <br/>
   <mat-radio-group>
-    <mat-radio-button value="Purchased" (change)="changed($event);" [checked]="organization.orgType == 'Purchased'">Purchased</mat-radio-button>
-    <mat-radio-button value="Donated" (change)="changed($event);" [checked]="organization.orgType == 'Donated'">Donated</mat-radio-button>
-    <mat-radio-button value="Internal" (change)="changed($event);" [checked]="organization.orgType == 'Internal'">Internal</mat-radio-button>
+    <mat-radio-button value="Purchased" (change)="changed($event);" [checked]="organization.orgType.toString() == 'Purchased'">Purchased</mat-radio-button>
+    <mat-radio-button value="Donated" (change)="changed($event);" [checked]="organization.orgType.toString() == 'Donated'">Donated</mat-radio-button>
+    <mat-radio-button value="Internal" (change)="changed($event);" [checked]="organization.orgType.toString() == 'Internal'">Internal</mat-radio-button>
   </mat-radio-group>
 </mat-dialog-content>
 <mat-dialog-actions>

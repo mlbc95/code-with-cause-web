@@ -1,12 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {OrganizationService} from "../swagger-api/api/organization.service";
-import {MatDialog, MatSnackBar} from "@angular/material";
-import {IOrganizationVm} from "../swagger-api/model/iOrganizationVm";
-import {INewOrganizationParams} from "../swagger-api/model/iNewOrganizationParams";
-import {CreateOrganizationDialogComponent} from "./create-organization-dialog/create-organization-dialog.component";
-import {ConfirmDeleteOrganizationDialogComponent} from "./confirm-delete-organization-dialog/confirm-delete-organization-dialog.component";
-import {EditOrganizationDialogComponent} from "./edit-organization-dialog/edit-organization-dialog.component";
-import {Configuration} from "../swagger-api/configuration";
+import {MatDialog, MatSnackBar} from '@angular/material';
+import {CreateOrganizationDialogComponent} from './create-organization-dialog/create-organization-dialog.component';
+import {ConfirmDeleteOrganizationDialogComponent} from './confirm-delete-organization-dialog/confirm-delete-organization-dialog.component';
+import {EditOrganizationDialogComponent} from './edit-organization-dialog/edit-organization-dialog.component';
+import {INewOrganizationParams, OrganizationClient, OrganizationVm} from '../api';
 
 @Component({
   selector: 'app-organization-management',
@@ -15,27 +12,21 @@ import {Configuration} from "../swagger-api/configuration";
 })
 export class OrganizationManagementComponent implements OnInit, OnDestroy {
   token: string;
-  organizations: Array<IOrganizationVm>;
-  loading: boolean = false;
+  organizations: Array<OrganizationVm>;
+  loading = false;
 
-  constructor(private organizationService: OrganizationService,
+  constructor(private organizationService: OrganizationClient,
               private matDialog: MatDialog,
               private snackBar: MatSnackBar) {
-    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser.token;
-    organizationService.configuration = new Configuration({
-      apiKeys: {
-        Authorization: this.token
-      }
-    });
-
     this.organizations = [];
   }
 
   ngOnInit(): void {
     this.loading = true;
     this.organizationService.getAll().subscribe(
-      (organizations: Array<IOrganizationVm>): void => {
+      (organizations: Array<OrganizationVm>): void => {
         this.organizations = organizations;
         this.loading = false;
       },
@@ -47,7 +38,7 @@ export class OrganizationManagementComponent implements OnInit, OnDestroy {
           'OK',
           {
             duration: 2000,
-            panelClass: "snack-bar-danger"
+            panelClass: 'snack-bar-danger'
           }
         );
       }
@@ -55,11 +46,11 @@ export class OrganizationManagementComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.organizationService.configuration.apiKeys["Authorization"] = null;
+    // this.organizationService.configuration.apiKeys['Authorization'] = null;
   }
 
   createNewOrganization(): void {
-    let dialogRef = this.matDialog.open(CreateOrganizationDialogComponent,
+    const dialogRef = this.matDialog.open(CreateOrganizationDialogComponent,
       {
         width: '90vw'
       }
@@ -72,7 +63,7 @@ export class OrganizationManagementComponent implements OnInit, OnDestroy {
           this.organizationService.registerOrganization(newOrganization).subscribe(
             (response: any): void => {
               this.organizationService.getAll().subscribe(
-                (organizations: Array<IOrganizationVm>): void => {
+                (organizations: Array<OrganizationVm>): void => {
                   this.organizations = organizations;
                   this.loading = false;
                   this.snackBar.open(
@@ -80,7 +71,7 @@ export class OrganizationManagementComponent implements OnInit, OnDestroy {
                     'OK',
                     {
                       duration: 2000,
-                      panelClass: "snack-bar-success"
+                      panelClass: 'snack-bar-success'
                     }
                   );
                 },
@@ -92,7 +83,7 @@ export class OrganizationManagementComponent implements OnInit, OnDestroy {
                     'OK',
                     {
                       duration: 2000,
-                      panelClass: "snack-bar-danger"
+                      panelClass: 'snack-bar-danger'
                     }
                   );
                 }
@@ -106,7 +97,7 @@ export class OrganizationManagementComponent implements OnInit, OnDestroy {
                 'OK',
                 {
                   duration: 2000,
-                  panelClass: "snack-bar-danger"
+                  panelClass: 'snack-bar-danger'
                 }
               );
             }
@@ -116,8 +107,8 @@ export class OrganizationManagementComponent implements OnInit, OnDestroy {
     );
   }
 
-  deleteOrganization(organization: IOrganizationVm): void {
-    let dialogRef = this.matDialog.open(ConfirmDeleteOrganizationDialogComponent,
+  deleteOrganization(organization: OrganizationVm): void {
+    const dialogRef = this.matDialog.open(ConfirmDeleteOrganizationDialogComponent,
       {
         width: '90vw',
         data: organization
@@ -131,7 +122,7 @@ export class OrganizationManagementComponent implements OnInit, OnDestroy {
           this.organizationService.deleteOrganization(organization._id).subscribe(
             (response: any): void => {
               this.organizationService.getAll().subscribe(
-                (organizations: Array<IOrganizationVm>): void => {
+                (organizations: Array<OrganizationVm>): void => {
                   this.organizations = organizations;
                   this.loading = false;
                   this.snackBar.open(
@@ -139,7 +130,7 @@ export class OrganizationManagementComponent implements OnInit, OnDestroy {
                     'OK',
                     {
                       duration: 2000,
-                      panelClass: "snack-bar-success"
+                      panelClass: 'snack-bar-success'
                     }
                   );
                 },
@@ -151,7 +142,7 @@ export class OrganizationManagementComponent implements OnInit, OnDestroy {
                     'OK',
                     {
                       duration: 2000,
-                      panelClass: "snack-bar-danger"
+                      panelClass: 'snack-bar-danger'
                     }
                   );
                 }
@@ -165,7 +156,7 @@ export class OrganizationManagementComponent implements OnInit, OnDestroy {
                 'OK',
                 {
                   duration: 2000,
-                  panelClass: "snack-bar-danger"
+                  panelClass: 'snack-bar-danger'
                 }
               );
             }
@@ -175,8 +166,8 @@ export class OrganizationManagementComponent implements OnInit, OnDestroy {
     );
   }
 
-  editOrganization(organization: IOrganizationVm): void {
-    let dialogRef = this.matDialog.open(EditOrganizationDialogComponent,
+  editOrganization(organization: OrganizationVm): void {
+    const dialogRef = this.matDialog.open(EditOrganizationDialogComponent,
       {
         width: '90vw',
         data: organization
@@ -190,7 +181,7 @@ export class OrganizationManagementComponent implements OnInit, OnDestroy {
           this.organizationService.updateOrganization(organization._id, updatedOrganization).subscribe(
             (response: any): void => {
               this.organizationService.getAll().subscribe(
-                (organizations: Array<IOrganizationVm>): void => {
+                (organizations: Array<OrganizationVm>): void => {
                   this.organizations = organizations;
                   this.loading = false;
                   this.snackBar.open(
@@ -198,7 +189,7 @@ export class OrganizationManagementComponent implements OnInit, OnDestroy {
                     'OK',
                     {
                       duration: 2000,
-                      panelClass: "snack-bar-success"
+                      panelClass: 'snack-bar-success'
                     }
                   );
                 },
@@ -210,7 +201,7 @@ export class OrganizationManagementComponent implements OnInit, OnDestroy {
                     'OK',
                     {
                       duration: 2000,
-                      panelClass: "snack-bar-danger"
+                      panelClass: 'snack-bar-danger'
                     }
                   );
                 }
@@ -224,7 +215,7 @@ export class OrganizationManagementComponent implements OnInit, OnDestroy {
                 'OK',
                 {
                   duration: 2000,
-                  panelClass: "snack-bar-danger"
+                  panelClass: 'snack-bar-danger'
                 }
               );
             }

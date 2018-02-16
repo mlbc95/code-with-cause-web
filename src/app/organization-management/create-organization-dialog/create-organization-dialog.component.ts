@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {INewOrganizationParams} from "../../swagger-api/model/iNewOrganizationParams";
-import {OrganizationType} from "../../swagger-api/model/organizationType";
+import {INewOrganizationParams, OrganizationType} from '../../api';
 
 @Component({
   selector: 'app-create-organization-dialog',
@@ -14,10 +13,10 @@ export class CreateOrganizationDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.organization = {orgType: OrganizationType.Purchased, name: ""};
+    this.organization = new INewOrganizationParams({orgType: OrganizationType.Purchased, name: ''});
   }
 
   changed(event: any) {
-    this.organization.orgType = event.value;
+    // this.organization.orgType = event.value;
   }
 }
