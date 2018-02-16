@@ -4,7 +4,7 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {HttpClient} from '@angular/common/http';
 // import {ILoginVm, SystemService} from '../swagger-api';
 import {MatSnackBar} from '@angular/material';
-import {ILoginParams, ILoginVm, UserClient, UserRole} from '../api';
+import {ILoginParams, ILoginVm, UserClient, UserRole} from '../app.api';
 
 @Injectable()
 export class AuthenticationService {

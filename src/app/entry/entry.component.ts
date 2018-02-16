@@ -12,7 +12,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {
   CropClient, CropVm, EntryClient, EntryVm, FarmClient, FarmVm, HarvestClient, HarvesterClient, HarvesterVm, HarvestVm,
   IHarvestParams, INewEntryParams, OrganizationClient, OrganizationVm, UserClient, UserVm
-} from '../api';
+} from '../app.api';
 
 @Component({
   selector: 'app-entry',

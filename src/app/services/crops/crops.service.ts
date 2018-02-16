@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import * as config from '../../app.constants';
-import {CropClient} from '../../api';
+import {CropClient} from '../../app.api';
 
 @Injectable()
 export class CropsService {

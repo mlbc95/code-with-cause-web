@@ -3,7 +3,7 @@ import {MatDialog, MatSnackBar} from '@angular/material';
 import {CreateFarmDialogComponent} from './create-farm-dialog/create-farm-dialog.component';
 import {ConfirmDeleteFarmDialogComponent} from './confirm-delete-farm-dialog/confirm-delete-farm-dialog.component';
 import {EditFarmDialogComponent} from './edit-farm-dialog/edit-farm-dialog.component';
-import {FarmClient, FarmVm, INewFarmParams} from '../api';
+import {FarmClient, FarmVm, INewFarmParams} from '../app.api';
 
 @Component({
   selector: 'app-farm-management',

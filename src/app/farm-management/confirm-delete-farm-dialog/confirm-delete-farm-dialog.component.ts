@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material';
-import {FarmVm} from '../../api';
+import {FarmVm} from '../../app.api';
 
 @Component({
   selector: 'app-confirm-delete-farm-dialog',

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {INewCropParams} from '../../api';
+import {INewCropParams} from '../../app.api';
 
 @Component({
   selector: 'app-create-crop-dialog',

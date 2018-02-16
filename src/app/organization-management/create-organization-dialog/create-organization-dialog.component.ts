@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {INewOrganizationParams, OrganizationType} from '../../api';
+import {INewOrganizationParams, OrganizationType} from '../../app.api';
 
 @Component({
   selector: 'app-create-organization-dialog',

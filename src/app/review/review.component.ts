@@ -6,7 +6,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {
   CropClient, CropVm, EntryClient, EntryVm, FarmClient, HarvestClient, HarvesterClient, HarvesterVm, HarvestVm,
   OrganizationClient
-} from '../api';
+} from '../app.api';
 
 @Component({
   selector: 'app-review',

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {INewFarmParams} from '../../api';
+import {INewFarmParams} from '../../app.api';
 
 @Component({
   selector: 'app-create-farm-dialog',

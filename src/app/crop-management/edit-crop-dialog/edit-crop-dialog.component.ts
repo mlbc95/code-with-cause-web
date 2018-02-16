@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {CropVm} from '../../api';
+import {CropVm} from '../../app.api';
 
 @Component({
   selector: 'app-edit-crop-dialog',

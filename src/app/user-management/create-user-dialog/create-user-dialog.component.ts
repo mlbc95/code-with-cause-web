@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {INewUserParams, UserRole} from '../../api';
+import {INewUserParams, UserRole} from '../../app.api';
 
 @Component({
   selector: 'app-create-user-dialog',

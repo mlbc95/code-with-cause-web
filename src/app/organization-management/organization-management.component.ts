@@ -3,7 +3,7 @@ import {MatDialog, MatSnackBar} from '@angular/material';
 import {CreateOrganizationDialogComponent} from './create-organization-dialog/create-organization-dialog.component';
 import {ConfirmDeleteOrganizationDialogComponent} from './confirm-delete-organization-dialog/confirm-delete-organization-dialog.component';
 import {EditOrganizationDialogComponent} from './edit-organization-dialog/edit-organization-dialog.component';
-import {INewOrganizationParams, OrganizationClient, OrganizationVm} from '../api';
+import {INewOrganizationParams, OrganizationClient, OrganizationVm} from '../app.api';
 
 @Component({
   selector: 'app-organization-management',

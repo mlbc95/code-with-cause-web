@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material';
-import {INewOrganizationParams} from '../../api';
+import {INewOrganizationParams} from '../../app.api';
 
 @Component({
   selector: 'app-edit-organization-dialog',

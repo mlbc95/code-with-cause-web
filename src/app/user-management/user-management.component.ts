@@ -4,7 +4,7 @@ import {EditUserDialogComponent} from './edit-user-dialog/edit-user-dialog.compo
 import {CreateUserDialogComponent} from './create-user-dialog/create-user-dialog.component';
 import {ConfirmDeleteUserDialogComponent} from './confirm-delete-user-dialog/confirm-delete-user-dialog.component';
 import 'rxjs/add/operator/mergeMap';
-import {INewUserParams, UserClient, UserVm} from '../api';
+import {INewUserParams, UserClient, UserVm} from '../app.api';
 
 @Component({
   selector: 'app-user-management',

@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material';
-import {INewFarmParams} from '../../api';
+import {INewFarmParams} from '../../app.api';
 
 @Component({
   selector: 'app-edit-farm-dialog',

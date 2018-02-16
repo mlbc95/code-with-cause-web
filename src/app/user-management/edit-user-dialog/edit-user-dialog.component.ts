@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material';
-import {INewUserParams} from '../../api';
+import {INewUserParams} from '../../app.api';
 
 @Component({
   selector: 'app-edit-user-dialog',

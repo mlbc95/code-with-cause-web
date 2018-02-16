@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material';
-import {UserVm} from '../../api';
+import {UserVm} from '../../app.api';
 
 @Component({
   selector: 'app-confirm-delete-user-dialog',

@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, HostListener, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthenticationService} from '../services/authentication.service';
-import {CropVm, SystemClient} from '../api';
+import {CropVm, SystemClient, UserClient} from '../app.api';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +14,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   constructor(private router: Router,
               private authenticationService: AuthenticationService,
-              private systemClient: SystemClient) {
+              private systemClient: SystemClient,
+              private userClient: UserClient) {
     const currentUser: any = JSON.parse(localStorage.getItem('currentUser'));
     this.isAdmin = currentUser.admin;
   }
@@ -41,6 +42,16 @@ export class HomeComponent implements OnInit, AfterViewInit {
         console.log(crops);
       }, (error: any) => {
         console.log(error);
+      });
+  }
+
+  onFileChanged(event) {
+    this.userClient.addImage({
+      data: event.target.files[0],
+      fileName: event.target.files[0].name
+    })
+      .subscribe(() => {
+        console.log('Blah');
       });
   }
 }

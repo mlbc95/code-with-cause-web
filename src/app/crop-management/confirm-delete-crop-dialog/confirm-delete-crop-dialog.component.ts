@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material';
-import {CropVm} from '../../api';
+import {CropVm} from '../../app.api';
 
 @Component({
   selector: 'app-confirm-delete-crop-dialog',

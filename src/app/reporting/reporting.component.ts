@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material';
 import {GenerateReportDialogComponent} from './generate-report-dialog/generate-report-dialog.component';
 import 'rxjs/add/operator/filter';
-import {ReportingClient} from '../api';
+import {ReportingClient} from '../app.api';
 
 @Component({
   selector: 'app-reporting',

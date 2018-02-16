@@ -43,7 +43,7 @@ import {ProgressSpinnerModule} from 'primeng/primeng';
 import {
   API_BASE_URL, CropClient, EntryClient, FarmClient, HarvestClient, HarvesterClient, OrganizationClient, ReportingClient,
   SystemClient, UserClient
-} from './api';
+} from './app.api';
 import {environment} from '../environments/environment';
 
 @NgModule({
