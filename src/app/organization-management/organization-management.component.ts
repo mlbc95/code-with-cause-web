@@ -3,7 +3,7 @@ import {MatDialog, MatSnackBar} from '@angular/material';
 import {CreateOrganizationDialogComponent} from './create-organization-dialog/create-organization-dialog.component';
 import {ConfirmDeleteOrganizationDialogComponent} from './confirm-delete-organization-dialog/confirm-delete-organization-dialog.component';
 import {EditOrganizationDialogComponent} from './edit-organization-dialog/edit-organization-dialog.component';
-import {INewOrganizationParams, OrganizationClient, OrganizationVm} from '../app.api';
+import {NewOrganizationParams, OrganizationClient, OrganizationVm} from '../app.api';
 
 @Component({
   selector: 'app-organization-management',
@@ -57,7 +57,7 @@ export class OrganizationManagementComponent implements OnInit, OnDestroy {
     );
 
     dialogRef.afterClosed().subscribe(
-      (newOrganization: INewOrganizationParams): void => {
+      (newOrganization: NewOrganizationParams): void => {
         if (newOrganization) {
           this.loading = true;
           this.organizationService.registerOrganization(newOrganization).subscribe(
@@ -175,7 +175,7 @@ export class OrganizationManagementComponent implements OnInit, OnDestroy {
     );
 
     dialogRef.afterClosed().subscribe(
-      (updatedOrganization: INewOrganizationParams): void => {
+      (updatedOrganization: NewOrganizationParams): void => {
         if (updatedOrganization) {
           this.loading = true;
           this.organizationService.updateOrganization(organization._id, updatedOrganization).subscribe(

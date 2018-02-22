@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthenticationService} from '../services/authentication.service';
 import {Observable} from 'rxjs/Observable';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -21,6 +21,6 @@ export class HeaderComponent implements OnInit {
   }
 
   goHome(): void {
-    this.router.navigate(["/home"])
+    this.router.navigate(['/home']);
   }
 }

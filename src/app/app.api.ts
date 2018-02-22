@@ -101,7 +101,7 @@ export class UserClient extends BaseClient {
     /**
      * @return Ok
      */
-    registerUser(newUserParams: INewUserParams): Observable<UserVm> {
+    registerUser(newUserParams: NewUserParams): Observable<UserVm> {
         let url_ = this.baseUrl + "/users/create";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -209,7 +209,7 @@ export class UserClient extends BaseClient {
     /**
      * @return Ok
      */
-    login(loginParams: ILoginParams): Observable<LoginVm> {
+    login(loginParams: LoginParams): Observable<LoginVm> {
         let url_ = this.baseUrl + "/users/login";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -372,7 +372,7 @@ export class UserClient extends BaseClient {
     /**
      * @return Ok
      */
-    udpateUserById(id: string, updateUserParams: INewUserParams): Observable<UserVm> {
+    udpateUserById(id: string, updateUserParams: NewUserParams): Observable<UserVm> {
         let url_ = this.baseUrl + "/users/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -442,7 +442,7 @@ export class EntryClient extends BaseClient {
     /**
      * @return Ok
      */
-    registerEntry(newEntryParams: INewEntryParams): Observable<EntryVm> {
+    registerEntry(newEntryParams: NewEntryParams): Observable<EntryVm> {
         let url_ = this.baseUrl + "/entries/create";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -605,7 +605,7 @@ export class EntryClient extends BaseClient {
     /**
      * @return Ok
      */
-    updateEntry(id: string, updatedEntryParams: INewEntryParams): Observable<EntryVm> {
+    updateEntry(id: string, updatedEntryParams: NewEntryParams): Observable<EntryVm> {
         let url_ = this.baseUrl + "/entries/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -729,7 +729,7 @@ export class FarmClient extends BaseClient {
     /**
      * @return Ok
      */
-    registerFarm(newFarmParams: INewFarmParams): Observable<FarmVm> {
+    registerFarm(newFarmParams: NewFarmParams): Observable<FarmVm> {
         let url_ = this.baseUrl + "/farms/create";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -896,7 +896,7 @@ export class FarmClient extends BaseClient {
     /**
      * @return Ok
      */
-    updateById(id: string, newFarmParams: INewFarmParams): Observable<FarmVm> {
+    updateById(id: string, newFarmParams: NewFarmParams): Observable<FarmVm> {
         let url_ = this.baseUrl + "/farms/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -966,7 +966,7 @@ export class CropClient extends BaseClient {
     /**
      * @return Ok
      */
-    registerCrop(newCropParams: INewCropParams): Observable<CropVm> {
+    registerCrop(newCropParams: NewCropParams): Observable<CropVm> {
         let url_ = this.baseUrl + "/crops/create";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1129,7 +1129,7 @@ export class CropClient extends BaseClient {
     /**
      * @return Ok
      */
-    updateCrop(id: string, updateCropParams: INewCropParams): Observable<CropVm> {
+    updateCrop(id: string, updateCropParams: NewCropParams): Observable<CropVm> {
         let url_ = this.baseUrl + "/crops/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -1253,7 +1253,7 @@ export class HarvesterClient extends BaseClient {
     /**
      * @return Ok
      */
-    registerHarvester(newHarvesterParams: INewHarvesterParams): Observable<HarvesterVm> {
+    registerHarvester(newHarvesterParams: NewHarvesterParams): Observable<HarvesterVm> {
         let url_ = this.baseUrl + "/harvesters/create";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1429,7 +1429,7 @@ export class OrganizationClient extends BaseClient {
     /**
      * @return Ok
      */
-    registerOrganization(newOrganizationParams: INewOrganizationParams): Observable<OrganizationVm> {
+    registerOrganization(newOrganizationParams: NewOrganizationParams): Observable<OrganizationVm> {
         let url_ = this.baseUrl + "/organization/create";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1538,7 +1538,7 @@ export class OrganizationClient extends BaseClient {
     /**
      * @return Ok
      */
-    updateOrganization(id: string, newOrganizationParams: INewOrganizationParams): Observable<OrganizationVm> {
+    updateOrganization(id: string, newOrganizationParams: NewOrganizationParams): Observable<OrganizationVm> {
         let url_ = this.baseUrl + "/organization/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -1662,7 +1662,7 @@ export class HarvestClient extends BaseClient {
     /**
      * @return Ok
      */
-    registerHarvest(harvestParams: IHarvestParams): Observable<HarvestVm> {
+    registerHarvest(harvestParams: HarvestParams): Observable<HarvestVm> {
         let url_ = this.baseUrl + "/harvests/create";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2080,12 +2080,12 @@ export interface IUserVm {
     role?: UserRole | null;
 }
 
-export class INewUserParams implements IINewUserParams {
+export class NewUserParams implements INewUserParams {
     username: string;
     password: string;
     role: UserRole;
 
-    constructor(data?: IINewUserParams) {
+    constructor(data?: INewUserParams) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -2102,8 +2102,8 @@ export class INewUserParams implements IINewUserParams {
         }
     }
 
-    static fromJS(data: any): INewUserParams {
-        let result = new INewUserParams();
+    static fromJS(data: any): NewUserParams {
+        let result = new NewUserParams();
         result.init(data);
         return result;
     }
@@ -2117,7 +2117,7 @@ export class INewUserParams implements IINewUserParams {
     }
 }
 
-export interface IINewUserParams {
+export interface INewUserParams {
     username: string;
     password: string;
     role: UserRole;
@@ -2170,11 +2170,11 @@ export interface ILoginVm {
     _id?: string | null;
 }
 
-export class ILoginParams implements IILoginParams {
+export class LoginParams implements ILoginParams {
     username: string;
     password: string;
 
-    constructor(data?: IILoginParams) {
+    constructor(data?: ILoginParams) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -2190,8 +2190,8 @@ export class ILoginParams implements IILoginParams {
         }
     }
 
-    static fromJS(data: any): ILoginParams {
-        let result = new ILoginParams();
+    static fromJS(data: any): LoginParams {
+        let result = new LoginParams();
         result.init(data);
         return result;
     }
@@ -2204,7 +2204,7 @@ export class ILoginParams implements IILoginParams {
     }
 }
 
-export interface IILoginParams {
+export interface ILoginParams {
     username: string;
     password: string;
 }
@@ -2451,7 +2451,7 @@ export interface IEntryVm {
     selectedVariety: string;
 }
 
-export class INewEntryParams implements IINewEntryParams {
+export class NewEntryParams implements INewEntryParams {
     pounds: number;
     cropId?: string | null;
     harvesterId?: string | null;
@@ -2459,7 +2459,7 @@ export class INewEntryParams implements IINewEntryParams {
     recipientId?: string | null;
     selectedVariety?: string | null;
 
-    constructor(data?: IINewEntryParams) {
+    constructor(data?: INewEntryParams) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -2479,8 +2479,8 @@ export class INewEntryParams implements IINewEntryParams {
         }
     }
 
-    static fromJS(data: any): INewEntryParams {
-        let result = new INewEntryParams();
+    static fromJS(data: any): NewEntryParams {
+        let result = new NewEntryParams();
         result.init(data);
         return result;
     }
@@ -2497,7 +2497,7 @@ export class INewEntryParams implements IINewEntryParams {
     }
 }
 
-export interface IINewEntryParams {
+export interface INewEntryParams {
     pounds: number;
     cropId?: string | null;
     harvesterId?: string | null;
@@ -2561,12 +2561,12 @@ export interface IFarmVm {
     lng: number;
 }
 
-export class INewFarmParams implements IINewFarmParams {
+export class NewFarmParams implements INewFarmParams {
     name: string;
     lat: number;
     lng: number;
 
-    constructor(data?: IINewFarmParams) {
+    constructor(data?: INewFarmParams) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -2583,8 +2583,8 @@ export class INewFarmParams implements IINewFarmParams {
         }
     }
 
-    static fromJS(data: any): INewFarmParams {
-        let result = new INewFarmParams();
+    static fromJS(data: any): NewFarmParams {
+        let result = new NewFarmParams();
         result.init(data);
         return result;
     }
@@ -2598,18 +2598,18 @@ export class INewFarmParams implements IINewFarmParams {
     }
 }
 
-export interface IINewFarmParams {
+export interface INewFarmParams {
     name: string;
     lat: number;
     lng: number;
 }
 
-export class INewCropParams implements IINewCropParams {
+export class NewCropParams implements INewCropParams {
     name: string;
     variety: string[] = [];
     pricePerPound: number;
 
-    constructor(data?: IINewCropParams) {
+    constructor(data?: INewCropParams) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -2630,8 +2630,8 @@ export class INewCropParams implements IINewCropParams {
         }
     }
 
-    static fromJS(data: any): INewCropParams {
-        let result = new INewCropParams();
+    static fromJS(data: any): NewCropParams {
+        let result = new NewCropParams();
         result.init(data);
         return result;
     }
@@ -2649,17 +2649,17 @@ export class INewCropParams implements IINewCropParams {
     }
 }
 
-export interface IINewCropParams {
+export interface INewCropParams {
     name: string;
     variety: string[];
     pricePerPound: number;
 }
 
-export class INewHarvesterParams implements IINewHarvesterParams {
+export class NewHarvesterParams implements INewHarvesterParams {
     lastName: string;
     firstName: string;
 
-    constructor(data?: IINewHarvesterParams) {
+    constructor(data?: INewHarvesterParams) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -2675,8 +2675,8 @@ export class INewHarvesterParams implements IINewHarvesterParams {
         }
     }
 
-    static fromJS(data: any): INewHarvesterParams {
-        let result = new INewHarvesterParams();
+    static fromJS(data: any): NewHarvesterParams {
+        let result = new NewHarvesterParams();
         result.init(data);
         return result;
     }
@@ -2689,16 +2689,16 @@ export class INewHarvesterParams implements IINewHarvesterParams {
     }
 }
 
-export interface IINewHarvesterParams {
+export interface INewHarvesterParams {
     lastName: string;
     firstName: string;
 }
 
-export class INewOrganizationParams implements IINewOrganizationParams {
+export class NewOrganizationParams implements INewOrganizationParams {
     name: string;
     orgType?: OrganizationType | null;
 
-    constructor(data?: IINewOrganizationParams) {
+    constructor(data?: INewOrganizationParams) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -2714,8 +2714,8 @@ export class INewOrganizationParams implements IINewOrganizationParams {
         }
     }
 
-    static fromJS(data: any): INewOrganizationParams {
-        let result = new INewOrganizationParams();
+    static fromJS(data: any): NewOrganizationParams {
+        let result = new NewOrganizationParams();
         result.init(data);
         return result;
     }
@@ -2728,7 +2728,7 @@ export class INewOrganizationParams implements IINewOrganizationParams {
     }
 }
 
-export interface IINewOrganizationParams {
+export interface INewOrganizationParams {
     name: string;
     orgType?: OrganizationType | null;
 }
@@ -2792,12 +2792,12 @@ export interface IHarvestVm {
     entries: EntryVm[];
 }
 
-export class IHarvestParams implements IIHarvestParams {
+export class HarvestParams implements IHarvestParams {
     farmId: string;
     entriesIds?: string[] | null;
     harvestId?: string | null;
 
-    constructor(data?: IIHarvestParams) {
+    constructor(data?: IHarvestParams) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -2818,8 +2818,8 @@ export class IHarvestParams implements IIHarvestParams {
         }
     }
 
-    static fromJS(data: any): IHarvestParams {
-        let result = new IHarvestParams();
+    static fromJS(data: any): HarvestParams {
+        let result = new HarvestParams();
         result.init(data);
         return result;
     }
@@ -2837,7 +2837,7 @@ export class IHarvestParams implements IIHarvestParams {
     }
 }
 
-export interface IIHarvestParams {
+export interface IHarvestParams {
     farmId: string;
     entriesIds?: string[] | null;
     harvestId?: string | null;

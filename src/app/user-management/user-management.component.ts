@@ -4,7 +4,7 @@ import {EditUserDialogComponent} from './edit-user-dialog/edit-user-dialog.compo
 import {CreateUserDialogComponent} from './create-user-dialog/create-user-dialog.component';
 import {ConfirmDeleteUserDialogComponent} from './confirm-delete-user-dialog/confirm-delete-user-dialog.component';
 import 'rxjs/add/operator/mergeMap';
-import {INewUserParams, UserClient, UserVm} from '../app.api';
+import {NewUserParams, UserClient, UserVm} from '../app.api';
 
 @Component({
   selector: 'app-user-management',
@@ -62,7 +62,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
     );
 
     dialogRef.afterClosed().subscribe(
-      (newUser: INewUserParams): void => {
+      (newUser: NewUserParams): void => {
         if (newUser) {
           this.loading = true;
           this.systemService.registerUser(newUser).subscribe(
@@ -180,7 +180,7 @@ export class UserManagementComponent implements OnInit, OnDestroy {
     );
 
     dialogRef.afterClosed().subscribe(
-      (updatedUser: INewUserParams): void => {
+      (updatedUser: NewUserParams): void => {
         if (updatedUser) {
           this.loading = true;
           this.systemService.udpateUserById(user._id, updatedUser).subscribe(

@@ -2,9 +2,8 @@ import {EventEmitter, Injectable, Output} from '@angular/core';
 import 'rxjs/add/operator/map';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {HttpClient} from '@angular/common/http';
-// import {ILoginVm, SystemService} from '../swagger-api';
 import {MatSnackBar} from '@angular/material';
-import {ILoginParams, ILoginVm, UserClient, UserRole} from '../app.api';
+import {LoginParams, LoginVm, UserClient, UserRole} from '../app.api';
 
 @Injectable()
 export class AuthenticationService {
@@ -37,7 +36,7 @@ export class AuthenticationService {
   }
 
   login(username: string, password: string) {
-    return this.userClient.login(new ILoginParams({username, password})).map((response: ILoginVm) => {
+    return this.userClient.login(new LoginParams({username, password})).map((response: LoginVm) => {
       // login successful if there's a jwt token in the response
       const token = response && response.authToken;
       const role = response && response.role;

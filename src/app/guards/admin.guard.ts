@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Router, CanActivate} from '@angular/router';
+import {CanActivate, Router} from '@angular/router';
 
 @Injectable()
 export class AdminGuard implements CanActivate {
@@ -10,7 +10,7 @@ export class AdminGuard implements CanActivate {
   }
 
   canActivate() {
-    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.admin = currentUser && currentUser.admin;
 
     if (this.admin) {

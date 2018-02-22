@@ -10,8 +10,22 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/combineLatest';
 import {HttpErrorResponse} from '@angular/common/http';
 import {
-  CropClient, CropVm, EntryClient, EntryVm, FarmClient, FarmVm, HarvestClient, HarvesterClient, HarvesterVm, HarvestVm,
-  IHarvestParams, INewEntryParams, OrganizationClient, OrganizationVm, UserClient, UserVm
+  CropClient,
+  CropVm,
+  EntryClient,
+  EntryVm,
+  FarmClient,
+  FarmVm,
+  HarvestClient,
+  HarvesterClient,
+  HarvesterVm,
+  HarvestParams,
+  HarvestVm,
+  NewEntryParams,
+  OrganizationClient,
+  OrganizationVm,
+  UserClient,
+  UserVm
 } from '../app.api';
 
 @Component({
@@ -131,7 +145,7 @@ export class EntryComponent implements OnInit, OnDestroy {
   }
 
   startHarvest() {
-    const newHarvest: IHarvestParams = new IHarvestParams();
+    const newHarvest: HarvestParams = new HarvestParams();
     newHarvest.farmId = this.selectedFarm._id;
     this.harvestService.registerHarvest(newHarvest)
       .mergeMap((harvest: HarvestVm) => {
@@ -164,7 +178,7 @@ export class EntryComponent implements OnInit, OnDestroy {
     //   comments: this.form.get('comment').value,
     //   harvesterId: this.form.get('harvester').value
     // };
-    const newEntry: INewEntryParams = new INewEntryParams(this.form.value);
+    const newEntry: NewEntryParams = new NewEntryParams(this.form.value);
 
     this.entryService.registerEntry(newEntry)
       .subscribe((entry: EntryVm) => {
@@ -212,7 +226,7 @@ export class EntryComponent implements OnInit, OnDestroy {
     console.log(entryId.entries);
     console.log(harvestId.harvest);
 
-    const harvestParams: IHarvestParams = new IHarvestParams({
+    const harvestParams: HarvestParams = new HarvestParams({
       farmId: this.selectedFarm._id,
       entriesIds: entryId.entries,
       harvestId: harvestId.harvest

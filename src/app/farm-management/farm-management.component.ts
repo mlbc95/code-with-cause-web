@@ -3,7 +3,7 @@ import {MatDialog, MatSnackBar} from '@angular/material';
 import {CreateFarmDialogComponent} from './create-farm-dialog/create-farm-dialog.component';
 import {ConfirmDeleteFarmDialogComponent} from './confirm-delete-farm-dialog/confirm-delete-farm-dialog.component';
 import {EditFarmDialogComponent} from './edit-farm-dialog/edit-farm-dialog.component';
-import {FarmClient, FarmVm, INewFarmParams} from '../app.api';
+import {FarmClient, FarmVm, NewFarmParams} from '../app.api';
 
 @Component({
   selector: 'app-farm-management',
@@ -58,7 +58,7 @@ export class FarmManagementComponent implements OnInit, OnDestroy {
     );
 
     dialogRef.afterClosed().subscribe(
-      (newFarm: INewFarmParams): void => {
+      (newFarm: NewFarmParams): void => {
         if (newFarm) {
           this.loading = true;
           this.farmService.registerFarm(newFarm).subscribe(
@@ -176,7 +176,7 @@ export class FarmManagementComponent implements OnInit, OnDestroy {
     );
 
     dialogRef.afterClosed().subscribe(
-      (updatedFarm: INewFarmParams): void => {
+      (updatedFarm: NewFarmParams): void => {
         if (updatedFarm) {
           this.loading = true;
           this.farmService.updateById(farm._id, updatedFarm).subscribe(

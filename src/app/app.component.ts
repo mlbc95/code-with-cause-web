@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import {User} from "./model";
+import {Component} from '@angular/core';
+import {UserVm} from './app.api';
 
 @Component({
   selector: 'app-root',
@@ -8,5 +8,5 @@ import {User} from "./model";
 })
 export class AppComponent {
   title = 'Code With A Cause';
-  user: User;
+  user: UserVm;
 }

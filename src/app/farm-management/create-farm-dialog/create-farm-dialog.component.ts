@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {INewFarmParams} from '../../app.api';
+import {NewFarmParams} from '../../app.api';
 
 @Component({
   selector: 'app-create-farm-dialog',
@@ -7,12 +7,12 @@ import {INewFarmParams} from '../../app.api';
   styleUrls: ['./create-farm-dialog.component.scss']
 })
 export class CreateFarmDialogComponent implements OnInit {
-  farm: INewFarmParams;
+  farm: NewFarmParams;
 
   constructor() {
   }
 
   ngOnInit(): void {
-    this.farm = new INewFarmParams({name: '', lat: 0, lng: 0});
+    this.farm = new NewFarmParams({name: '', lat: 0, lng: 0});
   }
 }

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {INewOrganizationParams, OrganizationType} from '../../app.api';
+import {NewOrganizationParams, OrganizationType} from '../../app.api';
 
 @Component({
   selector: 'app-create-organization-dialog',
@@ -7,13 +7,13 @@ import {INewOrganizationParams, OrganizationType} from '../../app.api';
   styleUrls: ['./create-organization-dialog.component.scss']
 })
 export class CreateOrganizationDialogComponent implements OnInit {
-  organization: INewOrganizationParams;
+  organization: NewOrganizationParams;
 
   constructor() {
   }
 
   ngOnInit(): void {
-    this.organization = new INewOrganizationParams({orgType: OrganizationType.Purchased, name: ''});
+    this.organization = new NewOrganizationParams({orgType: OrganizationType.Purchased, name: ''});
   }
 
   changed(event: any) {

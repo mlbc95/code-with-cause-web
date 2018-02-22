@@ -4,7 +4,7 @@ import {CreateCropDialogComponent} from './create-crop-dialog/create-crop-dialog
 import {ConfirmDeleteCropDialogComponent} from './confirm-delete-crop-dialog/confirm-delete-crop-dialog.component';
 import {EditCropDialogComponent} from './edit-crop-dialog/edit-crop-dialog.component';
 import {FormGroup} from '@angular/forms';
-import {CropClient, CropVm, INewCropParams} from '../app.api';
+import {CropClient, CropVm, INewCropParams, NewCropParams} from '../app.api';
 
 @Component({
   selector: 'app-crop-management',
@@ -64,16 +64,11 @@ export class CropManagementComponent implements OnInit, OnDestroy {
           for (const i in cropForm.value.varieties) {
             varieties.push(cropForm.value.varieties[i].variety);
           }
-          const newCrop: INewCropParams = new INewCropParams({
+          const newCrop: NewCropParams = new NewCropParams({
             name: cropForm.value.name,
             variety: varieties,
             pricePerPound: cropForm.value.pricePerPound
           });
-          // this.cropService.configuration = new Configuration({
-          //   apiKeys: {
-          //     Authorization: this.token
-          //   }
-          // });
           this.cropService.registerCrop(newCrop).subscribe(
             (response: any): void => {
               this.cropService.getAll().subscribe(
@@ -195,7 +190,7 @@ export class CropManagementComponent implements OnInit, OnDestroy {
           for (const i in cropForm.value.varieties) {
             varieties.push(cropForm.value.varieties[i].variety);
           }
-          const updatedCrop: INewCropParams = new INewCropParams({
+          const updatedCrop: NewCropParams = new NewCropParams({
             name: cropForm.value.name,
             variety: varieties,
             pricePerPound: cropForm.value.pricePerPound

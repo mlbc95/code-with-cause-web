@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {INewCropParams} from '../../app.api';
+import {NewCropParams} from '../../app.api';
 
 @Component({
   selector: 'app-create-crop-dialog',
@@ -9,7 +9,7 @@ import {INewCropParams} from '../../app.api';
 })
 export class CreateCropDialogComponent implements OnInit {
   cropForm: FormGroup;
-  crop: INewCropParams;
+  crop: NewCropParams;
 
   constructor(private formBuilder: FormBuilder) {
   }
@@ -21,7 +21,7 @@ export class CreateCropDialogComponent implements OnInit {
       pricePerPound: [0, Validators.required]
     });
 
-    this.crop = new INewCropParams({
+    this.crop = new NewCropParams({
       name: this.cropForm.value.name,
       variety: this.cropForm.value.varieties,
       pricePerPound: this.cropForm.value.pricePerPound
