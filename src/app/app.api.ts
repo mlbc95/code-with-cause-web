@@ -1838,7 +1838,7 @@ export class ReportingClient extends BaseClient {
     /**
      * @return Ok
      */
-    getSalesPercentage(percentageType: string): Observable<PercentageReportResponse> {
+    getSalesPercentage(percentageType: PercentageType): Observable<PercentageReportResponse> {
         let url_ = this.baseUrl + "/reports/percentage?";
         if (percentageType === undefined || percentageType === null)
             throw new Error("The parameter 'percentageType' must be defined and cannot be null.");
@@ -1893,7 +1893,7 @@ export class ReportingClient extends BaseClient {
     /**
      * @return Ok
      */
-    getTotalWeightOrValue(weightOrValue: string): Observable<any> {
+    getTotalWeightOrValue(weightOrValue: WeightOrValue): Observable<any> {
         let url_ = this.baseUrl + "/reports/total?";
         if (weightOrValue === undefined || weightOrValue === null)
             throw new Error("The parameter 'weightOrValue' must be defined and cannot be null.");
@@ -2843,8 +2843,13 @@ export interface IHarvestParams {
     harvestId?: string | null;
 }
 
+export enum PercentageReportType {
+    Purchased = <any>"Purchased",
+    Donated = <any>"Donated",
+}
+
 export class PercentageReportResponse implements IPercentageReportResponse {
-    type?: string | null;
+    type?: PercentageReportType | null;
     createdOn?: moment.Moment | null;
     percentage?: string | null;
 
@@ -2881,9 +2886,19 @@ export class PercentageReportResponse implements IPercentageReportResponse {
 }
 
 export interface IPercentageReportResponse {
-    type?: string | null;
+    type?: PercentageReportType | null;
     createdOn?: moment.Moment | null;
     percentage?: string | null;
+}
+
+export enum PercentageType {
+    Purchased = <any>"Purchased",
+    Donated = <any>"Donated",
+}
+
+export enum WeightOrValue {
+    Weight = <any>"Weight",
+    Value = <any>"Value",
 }
 
 export interface FileParameter {
