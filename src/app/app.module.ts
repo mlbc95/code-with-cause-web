@@ -4,8 +4,19 @@ import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
-  MatButtonModule, MatCardModule, MatCheckboxModule, MatChipsModule, MatDialogModule, MatExpansionModule, MatFormFieldModule,
-  MatIconModule, MatInputModule, MatRadioModule, MatSelectModule, MatSliderModule, MatSnackBarModule
+  MatButtonModule,
+  MatCardModule,
+  MatCheckboxModule,
+  MatChipsModule,
+  MatDialogModule,
+  MatExpansionModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+  MatRadioModule,
+  MatSelectModule,
+  MatSliderModule,
+  MatSnackBarModule
 } from '@angular/material';
 import {LoginComponent} from './login/login.component';
 import {EntryComponent} from './entry/entry.component';
@@ -41,8 +52,16 @@ import {ReportingComponent} from './reporting/reporting.component';
 import {PrimengImportModule} from './primeng-module';
 import {ProgressSpinnerModule} from 'primeng/primeng';
 import {
-  API_BASE_URL, CropClient, EntryClient, FarmClient, HarvestClient, HarvesterClient, OrganizationClient, ReportingClient,
-  SystemClient, UserClient
+  API_BASE_URL,
+  CropClient,
+  EntryClient,
+  FarmClient,
+  HarvestClient,
+  HarvesterClient,
+  OrganizationClient,
+  ReportingClient,
+  SystemClient,
+  UserClient
 } from './app.api';
 import {environment} from '../environments/environment';
 
@@ -161,5 +180,5 @@ export class AppModule {
 // }
 
 export function baseUrl(): string {
-  return environment.production ? window.location.origin + '/api' : 'http://localhost:8080/api';
+  return environment.apiUrl;
 }
