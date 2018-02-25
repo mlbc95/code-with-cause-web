@@ -1,8 +1,4 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-// import {
-//   Configuration, ConfigurationParameters, CropService, EntryService, FarmService, HarvesterService, HarvestService, ICropVm, IEntryVm,
-//   IFarmVm, IHarvesterVm, IHarvestParams, IHarvestVm, INewEntryParams, IOrganizationVm, IUserVm, OrganizationService, SystemService
-// } from '../swagger-api';
 import {Message} from 'primeng/api';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
