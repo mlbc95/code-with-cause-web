@@ -8,7 +8,6 @@ import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/combineLatest';
-import {HttpErrorResponse} from '@angular/common/http';
 import {
   CropClient,
   CropVm,
@@ -24,6 +23,7 @@ import {
   NewEntryParams,
   OrganizationClient,
   OrganizationVm,
+  SwaggerException,
   UserClient,
   UserVm
 } from '../app.api';
@@ -178,7 +178,14 @@ export class EntryComponent implements OnInit, OnDestroy {
     //   comments: this.form.get('comment').value,
     //   harvesterId: this.form.get('harvester').value
     // };
-    const newEntry: NewEntryParams = new NewEntryParams(this.form.value);
+    const newEntry: NewEntryParams = new NewEntryParams({
+      cropId: this.form.get('crop').value,
+      selectedVariety: this.form.get('variety').value,
+      recipientId: this.form.get('recipient').value,
+      pounds: this.form.get('pounds').value,
+      comments: this.form.get('comment').value,
+      harvesterId: this.form.get('harvester').value
+    });
 
     this.entryService.registerEntry(newEntry)
       .subscribe((entry: EntryVm) => {
@@ -192,7 +199,7 @@ export class EntryComponent implements OnInit, OnDestroy {
         this.form.reset();
         this.priceTotal = 0;
         this.pounds = 0;
-      }, (error: HttpErrorResponse) => {
+      }, (error: SwaggerException) => {
         console.log(error);
       });
     // const newEntry: INewEntryParams = {
