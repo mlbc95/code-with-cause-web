@@ -2094,7 +2094,7 @@ export class UserVm implements IUserVm {
     _id?: string | null;
     username?: string | null;
     password?: string | null;
-    role?: string[] | null;
+    role?: UserRole | null;
 
     constructor(data?: IUserVm) {
         if (data) {
@@ -2112,11 +2112,7 @@ export class UserVm implements IUserVm {
             this._id = data["_id"] !== undefined ? data["_id"] : <any>null;
             this.username = data["username"] !== undefined ? data["username"] : <any>null;
             this.password = data["password"] !== undefined ? data["password"] : <any>null;
-            if (data["role"] && data["role"].constructor === Array) {
-                this.role = [];
-                for (let item of data["role"])
-                    this.role.push(item);
-            }
+            this.role = data["role"] !== undefined ? data["role"] : <any>null;
         }
     }
 
@@ -2133,11 +2129,7 @@ export class UserVm implements IUserVm {
         data["_id"] = this._id !== undefined ? this._id : <any>null;
         data["username"] = this.username !== undefined ? this.username : <any>null;
         data["password"] = this.password !== undefined ? this.password : <any>null;
-        if (this.role && this.role.constructor === Array) {
-            data["role"] = [];
-            for (let item of this.role)
-                data["role"].push(item);
-        }
+        data["role"] = this.role !== undefined ? this.role : <any>null;
         return data;
     }
 }
@@ -2148,13 +2140,13 @@ export interface IUserVm {
     _id?: string | null;
     username?: string | null;
     password?: string | null;
-    role?: string[] | null;
+    role?: UserRole | null;
 }
 
 export class NewUserParams implements INewUserParams {
     username: string;
     password: string;
-    role: string[] = [];
+    role: UserRole;
 
     constructor(data?: INewUserParams) {
         if (data) {
@@ -2169,11 +2161,7 @@ export class NewUserParams implements INewUserParams {
         if (data) {
             this.username = data["username"] !== undefined ? data["username"] : <any>null;
             this.password = data["password"] !== undefined ? data["password"] : <any>null;
-            if (data["role"] && data["role"].constructor === Array) {
-                this.role = [];
-                for (let item of data["role"])
-                    this.role.push(item);
-            }
+            this.role = data["role"] !== undefined ? data["role"] : <any>null;
         }
     }
 
@@ -2187,11 +2175,7 @@ export class NewUserParams implements INewUserParams {
         data = typeof data === 'object' ? data : {};
         data["username"] = this.username !== undefined ? this.username : <any>null;
         data["password"] = this.password !== undefined ? this.password : <any>null;
-        if (this.role && this.role.constructor === Array) {
-            data["role"] = [];
-            for (let item of this.role)
-                data["role"].push(item);
-        }
+        data["role"] = this.role !== undefined ? this.role : <any>null;
         return data;
     }
 }
@@ -2199,13 +2183,13 @@ export class NewUserParams implements INewUserParams {
 export interface INewUserParams {
     username: string;
     password: string;
-    role: string[];
+    role: UserRole;
 }
 
 export class LoginVm implements ILoginVm {
     authToken: string;
     username?: string | null;
-    role?: string[] | null;
+    role?: UserRole | null;
     _id?: string | null;
 
     constructor(data?: ILoginVm) {
@@ -2221,11 +2205,7 @@ export class LoginVm implements ILoginVm {
         if (data) {
             this.authToken = data["authToken"] !== undefined ? data["authToken"] : <any>null;
             this.username = data["username"] !== undefined ? data["username"] : <any>null;
-            if (data["role"] && data["role"].constructor === Array) {
-                this.role = [];
-                for (let item of data["role"])
-                    this.role.push(item);
-            }
+            this.role = data["role"] !== undefined ? data["role"] : <any>null;
             this._id = data["_id"] !== undefined ? data["_id"] : <any>null;
         }
     }
@@ -2240,11 +2220,7 @@ export class LoginVm implements ILoginVm {
         data = typeof data === 'object' ? data : {};
         data["authToken"] = this.authToken !== undefined ? this.authToken : <any>null;
         data["username"] = this.username !== undefined ? this.username : <any>null;
-        if (this.role && this.role.constructor === Array) {
-            data["role"] = [];
-            for (let item of this.role)
-                data["role"].push(item);
-        }
+        data["role"] = this.role !== undefined ? this.role : <any>null;
         data["_id"] = this._id !== undefined ? this._id : <any>null;
         return data;
     }
@@ -2253,7 +2229,7 @@ export class LoginVm implements ILoginVm {
 export interface ILoginVm {
     authToken: string;
     username?: string | null;
-    role?: string[] | null;
+    role?: UserRole | null;
     _id?: string | null;
 }
 
@@ -2420,7 +2396,7 @@ export class OrganizationVm implements IOrganizationVm {
     createdOn?: moment.Moment | null;
     updatedOn?: moment.Moment | null;
     _id?: string | null;
-    orgType?: string[] | null;
+    orgType?: OrganizationType | null;
     name?: string | null;
 
     constructor(data?: IOrganizationVm) {
@@ -2437,11 +2413,7 @@ export class OrganizationVm implements IOrganizationVm {
             this.createdOn = data["createdOn"] ? moment(data["createdOn"].toString()) : <any>null;
             this.updatedOn = data["updatedOn"] ? moment(data["updatedOn"].toString()) : <any>null;
             this._id = data["_id"] !== undefined ? data["_id"] : <any>null;
-            if (data["orgType"] && data["orgType"].constructor === Array) {
-                this.orgType = [];
-                for (let item of data["orgType"])
-                    this.orgType.push(item);
-            }
+            this.orgType = data["orgType"] !== undefined ? data["orgType"] : <any>null;
             this.name = data["name"] !== undefined ? data["name"] : <any>null;
         }
     }
@@ -2457,11 +2429,7 @@ export class OrganizationVm implements IOrganizationVm {
         data["createdOn"] = this.createdOn ? this.createdOn.toISOString() : <any>null;
         data["updatedOn"] = this.updatedOn ? this.updatedOn.toISOString() : <any>null;
         data["_id"] = this._id !== undefined ? this._id : <any>null;
-        if (this.orgType && this.orgType.constructor === Array) {
-            data["orgType"] = [];
-            for (let item of this.orgType)
-                data["orgType"].push(item);
-        }
+        data["orgType"] = this.orgType !== undefined ? this.orgType : <any>null;
         data["name"] = this.name !== undefined ? this.name : <any>null;
         return data;
     }
@@ -2471,7 +2439,7 @@ export interface IOrganizationVm {
     createdOn?: moment.Moment | null;
     updatedOn?: moment.Moment | null;
     _id?: string | null;
-    orgType?: string[] | null;
+    orgType?: OrganizationType | null;
     name?: string | null;
 }
 
@@ -2791,7 +2759,7 @@ export interface INewHarvesterParams {
 
 export class NewOrganizationParams implements INewOrganizationParams {
     name: string;
-    orgType?: string[] | null;
+    orgType?: OrganizationType | null;
 
     constructor(data?: INewOrganizationParams) {
         if (data) {
@@ -2805,11 +2773,7 @@ export class NewOrganizationParams implements INewOrganizationParams {
     init(data?: any) {
         if (data) {
             this.name = data["name"] !== undefined ? data["name"] : <any>null;
-            if (data["orgType"] && data["orgType"].constructor === Array) {
-                this.orgType = [];
-                for (let item of data["orgType"])
-                    this.orgType.push(item);
-            }
+            this.orgType = data["orgType"] !== undefined ? data["orgType"] : <any>null;
         }
     }
 
@@ -2822,18 +2786,14 @@ export class NewOrganizationParams implements INewOrganizationParams {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["name"] = this.name !== undefined ? this.name : <any>null;
-        if (this.orgType && this.orgType.constructor === Array) {
-            data["orgType"] = [];
-            for (let item of this.orgType)
-                data["orgType"].push(item);
-        }
+        data["orgType"] = this.orgType !== undefined ? this.orgType : <any>null;
         return data;
     }
 }
 
 export interface INewOrganizationParams {
     name: string;
-    orgType?: string[] | null;
+    orgType?: OrganizationType | null;
 }
 
 export class HarvestVm implements IHarvestVm {
@@ -2952,7 +2912,7 @@ export enum PercentageReportType {
 }
 
 export class PercentageReportResponse implements IPercentageReportResponse {
-    type?: string[] | null;
+    type?: PercentageReportType | null;
     createdOn?: moment.Moment | null;
     percentage?: string | null;
 
@@ -2967,11 +2927,7 @@ export class PercentageReportResponse implements IPercentageReportResponse {
 
     init(data?: any) {
         if (data) {
-            if (data["type"] && data["type"].constructor === Array) {
-                this.type = [];
-                for (let item of data["type"])
-                    this.type.push(item);
-            }
+            this.type = data["type"] !== undefined ? data["type"] : <any>null;
             this.createdOn = data["createdOn"] ? moment(data["createdOn"].toString()) : <any>null;
             this.percentage = data["percentage"] !== undefined ? data["percentage"] : <any>null;
         }
@@ -2985,11 +2941,7 @@ export class PercentageReportResponse implements IPercentageReportResponse {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        if (this.type && this.type.constructor === Array) {
-            data["type"] = [];
-            for (let item of this.type)
-                data["type"].push(item);
-        }
+        data["type"] = this.type !== undefined ? this.type : <any>null;
         data["createdOn"] = this.createdOn ? this.createdOn.toISOString() : <any>null;
         data["percentage"] = this.percentage !== undefined ? this.percentage : <any>null;
         return data;
@@ -2997,7 +2949,7 @@ export class PercentageReportResponse implements IPercentageReportResponse {
 }
 
 export interface IPercentageReportResponse {
-    type?: string[] | null;
+    type?: PercentageReportType | null;
     createdOn?: moment.Moment | null;
     percentage?: string | null;
 }

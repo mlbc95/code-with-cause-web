@@ -36,7 +36,8 @@ export class AuthenticationService {
   }
 
   login(username: string, password: string) {
-    return this.userClient.login(new LoginParams({username, password})).map((response: LoginVm) => {
+    return this.userClient.login(new LoginParams({username, password}))
+      .map((response: LoginVm) => {
       // login successful if there's a jwt token in the response
       const token = response && response.authToken;
       const role = response && response.role;
