@@ -605,63 +605,6 @@ export class EntryClient extends BaseClient {
     /**
      * @return Ok
      */
-    updateEntry(id: string, updatedEntryParams: NewEntryParams): Observable<EntryVm> {
-        let url_ = this.baseUrl + "/entries/{id}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(updatedEntryParams);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            })
-        };
-
-        return Observable.fromPromise(this.transformOptions(options_)).flatMap(transformedOptions_ => {
-            return this.http.request("put", url_, transformedOptions_);
-        }).flatMap((response_: any) => {
-            return this.processUpdateEntry(response_);
-        }).catch((response_: any) => {
-            if (response_ instanceof HttpResponse) {
-                try {
-                    return this.processUpdateEntry(response_);
-                } catch (e) {
-                    return <Observable<EntryVm>><any>Observable.throw(e);
-                }
-            } else
-                return <Observable<EntryVm>><any>Observable.throw(response_);
-        });
-    }
-
-    protected processUpdateEntry(response: HttpResponse<Blob>): Observable<EntryVm> {
-        const status = response.status;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(response.body).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? EntryVm.fromJS(resultData200) : new EntryVm();
-            return Observable.of(result200);
-            });
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(response.body).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Observable.of<EntryVm>(<any>null);
-    }
-
-    /**
-     * @return Ok
-     */
     deleteEntry(id: string): Observable<EntryVm> {
         let url_ = this.baseUrl + "/entries/{id}";
         if (id === undefined || id === null)
@@ -695,6 +638,63 @@ export class EntryClient extends BaseClient {
     }
 
     protected processDeleteEntry(response: HttpResponse<Blob>): Observable<EntryVm> {
+        const status = response.status;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(response.body).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? EntryVm.fromJS(resultData200) : new EntryVm();
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<EntryVm>(<any>null);
+    }
+
+    /**
+     * @return Ok
+     */
+    updateEntry(harvestId: string, updatedEntryVm: EntryVm): Observable<EntryVm> {
+        let url_ = this.baseUrl + "/entries/{harvestId}";
+        if (harvestId === undefined || harvestId === null)
+            throw new Error("The parameter 'harvestId' must be defined.");
+        url_ = url_.replace("{harvestId}", encodeURIComponent("" + harvestId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(updatedEntryVm);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return Observable.fromPromise(this.transformOptions(options_)).flatMap(transformedOptions_ => {
+            return this.http.request("put", url_, transformedOptions_);
+        }).flatMap((response_: any) => {
+            return this.processUpdateEntry(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponse) {
+                try {
+                    return this.processUpdateEntry(response_);
+                } catch (e) {
+                    return <Observable<EntryVm>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<EntryVm>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processUpdateEntry(response: HttpResponse<Blob>): Observable<EntryVm> {
         const status = response.status;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -2018,6 +2018,69 @@ export class SystemClient extends BaseClient {
         }
         return Observable.of<CropVm[]>(<any>null);
     }
+
+    /**
+     * @return Ok
+     */
+    clearDatabase(collection: Collection[], dropUser?: boolean | null): Observable<any> {
+        let url_ = this.baseUrl + "/system/clearDatabase?";
+        if (collection === undefined || collection === null)
+            throw new Error("The parameter 'collection' must be defined and cannot be null.");
+        else
+            collection && collection.forEach(item => { url_ += "collection=" + encodeURIComponent("" + item) + "&"; });
+        if (dropUser !== undefined)
+            url_ += "dropUser=" + encodeURIComponent("" + dropUser) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return Observable.fromPromise(this.transformOptions(options_)).flatMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        }).flatMap((response_: any) => {
+            return this.processClearDatabase(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponse) {
+                try {
+                    return this.processClearDatabase(response_);
+                } catch (e) {
+                    return <Observable<any>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<any>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processClearDatabase(response: HttpResponse<Blob>): Observable<any> {
+        const status = response.status;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(response.body).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200) {
+                result200 = {};
+                for (let key in resultData200) {
+                    if (resultData200.hasOwnProperty(key))
+                        result200[key] = resultData200[key] !== undefined ? resultData200[key] : <any>null;
+                }
+            }
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(response.body).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<any>(<any>null);
+    }
 }
 
 export enum UserRole {
@@ -2031,7 +2094,7 @@ export class UserVm implements IUserVm {
     _id?: string | null;
     username?: string | null;
     password?: string | null;
-    role?: UserRole | null;
+    role?: string[] | null;
 
     constructor(data?: IUserVm) {
         if (data) {
@@ -2049,7 +2112,11 @@ export class UserVm implements IUserVm {
             this._id = data["_id"] !== undefined ? data["_id"] : <any>null;
             this.username = data["username"] !== undefined ? data["username"] : <any>null;
             this.password = data["password"] !== undefined ? data["password"] : <any>null;
-            this.role = data["role"] !== undefined ? data["role"] : <any>null;
+            if (data["role"] && data["role"].constructor === Array) {
+                this.role = [];
+                for (let item of data["role"])
+                    this.role.push(item);
+            }
         }
     }
 
@@ -2066,7 +2133,11 @@ export class UserVm implements IUserVm {
         data["_id"] = this._id !== undefined ? this._id : <any>null;
         data["username"] = this.username !== undefined ? this.username : <any>null;
         data["password"] = this.password !== undefined ? this.password : <any>null;
-        data["role"] = this.role !== undefined ? this.role : <any>null;
+        if (this.role && this.role.constructor === Array) {
+            data["role"] = [];
+            for (let item of this.role)
+                data["role"].push(item);
+        }
         return data;
     }
 }
@@ -2077,13 +2148,13 @@ export interface IUserVm {
     _id?: string | null;
     username?: string | null;
     password?: string | null;
-    role?: UserRole | null;
+    role?: string[] | null;
 }
 
 export class NewUserParams implements INewUserParams {
     username: string;
     password: string;
-    role: UserRole;
+    role: string[] = [];
 
     constructor(data?: INewUserParams) {
         if (data) {
@@ -2098,7 +2169,11 @@ export class NewUserParams implements INewUserParams {
         if (data) {
             this.username = data["username"] !== undefined ? data["username"] : <any>null;
             this.password = data["password"] !== undefined ? data["password"] : <any>null;
-            this.role = data["role"] !== undefined ? data["role"] : <any>null;
+            if (data["role"] && data["role"].constructor === Array) {
+                this.role = [];
+                for (let item of data["role"])
+                    this.role.push(item);
+            }
         }
     }
 
@@ -2112,7 +2187,11 @@ export class NewUserParams implements INewUserParams {
         data = typeof data === 'object' ? data : {};
         data["username"] = this.username !== undefined ? this.username : <any>null;
         data["password"] = this.password !== undefined ? this.password : <any>null;
-        data["role"] = this.role !== undefined ? this.role : <any>null;
+        if (this.role && this.role.constructor === Array) {
+            data["role"] = [];
+            for (let item of this.role)
+                data["role"].push(item);
+        }
         return data;
     }
 }
@@ -2120,13 +2199,13 @@ export class NewUserParams implements INewUserParams {
 export interface INewUserParams {
     username: string;
     password: string;
-    role: UserRole;
+    role: string[];
 }
 
 export class LoginVm implements ILoginVm {
     authToken: string;
     username?: string | null;
-    role?: UserRole | null;
+    role?: string[] | null;
     _id?: string | null;
 
     constructor(data?: ILoginVm) {
@@ -2142,7 +2221,11 @@ export class LoginVm implements ILoginVm {
         if (data) {
             this.authToken = data["authToken"] !== undefined ? data["authToken"] : <any>null;
             this.username = data["username"] !== undefined ? data["username"] : <any>null;
-            this.role = data["role"] !== undefined ? data["role"] : <any>null;
+            if (data["role"] && data["role"].constructor === Array) {
+                this.role = [];
+                for (let item of data["role"])
+                    this.role.push(item);
+            }
             this._id = data["_id"] !== undefined ? data["_id"] : <any>null;
         }
     }
@@ -2157,7 +2240,11 @@ export class LoginVm implements ILoginVm {
         data = typeof data === 'object' ? data : {};
         data["authToken"] = this.authToken !== undefined ? this.authToken : <any>null;
         data["username"] = this.username !== undefined ? this.username : <any>null;
-        data["role"] = this.role !== undefined ? this.role : <any>null;
+        if (this.role && this.role.constructor === Array) {
+            data["role"] = [];
+            for (let item of this.role)
+                data["role"].push(item);
+        }
         data["_id"] = this._id !== undefined ? this._id : <any>null;
         return data;
     }
@@ -2166,7 +2253,7 @@ export class LoginVm implements ILoginVm {
 export interface ILoginVm {
     authToken: string;
     username?: string | null;
-    role?: UserRole | null;
+    role?: string[] | null;
     _id?: string | null;
 }
 
@@ -2333,7 +2420,7 @@ export class OrganizationVm implements IOrganizationVm {
     createdOn?: moment.Moment | null;
     updatedOn?: moment.Moment | null;
     _id?: string | null;
-    orgType?: OrganizationType | null;
+    orgType?: string[] | null;
     name?: string | null;
 
     constructor(data?: IOrganizationVm) {
@@ -2350,7 +2437,11 @@ export class OrganizationVm implements IOrganizationVm {
             this.createdOn = data["createdOn"] ? moment(data["createdOn"].toString()) : <any>null;
             this.updatedOn = data["updatedOn"] ? moment(data["updatedOn"].toString()) : <any>null;
             this._id = data["_id"] !== undefined ? data["_id"] : <any>null;
-            this.orgType = data["orgType"] !== undefined ? data["orgType"] : <any>null;
+            if (data["orgType"] && data["orgType"].constructor === Array) {
+                this.orgType = [];
+                for (let item of data["orgType"])
+                    this.orgType.push(item);
+            }
             this.name = data["name"] !== undefined ? data["name"] : <any>null;
         }
     }
@@ -2366,7 +2457,11 @@ export class OrganizationVm implements IOrganizationVm {
         data["createdOn"] = this.createdOn ? this.createdOn.toISOString() : <any>null;
         data["updatedOn"] = this.updatedOn ? this.updatedOn.toISOString() : <any>null;
         data["_id"] = this._id !== undefined ? this._id : <any>null;
-        data["orgType"] = this.orgType !== undefined ? this.orgType : <any>null;
+        if (this.orgType && this.orgType.constructor === Array) {
+            data["orgType"] = [];
+            for (let item of this.orgType)
+                data["orgType"].push(item);
+        }
         data["name"] = this.name !== undefined ? this.name : <any>null;
         return data;
     }
@@ -2376,7 +2471,7 @@ export interface IOrganizationVm {
     createdOn?: moment.Moment | null;
     updatedOn?: moment.Moment | null;
     _id?: string | null;
-    orgType?: OrganizationType | null;
+    orgType?: string[] | null;
     name?: string | null;
 }
 
@@ -2696,7 +2791,7 @@ export interface INewHarvesterParams {
 
 export class NewOrganizationParams implements INewOrganizationParams {
     name: string;
-    orgType?: OrganizationType | null;
+    orgType?: string[] | null;
 
     constructor(data?: INewOrganizationParams) {
         if (data) {
@@ -2710,7 +2805,11 @@ export class NewOrganizationParams implements INewOrganizationParams {
     init(data?: any) {
         if (data) {
             this.name = data["name"] !== undefined ? data["name"] : <any>null;
-            this.orgType = data["orgType"] !== undefined ? data["orgType"] : <any>null;
+            if (data["orgType"] && data["orgType"].constructor === Array) {
+                this.orgType = [];
+                for (let item of data["orgType"])
+                    this.orgType.push(item);
+            }
         }
     }
 
@@ -2723,14 +2822,18 @@ export class NewOrganizationParams implements INewOrganizationParams {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["name"] = this.name !== undefined ? this.name : <any>null;
-        data["orgType"] = this.orgType !== undefined ? this.orgType : <any>null;
+        if (this.orgType && this.orgType.constructor === Array) {
+            data["orgType"] = [];
+            for (let item of this.orgType)
+                data["orgType"].push(item);
+        }
         return data;
     }
 }
 
 export interface INewOrganizationParams {
     name: string;
-    orgType?: OrganizationType | null;
+    orgType?: string[] | null;
 }
 
 export class HarvestVm implements IHarvestVm {
@@ -2849,7 +2952,7 @@ export enum PercentageReportType {
 }
 
 export class PercentageReportResponse implements IPercentageReportResponse {
-    type?: PercentageReportType | null;
+    type?: string[] | null;
     createdOn?: moment.Moment | null;
     percentage?: string | null;
 
@@ -2864,7 +2967,11 @@ export class PercentageReportResponse implements IPercentageReportResponse {
 
     init(data?: any) {
         if (data) {
-            this.type = data["type"] !== undefined ? data["type"] : <any>null;
+            if (data["type"] && data["type"].constructor === Array) {
+                this.type = [];
+                for (let item of data["type"])
+                    this.type.push(item);
+            }
             this.createdOn = data["createdOn"] ? moment(data["createdOn"].toString()) : <any>null;
             this.percentage = data["percentage"] !== undefined ? data["percentage"] : <any>null;
         }
@@ -2878,7 +2985,11 @@ export class PercentageReportResponse implements IPercentageReportResponse {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["type"] = this.type !== undefined ? this.type : <any>null;
+        if (this.type && this.type.constructor === Array) {
+            data["type"] = [];
+            for (let item of this.type)
+                data["type"].push(item);
+        }
         data["createdOn"] = this.createdOn ? this.createdOn.toISOString() : <any>null;
         data["percentage"] = this.percentage !== undefined ? this.percentage : <any>null;
         return data;
@@ -2886,9 +2997,80 @@ export class PercentageReportResponse implements IPercentageReportResponse {
 }
 
 export interface IPercentageReportResponse {
-    type?: PercentageReportType | null;
+    type?: string[] | null;
     createdOn?: moment.Moment | null;
     percentage?: string | null;
+}
+
+export class ClearDbResponse implements IClearDbResponse {
+    result: any = {};
+    connection?: any | null;
+    deletedCount?: number | null;
+    collection?: string | null;
+
+    constructor(data?: IClearDbResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["result"]) {
+                this.result = {};
+                for (let key in data["result"]) {
+                    if (data["result"].hasOwnProperty(key))
+                        this.result[key] = data["result"][key] !== undefined ? data["result"][key] : <any>null;
+                }
+            }
+            if (data["connection"]) {
+                this.connection = {};
+                for (let key in data["connection"]) {
+                    if (data["connection"].hasOwnProperty(key))
+                        this.connection[key] = data["connection"][key] !== undefined ? data["connection"][key] : <any>null;
+                }
+            }
+            this.deletedCount = data["deletedCount"] !== undefined ? data["deletedCount"] : <any>null;
+            this.collection = data["collection"] !== undefined ? data["collection"] : <any>null;
+        }
+    }
+
+    static fromJS(data: any): ClearDbResponse {
+        let result = new ClearDbResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.result) {
+            data["result"] = {};
+            for (let key in this.result) {
+                if (this.result.hasOwnProperty(key))
+                    data["result"][key] = this.result[key] !== undefined ? this.result[key] : <any>null;
+            }
+        }
+        if (this.connection) {
+            data["connection"] = {};
+            for (let key in this.connection) {
+                if (this.connection.hasOwnProperty(key))
+                    data["connection"][key] = this.connection[key] !== undefined ? this.connection[key] : <any>null;
+            }
+        }
+        data["deletedCount"] = this.deletedCount !== undefined ? this.deletedCount : <any>null;
+        data["collection"] = this.collection !== undefined ? this.collection : <any>null;
+        return data;
+    }
+}
+
+export interface IClearDbResponse {
+    result: any;
+    connection?: any | null;
+    deletedCount?: number | null;
+    collection?: string | null;
 }
 
 export enum PercentageType {
@@ -2899,6 +3081,16 @@ export enum PercentageType {
 export enum WeightOrValue {
     Weight = <any>"Weight",
     Value = <any>"Value",
+}
+
+export enum Collection {
+    Crops = <any>"crops",
+    Entries = <any>"entries",
+    Farms = <any>"farms",
+    Harvesters = <any>"harvesters",
+    Harvests = <any>"harvests",
+    Organizations = <any>"organizations",
+    Users = <any>"users",
 }
 
 export interface FileParameter {
