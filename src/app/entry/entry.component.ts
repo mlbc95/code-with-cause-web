@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Message} from 'primeng/api';
 import {Router} from '@angular/router';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/combineLatest';
 import {
@@ -127,7 +127,7 @@ export class EntryComponent implements OnInit, OnDestroy {
       recipient: [''],
       comment: [''],
       pounds: [0],
-      priceTotal: [0]
+      priceTotal: new FormControl({value: 0, disabled: true})
     });
   }
 

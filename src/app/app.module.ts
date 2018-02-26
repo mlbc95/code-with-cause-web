@@ -64,6 +64,7 @@ import {
   UserClient
 } from './app.api';
 import {environment} from '../environments/environment';
+import { ConfirmLogoutDialogComponent } from './header/confirm-logout-dialog/confirm-logout-dialog.component';
 
 @NgModule({
   declarations: [
@@ -94,6 +95,7 @@ import {environment} from '../environments/environment';
     ConfirmDeleteCropDialogComponent,
     ReportingComponent,
     GenerateReportDialogComponent,
+    ConfirmLogoutDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -161,7 +163,8 @@ import {environment} from '../environments/environment';
     CreateUserDialogComponent,
     ConfirmDeleteUserDialogComponent,
     EditUserDialogComponent,
-    GenerateReportDialogComponent
+    GenerateReportDialogComponent,
+    ConfirmLogoutDialogComponent
   ]
 })
 export class AppModule {
