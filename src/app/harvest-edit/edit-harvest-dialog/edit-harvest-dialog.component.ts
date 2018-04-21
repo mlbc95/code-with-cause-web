@@ -35,35 +35,4 @@ export class EditHarvestDialogComponent implements OnInit {
       console.log(error2);
     });
   }
-
-
-  // getVarieties(cropForm) {
-  //   return cropForm.get('varieties').controls;
-  // }
-  //
-  // initVariety() {
-  //   const arr: any[] = [];
-  //   this.crop.variety.forEach((variety: string) => {
-  //     arr.push(this.formBuilder.group({
-  //       variety: [variety, Validators.required]
-  //     }));
-  //   });
-  //   return arr;
-  // }
-  //
-  // createVariety(): FormGroup {
-  //   return this.formBuilder.group({
-  //     variety: ['', Validators.required]
-  //   });
-  // }
-  //
-  // addVariety(): void {
-  //   const control = <FormArray>this.cropForm.controls['varieties'];
-  //   control.push(this.createVariety());
-  // }
-  //
-  // removeVariety(varietyIndex: number): void {
-  //   const control = <FormArray>this.cropForm.controls['varieties'];
-  //   control.removeAt(varietyIndex);
-  // }
 }
