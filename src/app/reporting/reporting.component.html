@@ -1,2 +1,16 @@
 <h2 class="center-align">Reporting</h2>
-<button class="btn btn-primary max-width" type="button" (click)="generateNewReport();">Generate New Report</button>
+<hr>
+<div>
+    <h4>Donated:</h4>
+    <p>{{donatedPerc}}%</p>
+</div>
+<div>
+        <h4>Purchased:</h4>
+        <p>{{purchPerc}}%</p>
+    </div>
+<div>
+    <h4>Farms:</h4>
+    <p-chart type="pie" [data]="data"></p-chart>
+</div>
+
+<!-- <button class="btn btn-primary max-width" type="button" (click)="generateNewReport();">Generate New Report</button> -->
