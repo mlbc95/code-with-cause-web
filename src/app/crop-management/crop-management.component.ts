@@ -4,7 +4,7 @@ import {CreateCropDialogComponent} from './create-crop-dialog/create-crop-dialog
 import {ConfirmDeleteCropDialogComponent} from './confirm-delete-crop-dialog/confirm-delete-crop-dialog.component';
 import {EditCropDialogComponent} from './edit-crop-dialog/edit-crop-dialog.component';
 import {FormGroup} from '@angular/forms';
-import {CropClient, CropVm, INewCropParams, NewCropParams} from '../app.api';
+import {CropClient, CropVm, NewCropParams} from '../app.api';
 
 @Component({
   selector: 'app-crop-management',
