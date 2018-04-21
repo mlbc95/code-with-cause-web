@@ -2050,7 +2050,7 @@ export class ReportingClient extends BaseClient {
     /**
      * @return Ok
      */
-    getTotalWeightOrValue(reportParams: ReportByFarm): Observable<any> {
+    getTotalWeightOrValue(reportParams: ReportByFarm): Observable<ValueReportResponse[]> {
         let url_ = this.baseUrl + "/reports/total";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2075,14 +2075,14 @@ export class ReportingClient extends BaseClient {
                 try {
                     return this.processGetTotalWeightOrValue(<any>response_);
                 } catch (e) {
-                    return <Observable<any>><any>Observable.throw(e);
+                    return <Observable<ValueReportResponse[]>><any>Observable.throw(e);
                 }
             } else
-                return <Observable<any>><any>Observable.throw(response_);
+                return <Observable<ValueReportResponse[]>><any>Observable.throw(response_);
         });
     }
 
-    protected processGetTotalWeightOrValue(response: HttpResponseBase): Observable<any> {
+    protected processGetTotalWeightOrValue(response: HttpResponseBase): Observable<ValueReportResponse[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -2093,12 +2093,10 @@ export class ReportingClient extends BaseClient {
             return blobToText(responseBlob).flatMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (resultData200) {
-                result200 = {};
-                for (let key in resultData200) {
-                    if (resultData200.hasOwnProperty(key))
-                        result200[key] = resultData200[key];
-                }
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(ValueReportResponse.fromJS(item));
             }
             return Observable.of(result200);
             });
@@ -2107,7 +2105,7 @@ export class ReportingClient extends BaseClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Observable.of<any>(<any>null);
+        return Observable.of<ValueReportResponse[]>(<any>null);
     }
 
     /**
@@ -3201,6 +3199,46 @@ export interface IPercentageReportResponse {
     type?: PercentageReportType | null;
     createdOn?: moment.Moment | null;
     percentage?: string | null;
+}
+
+export class ValueReportResponse implements IValueReportResponse {
+    farmName: string;
+    value: number;
+
+    constructor(data?: IValueReportResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.farmName = data["farmName"] !== undefined ? data["farmName"] : <any>null;
+            this.value = data["value"] !== undefined ? data["value"] : <any>null;
+        }
+    }
+
+    static fromJS(data: any): ValueReportResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new ValueReportResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["farmName"] = this.farmName !== undefined ? this.farmName : <any>null;
+        data["value"] = this.value !== undefined ? this.value : <any>null;
+        return data;
+    }
+}
+
+export interface IValueReportResponse {
+    farmName: string;
+    value: number;
 }
 
 export enum WeightValueReportType {
