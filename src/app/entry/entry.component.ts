@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Message} from 'primeng/api';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
@@ -23,6 +23,7 @@ import {
   UserClient,
   UserVm
 } from '../app.api';
+import {MatSlider} from '@angular/material';
 
 @Component({
   selector: 'app-entry',
@@ -30,6 +31,8 @@ import {
   styleUrls: ['./entry.component.scss']
 })
 export class EntryComponent implements OnInit, OnDestroy {
+  @ViewChild('slider') slider: MatSlider;
+
   token: string;
   today: string;
   harvestStarted: boolean;
@@ -61,6 +64,8 @@ export class EntryComponent implements OnInit, OnDestroy {
   selectedHarvester: string;
   selectedOrg: string;
   comment: string;
+  firstEntry = false;
+  entryCounts = 0;
 
   doneLoading = false;
 
@@ -192,9 +197,14 @@ export class EntryComponent implements OnInit, OnDestroy {
         localStorage.setItem('entry_id', JSON.stringify({
           entries: this.entryIdArray
         }));
+        if (!this.firstEntry) {
+          this.firstEntry = true;
+        }
+        this.entryCounts++;
         this.form.reset();
         this.priceTotal = 0;
         this.pounds = 0;
+        this.slider.value = 0;
       }, (error: SwaggerException) => {
         console.log(error);
       });
@@ -224,6 +234,10 @@ export class EntryComponent implements OnInit, OnDestroy {
   }
 
   submitHarvest() {
+    if (!this.firstEntry) {
+      return;
+    }
+
     const harvestId = JSON.parse(localStorage.getItem('harvest_id'));
     const entryId = JSON.parse(localStorage.getItem('entry_id'));
     console.log(entryId.entries);
