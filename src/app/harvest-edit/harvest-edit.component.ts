@@ -40,7 +40,10 @@ export class HarvestEditComponent implements OnInit {
         );
       }
     );
+  }
 
+  editHarvest(): void {
+    console.log("edit harvey");
   }
 
 }

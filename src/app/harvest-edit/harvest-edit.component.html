@@ -1,3 +1,16 @@
-<p>
-  not yet
-</p>
+<ng-container *ngIf="!loading">
+  <mat-accordion>
+    <ng-container *ngFor="let harvest of harvests">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>{{harvest.farm.name}}</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div *ngFor="let entry of harvest.entries; let i = index">
+          <p class="varietyList">{{entry.crop.name}} : {{entry.pounds}}</p>
+        </div>
+        <button type="button" (click)="editHarvest(harvest);" class="btn btn-info">Edit</button>
+      </mat-expansion-panel>
+    </ng-container>
+    <div id="spacer"></div>
+  </mat-accordion>
+</ng-container>

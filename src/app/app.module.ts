@@ -48,6 +48,7 @@ import {GenerateReportDialogComponent} from './reporting/generate-report-dialog/
 import {ConfirmDeleteCropDialogComponent} from './crop-management/confirm-delete-crop-dialog/confirm-delete-crop-dialog.component';
 import {CreateCropDialogComponent} from './crop-management/create-crop-dialog/create-crop-dialog.component';
 import {EditCropDialogComponent} from './crop-management/edit-crop-dialog/edit-crop-dialog.component';
+import {EditHarvestDialogComponent} from './harvest-edit/edit-harvest-dialog/edit-harvest-dialog.component';
 import {ReportingComponent} from './reporting/reporting.component';
 import {PrimengImportModule} from './primeng-module';
 import {ProgressSpinnerModule} from 'primeng/primeng';
@@ -95,7 +96,8 @@ import { ConfirmLogoutDialogComponent } from './header/confirm-logout-dialog/con
     ConfirmDeleteCropDialogComponent,
     ReportingComponent,
     GenerateReportDialogComponent,
-    ConfirmLogoutDialogComponent
+    ConfirmLogoutDialogComponent,
+    EditHarvestDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -164,7 +166,8 @@ import { ConfirmLogoutDialogComponent } from './header/confirm-logout-dialog/con
     ConfirmDeleteUserDialogComponent,
     EditUserDialogComponent,
     GenerateReportDialogComponent,
-    ConfirmLogoutDialogComponent
+    ConfirmLogoutDialogComponent,
+    EditHarvestDialogComponent
   ]
 })
 export class AppModule {
