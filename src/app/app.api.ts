@@ -2050,15 +2050,14 @@ export class ReportingClient extends BaseClient {
     /**
      * @return Ok
      */
-    getTotalWeightOrValue(weightOrValue: WeightOrValue): Observable<any> {
-        let url_ = this.baseUrl + "/reports/total?";
-        if (weightOrValue === undefined || weightOrValue === null)
-            throw new Error("The parameter 'weightOrValue' must be defined and cannot be null.");
-        else
-            url_ += "weightOrValue=" + encodeURIComponent("" + weightOrValue) + "&";
+    getTotalWeightOrValue(reportParams: ReportByFarm): Observable<any> {
+        let url_ = this.baseUrl + "/reports/total";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(reportParams);
+
         let options_ : any = {
+            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
@@ -2068,7 +2067,7 @@ export class ReportingClient extends BaseClient {
         };
 
         return Observable.fromPromise(this.transformOptions(options_)).flatMap(transformedOptions_ => {
-            return this.http.request("get", url_, transformedOptions_);
+            return this.http.request("post", url_, transformedOptions_);
         }).flatMap((response_: any) => {
             return this.processGetTotalWeightOrValue(response_);
         }).catch((response_: any) => {
@@ -2109,6 +2108,72 @@ export class ReportingClient extends BaseClient {
             });
         }
         return Observable.of<any>(<any>null);
+    }
+
+    /**
+     * @return Ok
+     */
+    getTest(dateStart: moment.Moment, dateEnd: moment.Moment): Observable<HarvestVm[]> {
+        let url_ = this.baseUrl + "/reports/test?";
+        if (dateStart === undefined || dateStart === null)
+            throw new Error("The parameter 'dateStart' must be defined and cannot be null.");
+        else
+            url_ += "dateStart=" + encodeURIComponent(dateStart ? "" + dateStart.toJSON() : "") + "&";
+        if (dateEnd === undefined || dateEnd === null)
+            throw new Error("The parameter 'dateEnd' must be defined and cannot be null.");
+        else
+            url_ += "dateEnd=" + encodeURIComponent(dateEnd ? "" + dateEnd.toJSON() : "") + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return Observable.fromPromise(this.transformOptions(options_)).flatMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        }).flatMap((response_: any) => {
+            return this.processGetTest(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetTest(<any>response_);
+                } catch (e) {
+                    return <Observable<HarvestVm[]>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<HarvestVm[]>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetTest(response: HttpResponseBase): Observable<HarvestVm[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(HarvestVm.fromJS(item));
+            }
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<HarvestVm[]>(<any>null);
     }
 }
 
@@ -3138,6 +3203,59 @@ export interface IPercentageReportResponse {
     percentage?: string | null;
 }
 
+export enum WeightValueReportType {
+    Weight = <any>"Weight",
+    Value = <any>"Value",
+}
+
+export class ReportByFarm implements IReportByFarm {
+    valueReportType: WeightValueReportType;
+    dateRange?: moment.Moment[] | null;
+
+    constructor(data?: IReportByFarm) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.valueReportType = data["valueReportType"] !== undefined ? data["valueReportType"] : <any>null;
+            if (data["dateRange"] && data["dateRange"].constructor === Array) {
+                this.dateRange = [];
+                for (let item of data["dateRange"])
+                    this.dateRange.push(moment(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ReportByFarm {
+        data = typeof data === 'object' ? data : {};
+        let result = new ReportByFarm();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["valueReportType"] = this.valueReportType !== undefined ? this.valueReportType : <any>null;
+        if (this.dateRange && this.dateRange.constructor === Array) {
+            data["dateRange"] = [];
+            for (let item of this.dateRange)
+                data["dateRange"].push(item.toISOString());
+        }
+        return data;
+    }
+}
+
+export interface IReportByFarm {
+    valueReportType: WeightValueReportType;
+    dateRange?: moment.Moment[] | null;
+}
+
 export class ClearDbResponse implements IClearDbResponse {
     result: any = {};
     connection?: any | null;
@@ -3213,11 +3331,6 @@ export interface IClearDbResponse {
 export enum PercentageType {
     Purchased = <any>"Purchased",
     Donated = <any>"Donated",
-}
-
-export enum WeightOrValue {
-    Weight = <any>"Weight",
-    Value = <any>"Value",
 }
 
 export enum Collection {
