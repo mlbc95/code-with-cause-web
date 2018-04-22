@@ -10,7 +10,16 @@
     </div>
 <div>
     <h4>Farms:</h4>
+ 
+    <mat-form-field>
+            <mat-select (change)="onFilterChange($event)" placeholder="Filter By..." [(value)]="selected">
+              <mat-option value="Value">Value($)</mat-option>
+              <mat-option value="Weight">Weight(lb)</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <p *ngIf="selected =='Weight'">Total Weight: <b> {{totalWeight}}</b></p>
+          <p *ngIf="selected =='Value'">Total Value: <b> ${{totalValue}}</b></p>
+     <div class="pieChart" *ngIf="renderChart">    
     <p-chart type="pie" [data]="data"></p-chart>
+</div> 
 </div>
-
-<!-- <button class="btn btn-primary max-width" type="button" (click)="generateNewReport();">Generate New Report</button> -->

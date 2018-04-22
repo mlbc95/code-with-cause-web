@@ -1,4 +1,4 @@
-import { PercentageType, WeightOrValue } from './../../app.api';
+import { PercentageType } from './../../app.api';
 import {Component, OnInit} from '@angular/core';
 
 @Component({
