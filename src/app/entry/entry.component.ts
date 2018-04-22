@@ -93,12 +93,10 @@ export class EntryComponent implements OnInit, OnDestroy {
       this.crops = crops;
       this.doneLoading = true;
     });
-    // const storedHarvestID = JSON.parse(localStorage.getItem('harvest_id'));
-    // if (storedHarvestID) {
-    //   this.harvestService.getHarvestById(storedHarvestID).subscribe((harvest) => {
-    //     this.harvest = harvest;
-    //   });
-    // }
+
+    this.form.get('crop').valueChanges.subscribe(() => {
+      this.form.get('pounds').enable();
+    });
   }
 
   initForm() {
@@ -109,7 +107,7 @@ export class EntryComponent implements OnInit, OnDestroy {
       variety: [''],
       recipient: [''],
       comment: [''],
-      pounds: [0],
+      pounds: [{value: 0, disabled: true}],
       priceTotal: [{value: 0, disabled: true}]
     });
   }
@@ -241,8 +239,10 @@ export class EntryComponent implements OnInit, OnDestroy {
   }
 
   onPoundChanged($event) {
-    this.pounds = $event.value;
-    this.priceTotal = parseFloat((this.pounds * this.cropTest.pricePerPound).toFixed());
-    this.form.get('priceTotal').setValue(this.priceTotal);
+    if ($event.value > 0 && this.cropTest) {
+      this.pounds = $event.value;
+      this.priceTotal = parseFloat((this.pounds * this.cropTest.pricePerPound).toFixed());
+      this.form.get('priceTotal').setValue(this.priceTotal);
+    }
   }
 }

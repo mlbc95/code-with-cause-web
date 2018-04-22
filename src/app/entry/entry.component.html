@@ -52,7 +52,8 @@
       </mat-form-field>
 
       <label for="weightSlider" class="weightLabel">Weight</label>
-      <mat-slider id="weightSlider" #slider thumbLabel min="0.25" max="100" step="0.25" formControlName="pounds"
+      <mat-slider id="weightSlider" #slider thumbLabel min="0.25" max="100"
+                  step="0.25" formControlName="pounds"
                   (change)="onPoundChanged($event)"></mat-slider>
 
       <mat-form-field class="priceTotal">
