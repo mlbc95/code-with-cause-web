@@ -1,6 +1,6 @@
 import { PercentageReportResponse, ValueReportResponse, WeightValueReportType, ReportByFarm } from './../app.api';
 import * as _ from 'lodash';
-import * as randomColor from 'randomColor';
+import * as randomColor from 'randomcolor';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/forkJoin'; 
 import {Component, OnDestroy, OnInit} from '@angular/core';
