@@ -85,6 +85,13 @@ export class EditEntryDialogComponent implements OnInit {
     this.entryService.getSingleEntry(this.entry._id).subscribe(entrySelected => {
       this.editEntryForm = this.fb.group({
         crop: [entrySelected.crop, Validators.required],
+        pounds: [entrySelected.pounds, Validators.required],
+        priceTotal: [entrySelected.priceTotal, Validators.required],
+        harvester: [entrySelected.harvester, Validators.required],
+        comments: [entrySelected.comments, Validators.required],
+        recipient: [entrySelected.recipient, Validators.required],
+        createdOn: [entrySelected.createdOn, Validators.required],
+        selectedVariety: [entrySelected.selectedVariety, Validators.required],
       });
       this.editEntryForm.get('crop').valueChanges.subscribe(() => {
         this.editEntryForm.get('pounds').enable();
