@@ -1,3 +1,4 @@
+import { PercentageType } from './../../app.api';
 import {Component, OnInit} from '@angular/core';
 
 @Component({
@@ -8,11 +9,13 @@ import {Component, OnInit} from '@angular/core';
 export class GenerateReportDialogComponent implements OnInit {
   reportType: string;
 
+
   constructor() {
     this.reportType = "";
   }
 
   ngOnInit(): void {
+ 
   }
 
   changed(event: any): void {

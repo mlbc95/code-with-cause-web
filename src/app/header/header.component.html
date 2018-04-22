@@ -1,5 +1,7 @@
 <img src="../../assets/images/urbanHarvestLogo.PNG" id="logo" (click)="goHome();">
-<h3 id="brand">Urban Harvest</h3>
+<div class="d-none d-sm-block">
+  <h3 id="brand">Urban Harvest</h3>
+</div>
 <button *ngIf="isLoggedIn$ | async" class="float-right btn-primary" mat-raised-button color="primary"
         (click)="confirmLogout();">Log Out
 </button>

@@ -1,8 +1,13 @@
+import {PercentageReportResponse, ReportByFarm, ValueReportResponse, WeightValueReportType} from './../app.api';
+import * as _ from 'lodash';
+import * as randomColor from 'randomcolor';
+import 'rxjs/add/observable/forkJoin';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material';
-import {GenerateReportDialogComponent} from './generate-report-dialog/generate-report-dialog.component';
 import 'rxjs/add/operator/filter';
-import {ReportingClient} from '../app.api';
+import {PercentageType, ReportingClient} from '../app.api';
+import {forkJoin} from 'rxjs/observable/forkJoin';
+
 
 @Component({
   selector: 'app-reporting',
@@ -11,83 +16,105 @@ import {ReportingClient} from '../app.api';
 })
 export class ReportingComponent implements OnInit, OnDestroy {
   token: string;
+  reportWeightParams: ReportByFarm = new ReportByFarm();
+  reportValueParams: ReportByFarm = new ReportByFarm();
+  donatedPerc: any;
+  purchPerc: any;
+  farmValue: any;
+  farmWeight: any;
+  farmLabels: any;
+  data: any;
+  selected: string;
+  renderChart = false;
+  totalValue: any;
+  totalWeight: any;
 
   constructor(private matDialog: MatDialog,
               private reportingService: ReportingClient) {
+    this.data = {
+      labels: ['A', 'B', 'C'],
+      datasets: [
+        {
+          data: [300, 50, 100],
+          backgroundColor: [
+            '#FF6384',
+            '#36A2EB',
+            '#FFCE56'
+          ],
+          hoverBackgroundColor: [
+            '#FF6384',
+            '#36A2EB',
+            '#FFCE56'
+          ]
+        }]
+    };
+
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser.token;
-    // reportingService.configuration = new Configuration({
-    //   apiKeys: {
-    //     Authorization: this.token
-    //   }
-    // });
   }
 
   ngOnInit(): void {
+    this.reportWeightParams.valueReportType = WeightValueReportType.Weight;
+    this.reportValueParams.valueReportType = WeightValueReportType.Value;
+    forkJoin(
+      this.reportingService.getSalesPercentage(PercentageType.Donated),
+      this.reportingService.getSalesPercentage(PercentageType.Purchased),
+      this.reportingService.getTotalWeightOrValue(this.reportWeightParams),
+      this.reportingService.getTotalWeightOrValue(this.reportValueParams),
+    )
+      .subscribe(
+        ([donated, purchased, weight, value]: [PercentageReportResponse, PercentageReportResponse, ValueReportResponse[], ValueReportResponse[]]) => {
+
+          this.donatedPerc = donated.percentage;
+          this.purchPerc = purchased.percentage;
+          this.farmValue = _.map(value, 'value');
+          this.farmWeight = _.map(weight, 'value');
+          this.farmLabels = _.map(value, 'farmName');
+          this.totalValue = _.reduce(this.farmValue, (sum, n) => {
+            return sum + n;
+          }, 0);
+
+          this.totalWeight = _.reduce(this.farmWeight, (sum, n) => {
+            return sum + n;
+          }, 0);
+
+
+        });
   }
 
   ngOnDestroy(): void {
     // this.reportingService.configuration.apiKeys['Authorization'] = null;
   }
 
-  generateNewReport(): void {
-    const dialogRef = this.matDialog.open(
-      GenerateReportDialogComponent,
-      {
-        width: '90vw'
-      }
-    );
+  onFilterChange($event): void {
 
-    dialogRef.afterClosed()
-      .filter(data => !!data)
-      .subscribe(
-        (reportType: string): void => {
-          // if (reportType === 'donated' || reportType === 'purchased') {
-          //   this.reportingService.getSalesPercentage(reportType)
-          //     .sub
-          // }
+    const bgColor = randomColor({
+      count: this.farmLabels.length,
+    });
 
-          // if (reportType) {
-          //   switch (reportType) {
-          //     case 'donated': {
-          //       this.reportingService.getSalesPercentage('donated').subscribe(
-          //         (a: any): void => {
-          //           console.log(a);
-          //         }
-          //       );
-          //     }
-          //       break;
-          //     case 'purchased': {
-          //       this.reportingService.getSalesPercentage('purchased').subscribe(
-          //         (a: any): void => {
-          //           console.log(a);
-          //         }
-          //       );
-          //     }
-          //       break;
-          //     case 'weight': {
-          //       this.reportingService.getTotalWeightOrValue('weight').subscribe(
-          //         (a: any): void => {
-          //           console.log(a);
-          //         }
-          //       );
-          //     }
-          //       break;
-          //     case 'value': {
-          //       this.reportingService.getTotalWeightOrValue('value').subscribe(
-          //         (a: any): void => {
-          //           console.log(a);
-          //         }
-          //       );
-          //     }
-          //       break;
-          //     default: {
-          //       console.error('Unrecognized report type provided: \"' + reportType + '\"');
-          //     }
-          //       break;
-          //   }
-          // }
-        }
-      );
+    if (this.selected === 'Value') {
+      this.data = {
+        labels: this.farmLabels,
+        datasets: [
+          {
+            data: this.farmValue,
+            backgroundColor: bgColor,
+            hoverBackgroundColor: bgColor
+          }]
+      };
+    } else if (this.selected === 'Weight') {
+      this.data = {
+        labels: this.farmLabels,
+        datasets: [
+          {
+            data: this.farmWeight,
+            backgroundColor: bgColor,
+            hoverBackgroundColor: bgColor
+          }]
+      };
+    }
+
+    this.renderChart = true;
+
   }
 }

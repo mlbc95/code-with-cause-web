@@ -1,8 +1,7 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Message} from 'primeng/api';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/combineLatest';
 import {
   CropClient,
@@ -23,6 +22,9 @@ import {
   UserClient,
   UserVm
 } from '../app.api';
+import {MatSlider, MatSnackBar} from '@angular/material';
+import {of} from 'rxjs/observable/of';
+import {combineLatest} from 'rxjs/observable/combineLatest';
 
 @Component({
   selector: 'app-entry',
@@ -30,7 +32,8 @@ import {
   styleUrls: ['./entry.component.scss']
 })
 export class EntryComponent implements OnInit, OnDestroy {
-  token: string;
+  @ViewChild('slider') slider: MatSlider;
+
   today: string;
   harvestStarted: boolean;
   editMode: boolean;
@@ -50,9 +53,9 @@ export class EntryComponent implements OnInit, OnDestroy {
   pounds = 0;
   priceTotal = 0;
   farm: string;
-  selectedVar: string;
-  selectedOrg: string;
   comment: string;
+  firstEntry = false;
+  entryCounts = 0;
 
   doneLoading = false;
 
@@ -70,7 +73,8 @@ export class EntryComponent implements OnInit, OnDestroy {
               private harvestService: HarvestClient,
               private router: Router,
               private userService: UserClient,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private snackBar: MatSnackBar) {
   }
 
   ngOnInit() {
@@ -78,17 +82,20 @@ export class EntryComponent implements OnInit, OnDestroy {
     this.harvestStarted = false;
     this.editMode = false;
     this.initForm();
-    Observable
-      .combineLatest(
-        this.farmService.getAll(),
-        this.cropService.getAll()
-      )
-      .subscribe((data: [FarmVm[], CropVm[]]) => {
-        const [farms, crops] = data;
-        this.farms = farms;
-        this.crops = crops;
-        this.doneLoading = true;
-      });
+
+    combineLatest(
+      this.farmService.getAll(),
+      this.cropService.getAll()
+    ).subscribe((data: [FarmVm[], CropVm[]]) => {
+      const [farms, crops] = data;
+      this.farms = farms;
+      this.crops = crops;
+      this.doneLoading = true;
+    });
+
+    this.form.get('crop').valueChanges.subscribe(() => {
+      this.form.get('pounds').enable();
+    });
   }
 
   initForm() {
@@ -99,7 +106,7 @@ export class EntryComponent implements OnInit, OnDestroy {
       variety: [''],
       recipient: [''],
       comment: [''],
-      pounds: [0],
+      pounds: [{value: 0, disabled: true}],
       priceTotal: [{value: 0, disabled: true}]
     });
   }
@@ -116,19 +123,33 @@ export class EntryComponent implements OnInit, OnDestroy {
         this.harvest.entries = [];
         localStorage.setItem('harvest_id', JSON.stringify({harvest: this.harvest._id}));
         this.harvestStarted = true;
-        return Observable
-          .combineLatest(
-            this.harvesterService.getAll(),
-            this.organizationService.getAll(),
-            this.userService.getAllUsers()
-          );
+        return combineLatest(
+          this.harvesterService.getAll(),
+          this.organizationService.getAll(),
+          this.userService.getAllUsers()
+        );
       })
-      .subscribe((data: [HarvesterVm[], OrganizationVm[], UserVm[]]) => {
-        const [harvesters, organizations, users] = data;
-        this.harvesters = harvesters;
-        this.users = users;
-        this.organizations = organizations;
-      });
+      .catch((err: SwaggerException) => {
+        let msg = 'Server error occurred';
+        if (err) {
+          msg = JSON.parse(err.response).message;
+        }
+
+        this.snackBar.open(
+          `Failed to begin harvest: ${msg}`,
+          'OK',
+          {
+            duration: 3000,
+            panelClass: 'snack-bar-danger'
+          }
+        );
+        return of();
+      }).subscribe((data: [HarvesterVm[], OrganizationVm[], UserVm[]]) => {
+      const [harvesters, organizations, users] = data;
+      this.harvesters = harvesters;
+      this.users = users;
+      this.organizations = organizations;
+    });
 
   }
 
@@ -144,26 +165,45 @@ export class EntryComponent implements OnInit, OnDestroy {
 
     this.entryService.registerEntry(newEntry)
       .subscribe((entry: EntryVm) => {
-        console.log('New Entry', entry);
         this.msgs = [];
         this.msgs.push({severity: 'success', summary: 'Success', detail: 'Entry Saved! You\'re saving Trees'});
         this.entryIdArray.push(entry._id);
         localStorage.setItem('entry_id', JSON.stringify({
           entries: this.entryIdArray
         }));
+        if (!this.firstEntry) {
+          this.firstEntry = true;
+        }
+        this.entryCounts++;
         this.form.reset();
         this.priceTotal = 0;
         this.pounds = 0;
-      }, (error: SwaggerException) => {
-        console.log(error);
+        this.slider.value = 0;
+      }, (err: SwaggerException) => {
+        let msg = 'Server error occurred';
+        if (err) {
+          msg = JSON.parse(err.response).message;
+        }
+
+        this.snackBar.open(
+          `Failed to submit entry: ${msg}`,
+          'OK',
+          {
+            duration: 3000,
+            panelClass: 'snack-bar-danger'
+          }
+        );
+        return of();
       });
   }
 
   submitHarvest() {
+    if (!this.firstEntry) {
+      return;
+    }
+
     const harvestId = JSON.parse(localStorage.getItem('harvest_id'));
     const entryId = JSON.parse(localStorage.getItem('entry_id'));
-    console.log(entryId.entries);
-    console.log(harvestId.harvest);
 
     const harvestParams: HarvestParams = new HarvestParams({
       farmId: this.selectedFarm._id,
@@ -174,10 +214,22 @@ export class EntryComponent implements OnInit, OnDestroy {
       .subscribe(data => {
           this.router.navigate(['home']);
         },
-        (error) => {
-          console.log(error);
+        (err) => {
+          let msg = 'Server error occurred';
+          if (err) {
+            msg = JSON.parse(err.response).message;
+          }
+
+          this.snackBar.open(
+            `Failed to submit harvest: ${msg}`,
+            'OK',
+            {
+              duration: 3000,
+              panelClass: 'snack-bar-danger'
+            }
+          );
+          return of();
         });
-    // go to review page which shows all entries, each with an edit button
   }
 
   onCropChanged($event) {
@@ -186,8 +238,10 @@ export class EntryComponent implements OnInit, OnDestroy {
   }
 
   onPoundChanged($event) {
-    this.pounds = $event.value;
-    this.priceTotal = parseFloat((this.pounds * this.cropTest.pricePerPound).toFixed());
-    this.form.get('priceTotal').setValue(this.priceTotal);
+    if ($event.value > 0 && this.cropTest) {
+      this.pounds = $event.value;
+      this.priceTotal = parseFloat((this.pounds * this.cropTest.pricePerPound).toFixed());
+      this.form.get('priceTotal').setValue(this.priceTotal);
+    }
   }
 }

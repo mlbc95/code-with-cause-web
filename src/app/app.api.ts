@@ -2050,12 +2050,138 @@ export class ReportingClient extends BaseClient {
     /**
      * @return Ok
      */
-    getTotalWeightOrValue(weightOrValue: WeightOrValue): Observable<any> {
-        let url_ = this.baseUrl + "/reports/total?";
-        if (weightOrValue === undefined || weightOrValue === null)
-            throw new Error("The parameter 'weightOrValue' must be defined and cannot be null.");
+    getPercentageByFarm(percentageByFarmParams: PercentageByFarm): Observable<PercentageByFarmReportResponse[]> {
+        let url_ = this.baseUrl + "/reports/percentageByFarm";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(percentageByFarmParams);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return Observable.fromPromise(this.transformOptions(options_)).flatMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        }).flatMap((response_: any) => {
+            return this.processGetPercentageByFarm(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPercentageByFarm(<any>response_);
+                } catch (e) {
+                    return <Observable<PercentageByFarmReportResponse[]>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<PercentageByFarmReportResponse[]>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetPercentageByFarm(response: HttpResponseBase): Observable<PercentageByFarmReportResponse[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(PercentageByFarmReportResponse.fromJS(item));
+            }
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<PercentageByFarmReportResponse[]>(<any>null);
+    }
+
+    /**
+     * @return Ok
+     */
+    getTotalWeightOrValue(reportParams: ReportByFarm): Observable<ValueReportResponse[]> {
+        let url_ = this.baseUrl + "/reports/total";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(reportParams);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return Observable.fromPromise(this.transformOptions(options_)).flatMap(transformedOptions_ => {
+            return this.http.request("post", url_, transformedOptions_);
+        }).flatMap((response_: any) => {
+            return this.processGetTotalWeightOrValue(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetTotalWeightOrValue(<any>response_);
+                } catch (e) {
+                    return <Observable<ValueReportResponse[]>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<ValueReportResponse[]>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetTotalWeightOrValue(response: HttpResponseBase): Observable<ValueReportResponse[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(ValueReportResponse.fromJS(item));
+            }
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<ValueReportResponse[]>(<any>null);
+    }
+
+    /**
+     * @return Ok
+     */
+    getTest(dateStart: moment.Moment, dateEnd: moment.Moment): Observable<HarvestVm[]> {
+        let url_ = this.baseUrl + "/reports/test?";
+        if (dateStart === undefined || dateStart === null)
+            throw new Error("The parameter 'dateStart' must be defined and cannot be null.");
         else
-            url_ += "weightOrValue=" + encodeURIComponent("" + weightOrValue) + "&";
+            url_ += "dateStart=" + encodeURIComponent(dateStart ? "" + dateStart.toJSON() : "") + "&";
+        if (dateEnd === undefined || dateEnd === null)
+            throw new Error("The parameter 'dateEnd' must be defined and cannot be null.");
+        else
+            url_ += "dateEnd=" + encodeURIComponent(dateEnd ? "" + dateEnd.toJSON() : "") + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -2070,20 +2196,20 @@ export class ReportingClient extends BaseClient {
         return Observable.fromPromise(this.transformOptions(options_)).flatMap(transformedOptions_ => {
             return this.http.request("get", url_, transformedOptions_);
         }).flatMap((response_: any) => {
-            return this.processGetTotalWeightOrValue(response_);
+            return this.processGetTest(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetTotalWeightOrValue(<any>response_);
+                    return this.processGetTest(<any>response_);
                 } catch (e) {
-                    return <Observable<any>><any>Observable.throw(e);
+                    return <Observable<HarvestVm[]>><any>Observable.throw(e);
                 }
             } else
-                return <Observable<any>><any>Observable.throw(response_);
+                return <Observable<HarvestVm[]>><any>Observable.throw(response_);
         });
     }
 
-    protected processGetTotalWeightOrValue(response: HttpResponseBase): Observable<any> {
+    protected processGetTest(response: HttpResponseBase): Observable<HarvestVm[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -2094,12 +2220,10 @@ export class ReportingClient extends BaseClient {
             return blobToText(responseBlob).flatMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (resultData200) {
-                result200 = {};
-                for (let key in resultData200) {
-                    if (resultData200.hasOwnProperty(key))
-                        result200[key] = resultData200[key];
-                }
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(HarvestVm.fromJS(item));
             }
             return Observable.of(result200);
             });
@@ -2108,7 +2232,7 @@ export class ReportingClient extends BaseClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Observable.of<any>(<any>null);
+        return Observable.of<HarvestVm[]>(<any>null);
     }
 }
 
@@ -3138,6 +3262,203 @@ export interface IPercentageReportResponse {
     percentage?: string | null;
 }
 
+export class PercentageByFarmReportResponse implements IPercentageByFarmReportResponse {
+    farmName: string;
+    pounds: number;
+    total: number;
+    percentageByEntry: string;
+    percentageByPound: string;
+    percentageByPrice: string;
+
+    constructor(data?: IPercentageByFarmReportResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.farmName = data["farmName"] !== undefined ? data["farmName"] : <any>null;
+            this.pounds = data["pounds"] !== undefined ? data["pounds"] : <any>null;
+            this.total = data["total"] !== undefined ? data["total"] : <any>null;
+            this.percentageByEntry = data["percentageByEntry"] !== undefined ? data["percentageByEntry"] : <any>null;
+            this.percentageByPound = data["percentageByPound"] !== undefined ? data["percentageByPound"] : <any>null;
+            this.percentageByPrice = data["percentageByPrice"] !== undefined ? data["percentageByPrice"] : <any>null;
+        }
+    }
+
+    static fromJS(data: any): PercentageByFarmReportResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new PercentageByFarmReportResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["farmName"] = this.farmName !== undefined ? this.farmName : <any>null;
+        data["pounds"] = this.pounds !== undefined ? this.pounds : <any>null;
+        data["total"] = this.total !== undefined ? this.total : <any>null;
+        data["percentageByEntry"] = this.percentageByEntry !== undefined ? this.percentageByEntry : <any>null;
+        data["percentageByPound"] = this.percentageByPound !== undefined ? this.percentageByPound : <any>null;
+        data["percentageByPrice"] = this.percentageByPrice !== undefined ? this.percentageByPrice : <any>null;
+        return data;
+    }
+}
+
+export interface IPercentageByFarmReportResponse {
+    farmName: string;
+    pounds: number;
+    total: number;
+    percentageByEntry: string;
+    percentageByPound: string;
+    percentageByPrice: string;
+}
+
+export class PercentageByFarm implements IPercentageByFarm {
+    reportType: PercentageReportType;
+    dateRange?: moment.Moment[] | null;
+
+    constructor(data?: IPercentageByFarm) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.reportType = data["reportType"] !== undefined ? data["reportType"] : <any>null;
+            if (data["dateRange"] && data["dateRange"].constructor === Array) {
+                this.dateRange = [];
+                for (let item of data["dateRange"])
+                    this.dateRange.push(moment(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PercentageByFarm {
+        data = typeof data === 'object' ? data : {};
+        let result = new PercentageByFarm();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["reportType"] = this.reportType !== undefined ? this.reportType : <any>null;
+        if (this.dateRange && this.dateRange.constructor === Array) {
+            data["dateRange"] = [];
+            for (let item of this.dateRange)
+                data["dateRange"].push(item.toISOString());
+        }
+        return data;
+    }
+}
+
+export interface IPercentageByFarm {
+    reportType: PercentageReportType;
+    dateRange?: moment.Moment[] | null;
+}
+
+export class ValueReportResponse implements IValueReportResponse {
+    farmName: string;
+    value: number;
+
+    constructor(data?: IValueReportResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.farmName = data["farmName"] !== undefined ? data["farmName"] : <any>null;
+            this.value = data["value"] !== undefined ? data["value"] : <any>null;
+        }
+    }
+
+    static fromJS(data: any): ValueReportResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new ValueReportResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["farmName"] = this.farmName !== undefined ? this.farmName : <any>null;
+        data["value"] = this.value !== undefined ? this.value : <any>null;
+        return data;
+    }
+}
+
+export interface IValueReportResponse {
+    farmName: string;
+    value: number;
+}
+
+export enum WeightValueReportType {
+    Weight = <any>"Weight",
+    Value = <any>"Value",
+}
+
+export class ReportByFarm implements IReportByFarm {
+    valueReportType: WeightValueReportType;
+    dateRange?: moment.Moment[] | null;
+
+    constructor(data?: IReportByFarm) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.valueReportType = data["valueReportType"] !== undefined ? data["valueReportType"] : <any>null;
+            if (data["dateRange"] && data["dateRange"].constructor === Array) {
+                this.dateRange = [];
+                for (let item of data["dateRange"])
+                    this.dateRange.push(moment(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ReportByFarm {
+        data = typeof data === 'object' ? data : {};
+        let result = new ReportByFarm();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["valueReportType"] = this.valueReportType !== undefined ? this.valueReportType : <any>null;
+        if (this.dateRange && this.dateRange.constructor === Array) {
+            data["dateRange"] = [];
+            for (let item of this.dateRange)
+                data["dateRange"].push(item.toISOString());
+        }
+        return data;
+    }
+}
+
+export interface IReportByFarm {
+    valueReportType: WeightValueReportType;
+    dateRange?: moment.Moment[] | null;
+}
+
 export class ClearDbResponse implements IClearDbResponse {
     result: any = {};
     connection?: any | null;
@@ -3213,11 +3534,6 @@ export interface IClearDbResponse {
 export enum PercentageType {
     Purchased = <any>"Purchased",
     Donated = <any>"Donated",
-}
-
-export enum WeightOrValue {
-    Weight = <any>"Weight",
-    Value = <any>"Value",
 }
 
 export enum Collection {
