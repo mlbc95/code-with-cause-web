@@ -5,9 +5,9 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import 'rxjs/add/observable/combineLatest';
 import {
   CropClient,
+  EntryVm,
   CropVm,
   EntryClient,
-  EntryVm,
   FarmClient,
   FarmVm,
   HarvestClient,
@@ -125,7 +125,7 @@ export class EditEntryComponent implements OnInit {
   }
 
   onCropChanged($event) {
-    this.cropTest = this.crops.filter(c => c._id === $event.value)[0];
+  this.cropTest = this.crops.filter(c => c._id === $event.value)[0];
     this.varieties = this.cropTest.variety;
   }
 
@@ -138,9 +138,16 @@ export class EditEntryComponent implements OnInit {
     }
   }
   submitHarvest(){
-    let harvestParams:HarvestVm = new HarvestVm();
-    harvestParams = this.form.value;
+    let entryParam:EntryVm = new EntryVm();
+    entryParam = this.form.value;
+    console.log(this.users)
+    console.log(this.harvesters)
     console.log(this.form.value)
+    this.entryService.updateEntry(this.harvest._id,entryParam).subscribe(data=>{
+      console.log(data)
+    })
+   
+
   }
 
 }
