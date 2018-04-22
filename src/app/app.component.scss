@@ -13,9 +13,9 @@
 .content {
   margin: $header-height 0 $footer-height;
   height: calc(100vh - #{$header-height} - #{$footer-height});
-
-  overflow-y: auto;
-  overflow-x: hidden;
+  // overflow-y:scroll;
+  // // overflow-y: auto;
+  // overflow-x: hidden;
 }
 
 .footer {
