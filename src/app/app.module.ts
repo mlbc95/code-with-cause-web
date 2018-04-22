@@ -133,8 +133,8 @@ import {ConfirmLogoutDialogComponent} from './header/confirm-logout-dialog/confi
     MatCheckboxModule,
     MatRadioModule,
     PrimengImportModule,
-    ChartModule
-    MatTooltipModule
+    ChartModule,
+    MatTooltipModule,
     ProgressSpinnerModule,
   ],
   providers: [
