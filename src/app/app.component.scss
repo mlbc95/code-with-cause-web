@@ -5,7 +5,7 @@
   border-bottom: $header-border-width solid $header-border-color;
   background-color: $header-color;
   width: 100%;
-
+  z-index: 1;
   position: fixed;
   top: 0; /* stick to top */
 }
@@ -13,7 +13,7 @@
 .content {
   margin: $header-height 0 $footer-height;
   height: calc(100vh - #{$header-height} - #{$footer-height});
-  // overflow-y:scroll;
+   overflow-y:scroll;
   // // overflow-y: auto;
   // overflow-x: hidden;
 }
