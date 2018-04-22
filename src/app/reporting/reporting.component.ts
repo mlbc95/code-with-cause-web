@@ -40,6 +40,8 @@ export class ReportingComponent implements OnInit, OnDestroy {
   percentagePoundsByPurchased: any;
   percentagePriceByDonated: any;
   percentagePriceByPurchased: any;
+  filteredByDonatedLabels: any;
+  filteredByPurchasedLabels: any;
 
   constructor(private matDialog: MatDialog,
               private reportingService: ReportingClient) {
@@ -90,13 +92,15 @@ export class ReportingComponent implements OnInit, OnDestroy {
           this.farmWeight = _.map(weight, 'value');
           this.farmLabels = _.map(value, 'farmName');
 
-          this.poundsByDonated = _.map(donatedByFarm, 'pounds');
-          this.priceByDonated = _.map(donatedByFarm, 'total');
+          this.filteredByDonatedLabels = _.map(_.filter(donatedByFarm, val => val.pounds > 0), 'farmName');
+          this.poundsByDonated = _.map(_.filter(donatedByFarm, val => val.pounds > 0), 'pounds');
+          this.priceByDonated = _.map(_.filter(donatedByFarm, val => val.total > 0), 'total');
           this.percentagePoundsByDonated = _.map(donatedByFarm, 'percentageByPound');
           this.percentagePriceByDonated = _.map(donatedByFarm, 'percentageByPrice');
 
-          this.poundsByPurchased = _.map(purchasedByFarm, 'pounds');
-          this.priceByPurchased = _.map(purchasedByFarm, 'total');
+          this.filteredByPurchasedLabels = _.map(_.filter(purchasedByFarm, val => val.pounds > 0), 'farmName');
+          this.poundsByPurchased = _.map(_.filter(purchasedByFarm, val => val.pounds > 0), 'pounds');
+          this.priceByPurchased = _.map(_.filter(purchasedByFarm, val => val.total > 0), 'total');
           this.percentagePoundsByPurchased = _.map(purchasedByFarm, 'percentageByPound');
           this.percentagePriceByPurchased = _.map(purchasedByFarm, 'percentageByPrice');
 
@@ -145,7 +149,7 @@ export class ReportingComponent implements OnInit, OnDestroy {
     } else if (this.selected === 'Donated') {
       this.orgTypeData = [];
       const data1 = {
-        labels: this.farmLabels,
+        labels: this.filteredByDonatedLabels,
         datasets: [
           {
             data: this.poundsByDonated,
@@ -169,7 +173,7 @@ export class ReportingComponent implements OnInit, OnDestroy {
       };
 
       const data2 = {
-        labels: this.farmLabels,
+        labels: this.filteredByDonatedLabels,
         datasets: [
           {
             data: this.priceByDonated,
@@ -242,14 +246,12 @@ export class ReportingComponent implements OnInit, OnDestroy {
 
       this.orgTypeData.push(
         {data: data1, option: option1},
-        {data: data2, option: option2},
-        {data: data3, option: option3},
-        {data: data4, option: option4});
+        {data: data2, option: option2});
       this.orgTypeReport = true;
     } else if (this.selected === 'Purchased') {
       this.orgTypeData = [];
       const data1 = {
-        labels: this.farmLabels,
+        labels: this.filteredByPurchasedLabels,
         datasets: [
           {
             data: this.poundsByPurchased,
@@ -273,7 +275,7 @@ export class ReportingComponent implements OnInit, OnDestroy {
       };
 
       const data2 = {
-        labels: this.farmLabels,
+        labels: this.filteredByPurchasedLabels,
         datasets: [
           {
             data: this.priceByPurchased,
@@ -346,9 +348,7 @@ export class ReportingComponent implements OnInit, OnDestroy {
 
       this.orgTypeData.push(
         {data: data1, option: option1},
-        {data: data2, option: option2},
-        {data: data3, option: option3},
-        {data: data4, option: option4});
+        {data: data2, option: option2});
       this.orgTypeReport = true;
     }
 
