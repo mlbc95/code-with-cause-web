@@ -1,142 +1,3 @@
-<!--<div *ngIf="doneLoading" class="frame">-->
-<!--<p-growl [(value)]="msgs"></p-growl>-->
-
-<!--<div *ngIf="!harvestStarted" class="start text-center mx-auto">-->
-<!--<mat-form-field class="farmField">-->
-<!--<mat-select placeholder="Select a Farm" name="farm" [(ngModel)]="selectedFarm" #farmField="ngModel" required>-->
-<!--<mat-option *ngFor="let farm of farms" [value]="farm">-->
-<!--{{ farm.name }}-->
-<!--</mat-option>-->
-<!--</mat-select>-->
-<!--<mat-error>-->
-<!--<span *ngIf="!farmField.valid && farmField.touched">Please Select a Farm</span>-->
-<!--</mat-error>-->
-<!--</mat-form-field>-->
-<!--<button *ngIf="farmField.valid" mat-button class="btn-primary startButton" (click)="startHarvest()">Begin Harvest-->
-<!--</button>-->
-<!--</div>-->
-<!--<div *ngIf="harvestStarted">-->
-<!--<form #harvestForm="ngForm" id="harvestForm" (submit)="submitEntry(harvestForm)">-->
-
-<!--<div class="ui-g-pad ui-fluid ">-->
-<!--<div class="ui-g">-->
-<!--<div class="ui-g-3 text-right">-->
-<!--Date-->
-<!--</div>-->
-<!--<div class="ui-g-8">-->
-<!--<p-calendar disabled='true' [(ngModel)]="today" name="today"></p-calendar>-->
-<!--</div>-->
-<!--<div class="ui-g-1"></div>-->
-<!--</div>-->
-<!--</div>-->
-
-
-<!--<div class="ui-g-pad ui-fluid  mt-3">-->
-<!--<div class="ui-g">-->
-<!--<div class="ui-g-3 text-right">-->
-<!--Coordinator-->
-<!--</div>-->
-<!--<div class="ui-g-8">-->
-<!--<p-dropdown [options]="harvesters" [(ngModel)]="selectedHarvester" name="harvesters"-->
-<!--placeholder="Select a Coordinator" (change)="filterVar()"></p-dropdown>-->
-<!--</div>-->
-<!--<div class="ui-g-1"></div>-->
-<!--</div>-->
-<!--</div>-->
-
-<!--<div class="ui-g-pad ui-fluid mt-3">-->
-<!--<div class="ui-g">-->
-<!--<div class="ui-g-3 text-right">-->
-<!--Crop-->
-<!--</div>-->
-<!--<div class="ui-g-8">-->
-<!--<p-dropdown [options]="crops" [(ngModel)]="cropSleceted" name="crop" placeholder="Select a Crop"-->
-<!--(onChange)="filterVar()"></p-dropdown>-->
-<!--</div>-->
-<!--<div class="ui-g-1"></div>-->
-<!--</div>-->
-<!--</div>-->
-
-<!--<div class="ui-g-pad ui-fluid mt-3">-->
-<!--<div class="ui-g">-->
-<!--<div class="ui-g-3 text-right">-->
-<!--Var-->
-<!--</div>-->
-<!--<div class="ui-g-8">-->
-<!--<p-dropdown [options]="variety" [(ngModel)]="selectedVar" name="var"-->
-<!--placeholder="Select a variety"></p-dropdown>-->
-<!--</div>-->
-<!--<div class="ui-g-1"></div>-->
-<!--</div>-->
-<!--</div>-->
-
-<!--<div class="ui-g-pad ui-fluid mt-3">-->
-<!--<div class="ui-g">-->
-<!--<div class="ui-g-3 text-right">-->
-<!--Pounds-->
-<!--</div>-->
-<!--<div class="ui-g-8">-->
-<!--<p-spinner size="30" [(ngModel)]="pounds" name="pounds" (onChange)="calcPrice()"></p-spinner>-->
-<!--</div>-->
-<!--<div class="ui-g-1"></div>-->
-<!--</div>-->
-<!--</div>-->
-
-<!--<div class="ui-g-pad ui-fluid mt-3">-->
-<!--<div class="ui-g">-->
-<!--<div class="ui-g-3 text-right">-->
-<!--Total Price-->
-<!--</div>-->
-<!--<div class="ui-g-8">-->
-<!--<div class="ui-inputgroup">-->
-<!--<span class="ui-inputgroup-addon">$</span>-->
-<!--<input type="text" readonly pInputText [(ngModel)]="priceTotal" name="priceTotal">-->
-<!--<span class="ui-inputgroup-addon">.00</span>-->
-<!--</div>-->
-<!--</div>-->
-<!--<div class="ui-g-1"></div>-->
-<!--</div>-->
-<!--</div>-->
-
-<!--<div class="ui-g-pad ui-fluid mt-3">-->
-<!--<div class="ui-g">-->
-<!--<div class="ui-g-3 text-right">-->
-<!--Comments-->
-<!--</div>-->
-<!--<div class="ui-g-8">-->
-<!--<div class="ui-inputgroup">-->
-<!--<input type="text" pInputText [(ngModel)]="comment" name="comment" placeholder="Comments">-->
-<!--</div>-->
-<!--</div>-->
-<!--<div class="ui-g-1"></div>-->
-<!--</div>-->
-<!--</div>-->
-
-<!--<div class="ui-g-pad ui-fluid mt-3">-->
-<!--<div class="ui-g">-->
-<!--<div class="ui-g-3 text-right">-->
-<!--Var-->
-<!--</div>-->
-<!--<div class="ui-g-8">-->
-<!--<p-dropdown [options]="organizations" [(ngModel)]="selectedOrg" name="org"-->
-<!--placeholder="Select a Recipient"></p-dropdown>-->
-<!--</div>-->
-<!--<div class="ui-g-1"></div>-->
-<!--</div>-->
-<!--</div>-->
-
-
-<!--<div *ngIf="!editMode" class="center-align buttons">-->
-<!--<button mat-button type="button" class="btn-primary" (click)="submitEntry();">Next Entry</button>-->
-<!--<button mat-button type="button" class="btn-secondary" (click)="submitHarvest();">Submit Harvest</button>-->
-<!--</div>-->
-<!--<div *ngIf="editMode">-->
-
-<!--</div>-->
-<!--</form>-->
-<!--</div>-->
-<!--</div>-->
-
 <div class="frame">
   <div *ngIf="!harvestStarted" class="start text-center mx-auto">
     <ng-container *ngIf="!doneLoading">
@@ -191,7 +52,7 @@
       </mat-form-field>
 
       <label for="weightSlider" class="weightLabel">Weight</label>
-      <mat-slider id="weightSlider" thumbLabel min="0.25" max="100" step="0.25" formControlName="pounds"
+      <mat-slider id="weightSlider" #slider thumbLabel min="0.25" max="100" step="0.25" formControlName="pounds"
                   (change)="onPoundChanged($event)"></mat-slider>
 
       <mat-form-field class="priceTotal">
@@ -217,101 +78,14 @@
         <button mat-button type="button" class="btn-primary" (click)="submitEntry();" [disabled]="!form.valid">Next
           Entry
         </button>
-        <button mat-button type="submit" class="btn-secondary">Submit Harvest</button>
+
+        <button mat-button type="submit" class="btn-secondary" *ngIf="firstEntry">Submit Harvest <span
+          *ngIf="firstEntry">({{entryCounts}})</span></button>
       </div>
-      <div *ngIf="editMode"></div>
+      <mat-card *ngIf="firstEntry" class="alert-danger">Attention: To save the current entry to this harvest, please hit
+        Next Entry then
+        Submit Harvest.
+      </mat-card>
     </form>
   </div>
 </div>
-
-
-<!--<div class="frame">-->
-<!--<div *ngIf="!harvestStarted" class="start text-center mx-auto">-->
-<!--<mat-form-field class="farmField">-->
-<!--<mat-select placeholder="Select a Farm" name="farm" [(ngModel)]="selectedFarm" #farmField="ngModel" required>-->
-<!--<mat-option *ngFor="let farm of farms" [value]="farm">-->
-<!--{{ farm.name }}-->
-<!--</mat-option>-->
-<!--</mat-select>-->
-<!--<mat-error>-->
-<!--<span *ngIf="!farmField.valid && farmField.touched">Please Select a Farm</span>-->
-<!--</mat-error>-->
-<!--</mat-form-field>-->
-<!--<button *ngIf="farmField.valid" mat-button class="btn-primary startButton" (click)="startHarvest()">Begin Harvest-->
-<!--</button>-->
-<!--</div>-->
-<!--<div *ngIf="harvestStarted">-->
-<!--<form #harvestForm="ngForm" id="harvestForm" (submit)="submitEntry(harvestForm)">-->
-<!--<mat-form-field>-->
-<!--<input matInput placeholder="Date" value="{{today}}" disabled>-->
-<!--</mat-form-field>-->
-<!--<mat-form-field>-->
-<!--<mat-select placeholder="Harvest Coordinator" name="harvester" [(ngModel)]="harvester" required-->
-<!--#harvesterField="ngModel">-->
-<!--<mat-option *ngFor="let harvester of harvesters" value="{{harvester.value}}">-->
-<!--{{ harvester.label }}-->
-<!--</mat-option>-->
-<!--</mat-select>-->
-<!--<mat-error>-->
-<!--<span *ngIf="!harvesterField.valid && harvesterField.touched">Please Select a Harvester</span>-->
-<!--</mat-error>-->
-<!--</mat-form-field>-->
-
-<!--<mat-form-field>-->
-<!--<mat-select placeholder="Crop" [ngModel]="crop" (ngModelChange)="onCropChanged($event)" name="crop"-->
-<!--#cropField="ngModel" required>-->
-<!--<mat-option *ngFor="let crop of crops" value="{{crop.value}}">-->
-<!--{{ crop.label }}-->
-<!--</mat-option>-->
-<!--</mat-select>-->
-<!--<mat-error>-->
-<!--<span *ngIf="!cropField.valid && cropField.touched">Please Select a Crop</span>-->
-<!--</mat-error>-->
-<!--</mat-form-field>-->
-
-<!--<div *ngIf="currentEntry.crop && currentEntry.crop != null">-->
-<!--<mat-form-field>-->
-<!--<mat-select placeholder="Variety" [(ngModel)]="selectedVar" name="variety" required #varietyField="ngModel">-->
-<!--<mat-option *ngFor="let variety of varieties" value="{{variety}}">-->
-<!--{{ variety }}-->
-<!--</mat-option>-->
-<!--</mat-select>-->
-<!--<mat-error>-->
-<!--<span *ngIf="!varietyField.valid && varietyField.touched">Please Select a Variety</span>-->
-<!--</mat-error>-->
-<!--</mat-form-field>-->
-<!--</div>-->
-
-<!--<label for="weightSlider" class="weightLabel">Weight</label>-->
-<!--<mat-slider id="weightSlider" thumbLabel min="0.25" max="100" step="0.25" [ngModel]="pounds"-->
-<!--(change)="onPoundChanged($event)"></mat-slider>-->
-
-<!--<mat-form-field class="priceTotal">-->
-<!--<input matInput placeholder="Total Price" [(ngModel)]="priceTotal" name="price" [value]="" disabled>-->
-<!--</mat-form-field>-->
-
-<!--<mat-form-field class="comments">-->
-<!--<textarea matInput placeholder="Comments" [(ngModel)]="comment" name="comments"></textarea>-->
-<!--</mat-form-field>-->
-
-<!--<mat-form-field>-->
-<!--<mat-select placeholder="Recipient" [(ngModel)]="recipent" #recipientField="ngModel" required name="recipient">-->
-<!--<mat-option *ngFor="let org of organizations" [value]="org">-->
-<!--{{ org.name }}-->
-<!--</mat-option>-->
-<!--</mat-select>-->
-<!--<mat-error>-->
-<!--<span *ngIf="!recipientField.valid && recipientField.touched">Please Select a Variety</span>-->
-<!--</mat-error>-->
-<!--</mat-form-field>-->
-
-<!--<div *ngIf="!editMode" class="center-align buttons">-->
-<!--<button mat-button type="button" class="btn-primary" (click)="submitEntry();">Next Entry</button>-->
-<!--<button mat-button type="button" class="btn-secondary" (click)="submitHarvest();">Submit Harvest</button>-->
-<!--</div>-->
-<!--<div *ngIf="editMode">-->
-
-<!--</div>-->
-<!--</form>-->
-<!--</div>-->
-<!--</div>-->

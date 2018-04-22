@@ -16,7 +16,8 @@ import {
   MatRadioModule,
   MatSelectModule,
   MatSliderModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MatTooltipModule
 } from '@angular/material';
 import {LoginComponent} from './login/login.component';
 import {EntryComponent} from './entry/entry.component';
@@ -65,7 +66,7 @@ import {
   UserClient
 } from './app.api';
 import {environment} from '../environments/environment';
-import { ConfirmLogoutDialogComponent } from './header/confirm-logout-dialog/confirm-logout-dialog.component';
+import {ConfirmLogoutDialogComponent} from './header/confirm-logout-dialog/confirm-logout-dialog.component';
 
 @NgModule({
   declarations: [
@@ -132,8 +133,9 @@ import { ConfirmLogoutDialogComponent } from './header/confirm-logout-dialog/con
     MatCheckboxModule,
     MatRadioModule,
     PrimengImportModule,
-    ProgressSpinnerModule,
     ChartModule
+    MatTooltipModule
+    ProgressSpinnerModule,
   ],
   providers: [
     {provide: API_BASE_URL, useFactory: baseUrl},
