@@ -52,6 +52,7 @@ import {EditCropDialogComponent} from './crop-management/edit-crop-dialog/edit-c
 import {ReportingComponent} from './reporting/reporting.component';
 import {PrimengImportModule} from './primeng-module';
 import {ProgressSpinnerModule} from 'primeng/primeng';
+import {ChartModule} from 'primeng/chart';
 import {
   API_BASE_URL,
   CropClient,
@@ -132,8 +133,9 @@ import {ConfirmLogoutDialogComponent} from './header/confirm-logout-dialog/confi
     MatCheckboxModule,
     MatRadioModule,
     PrimengImportModule,
-    ProgressSpinnerModule,
+    ChartModule
     MatTooltipModule
+    ProgressSpinnerModule,
   ],
   providers: [
     {provide: API_BASE_URL, useFactory: baseUrl},
