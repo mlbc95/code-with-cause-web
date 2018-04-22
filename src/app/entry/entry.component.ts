@@ -19,8 +19,6 @@ import {
   OrganizationClient,
   OrganizationVm,
   SwaggerException,
-  UserClient,
-  UserVm
 } from '../app.api';
 import {MatSlider, MatSnackBar} from '@angular/material';
 import {of} from 'rxjs/observable/of';
@@ -48,7 +46,7 @@ export class EntryComponent implements OnInit, OnDestroy {
   selectedFarm: FarmVm;
   harvest: HarvestVm;
   cropTest: CropVm;
-  users: UserVm[];
+
 
   harvester: string;
   pounds = 0;
@@ -73,7 +71,6 @@ export class EntryComponent implements OnInit, OnDestroy {
               private organizationService: OrganizationClient,
               private harvestService: HarvestClient,
               private router: Router,
-              private userService: UserClient,
               private fb: FormBuilder,
               private snackBar: MatSnackBar) {
   }
@@ -127,7 +124,6 @@ export class EntryComponent implements OnInit, OnDestroy {
         return combineLatest(
           this.harvesterService.getAll(),
           this.organizationService.getAll(),
-          this.userService.getAllUsers()
         );
       })
       .catch((err: SwaggerException) => {
@@ -145,10 +141,9 @@ export class EntryComponent implements OnInit, OnDestroy {
           }
         );
         return of();
-      }).subscribe((data: [HarvesterVm[], OrganizationVm[], UserVm[]]) => {
-      const [harvesters, organizations, users] = data;
+      }).subscribe((data: [HarvesterVm[], OrganizationVm[]]) => {
+      const [harvesters, organizations] = data;
       this.harvesters = harvesters;
-      this.users = users;
       this.organizations = organizations;
     });
 

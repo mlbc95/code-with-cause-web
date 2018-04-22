@@ -17,7 +17,8 @@ import {
   MatSelectModule,
   MatSliderModule,
   MatSnackBarModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatToolbarModule
 } from '@angular/material';
 import {LoginComponent} from './login/login.component';
 import {EntryComponent} from './entry/entry.component';
@@ -67,6 +68,10 @@ import {
 } from './app.api';
 import {environment} from '../environments/environment';
 import {ConfirmLogoutDialogComponent} from './header/confirm-logout-dialog/confirm-logout-dialog.component';
+import { EditEntryComponent } from './harvest-edit/edit-entry/edit-entry.component';
+import { HarvetersManagementComponent } from './harveters-management/harveters-management.component';
+import { ConfirmDeleteComponent } from './harveters-management/confirm-delete/confirm-delete.component';
+import { CreateDialogComponent } from './harveters-management/create-dialog/create-dialog.component';
 
 @NgModule({
   declarations: [
@@ -97,7 +102,11 @@ import {ConfirmLogoutDialogComponent} from './header/confirm-logout-dialog/confi
     ConfirmDeleteCropDialogComponent,
     ReportingComponent,
     GenerateReportDialogComponent,
-    ConfirmLogoutDialogComponent
+    ConfirmLogoutDialogComponent,
+    EditEntryComponent,
+    HarvetersManagementComponent,
+    ConfirmDeleteComponent,
+    CreateDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -136,6 +145,7 @@ import {ConfirmLogoutDialogComponent} from './header/confirm-logout-dialog/confi
     ChartModule,
     MatTooltipModule,
     ProgressSpinnerModule,
+    MatToolbarModule
   ],
   providers: [
     {provide: API_BASE_URL, useFactory: baseUrl},
@@ -168,7 +178,8 @@ import {ConfirmLogoutDialogComponent} from './header/confirm-logout-dialog/confi
     ConfirmDeleteUserDialogComponent,
     EditUserDialogComponent,
     GenerateReportDialogComponent,
-    ConfirmLogoutDialogComponent
+    ConfirmLogoutDialogComponent,  ConfirmDeleteComponent,
+    CreateDialogComponent,
   ]
 })
 export class AppModule {

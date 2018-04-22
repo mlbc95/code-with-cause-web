@@ -13,6 +13,8 @@ import {UserManagementComponent} from './user-management/user-management.compone
 import {HarvestEditComponent} from './harvest-edit/harvest-edit.component';
 import {ReviewComponent} from './review/review.component';
 import {ReportingComponent} from './reporting/reporting.component';
+import {EditEntryComponent} from './harvest-edit/edit-entry/edit-entry.component';
+import { HarvetersManagementComponent } from './harveters-management/harveters-management.component';
 
 const routes: Routes = [
   {
@@ -37,6 +39,11 @@ const routes: Routes = [
   {
     path: 'user-management',
     component: UserManagementComponent,
+    canActivate: [AuthGuard, AdminGuard]
+  },
+  {
+    path:'harvesters-management',
+    component:HarvetersManagementComponent,
     canActivate: [AuthGuard, AdminGuard]
   },
   {
@@ -69,6 +76,11 @@ const routes: Routes = [
     component: ReviewComponent,
     canActivate: [AuthGuard]
 
+  },
+  {
+    path: 'edit-entry/:id/:index',
+    component: EditEntryComponent,
+    canActivate: [AuthGuard, AdminGuard]
   },
   {
     path: '**',

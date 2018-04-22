@@ -635,6 +635,70 @@ export class EntryClient extends BaseClient {
     /**
      * @return Ok
      */
+    updateEntry(id: string, updatedEntryParams: NewEntryParams, harvestId: string): Observable<HarvestVm> {
+        let url_ = this.baseUrl + "/entries/{id}?";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        if (harvestId === undefined || harvestId === null)
+            throw new Error("The parameter 'harvestId' must be defined and cannot be null.");
+        else
+            url_ += "harvestId=" + encodeURIComponent("" + harvestId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(updatedEntryParams);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return Observable.fromPromise(this.transformOptions(options_)).flatMap(transformedOptions_ => {
+            return this.http.request("put", url_, transformedOptions_);
+        }).flatMap((response_: any) => {
+            return this.processUpdateEntry(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateEntry(<any>response_);
+                } catch (e) {
+                    return <Observable<HarvestVm>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<HarvestVm>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processUpdateEntry(response: HttpResponseBase): Observable<HarvestVm> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? HarvestVm.fromJS(resultData200) : new HarvestVm();
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<HarvestVm>(<any>null);
+    }
+
+    /**
+     * @return Ok
+     */
     deleteEntry(id: string): Observable<EntryVm> {
         let url_ = this.baseUrl + "/entries/{id}";
         if (id === undefined || id === null)
@@ -687,66 +751,6 @@ export class EntryClient extends BaseClient {
             });
         }
         return Observable.of<EntryVm>(<any>null);
-    }
-
-    /**
-     * @return Ok
-     */
-    updateEntry(harvestId: string, updatedEntryVm: EntryVm): Observable<HarvestVm> {
-        let url_ = this.baseUrl + "/entries/{harvestId}";
-        if (harvestId === undefined || harvestId === null)
-            throw new Error("The parameter 'harvestId' must be defined.");
-        url_ = url_.replace("{harvestId}", encodeURIComponent("" + harvestId));
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(updatedEntryVm);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            })
-        };
-
-        return Observable.fromPromise(this.transformOptions(options_)).flatMap(transformedOptions_ => {
-            return this.http.request("put", url_, transformedOptions_);
-        }).flatMap((response_: any) => {
-            return this.processUpdateEntry(response_);
-        }).catch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processUpdateEntry(<any>response_);
-                } catch (e) {
-                    return <Observable<HarvestVm>><any>Observable.throw(e);
-                }
-            } else
-                return <Observable<HarvestVm>><any>Observable.throw(response_);
-        });
-    }
-
-    protected processUpdateEntry(response: HttpResponseBase): Observable<HarvestVm> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? HarvestVm.fromJS(resultData200) : new HarvestVm();
-            return Observable.of(result200);
-            });
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Observable.of<HarvestVm>(<any>null);
     }
 }
 
