@@ -5,7 +5,7 @@ import 'rxjs/add/observable/forkJoin';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material';
 import 'rxjs/add/operator/filter';
-import {PercentageType, ReportingClient} from '../app.api';
+import {PercentageByFarm, PercentageByFarmReportResponse, PercentageReportType, PercentageType, ReportingClient} from '../app.api';
 import {forkJoin} from 'rxjs/observable/forkJoin';
 
 
@@ -18,6 +18,8 @@ export class ReportingComponent implements OnInit, OnDestroy {
   token: string;
   reportWeightParams: ReportByFarm = new ReportByFarm();
   reportValueParams: ReportByFarm = new ReportByFarm();
+  reportDonatedParams: PercentageByFarm = new PercentageByFarm();
+  reportPurchasedParams: PercentageByFarm = new PercentageByFarm();
   donatedPerc: any;
   purchPerc: any;
   farmValue: any;
@@ -28,6 +30,16 @@ export class ReportingComponent implements OnInit, OnDestroy {
   renderChart = false;
   totalValue: any;
   totalWeight: any;
+  orgTypeData: any[];
+  orgTypeReport = false;
+  poundsByDonated: any;
+  poundsByPurchased: any;
+  priceByDonated: any;
+  priceByPurchased: any;
+  percentagePoundsByDonated: any;
+  percentagePoundsByPurchased: any;
+  percentagePriceByDonated: any;
+  percentagePriceByPurchased: any;
 
   constructor(private matDialog: MatDialog,
               private reportingService: ReportingClient) {
@@ -56,20 +68,38 @@ export class ReportingComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.reportWeightParams.valueReportType = WeightValueReportType.Weight;
     this.reportValueParams.valueReportType = WeightValueReportType.Value;
+    this.reportDonatedParams.reportType = PercentageReportType.Donated;
+    this.reportPurchasedParams.reportType = PercentageReportType.Purchased;
+
     forkJoin(
       this.reportingService.getSalesPercentage(PercentageType.Donated),
       this.reportingService.getSalesPercentage(PercentageType.Purchased),
       this.reportingService.getTotalWeightOrValue(this.reportWeightParams),
       this.reportingService.getTotalWeightOrValue(this.reportValueParams),
+      this.reportingService.getPercentageByFarm(this.reportDonatedParams),
+      this.reportingService.getPercentageByFarm(this.reportPurchasedParams)
     )
       .subscribe(
-        ([donated, purchased, weight, value]: [PercentageReportResponse, PercentageReportResponse, ValueReportResponse[], ValueReportResponse[]]) => {
+        ([donated, purchased, weight, value, donatedByFarm, purchasedByFarm]:
+           [PercentageReportResponse, PercentageReportResponse, ValueReportResponse[],
+             ValueReportResponse[], PercentageByFarmReportResponse[], PercentageByFarmReportResponse[]]) => {
 
           this.donatedPerc = donated.percentage;
           this.purchPerc = purchased.percentage;
           this.farmValue = _.map(value, 'value');
           this.farmWeight = _.map(weight, 'value');
           this.farmLabels = _.map(value, 'farmName');
+
+          this.poundsByDonated = _.map(donatedByFarm, 'pounds');
+          this.priceByDonated = _.map(donatedByFarm, 'total');
+          this.percentagePoundsByDonated = _.map(donatedByFarm, 'percentageByPound');
+          this.percentagePriceByDonated = _.map(donatedByFarm, 'percentageByPrice');
+
+          this.poundsByPurchased = _.map(purchasedByFarm, 'pounds');
+          this.priceByPurchased = _.map(purchasedByFarm, 'total');
+          this.percentagePoundsByPurchased = _.map(purchasedByFarm, 'percentageByPound');
+          this.percentagePriceByPurchased = _.map(purchasedByFarm, 'percentageByPrice');
+
           this.totalValue = _.reduce(this.farmValue, (sum, n) => {
             return sum + n;
           }, 0);
@@ -112,6 +142,214 @@ export class ReportingComponent implements OnInit, OnDestroy {
             hoverBackgroundColor: bgColor
           }]
       };
+    } else if (this.selected === 'Donated') {
+      this.orgTypeData = [];
+      const data1 = {
+        labels: this.farmLabels,
+        datasets: [
+          {
+            data: this.poundsByDonated,
+            backgroundColor: randomColor({
+              count: this.farmLabels.length,
+            }),
+            hoverBackgroundColor: randomColor({
+              count: this.farmLabels.length,
+              hue: 'random'
+            })
+          }
+        ]
+      };
+
+      const option1 = {
+        title: {
+          display: true,
+          text: 'Pounds total Donated by Farms',
+          fontSize: 16
+        }
+      };
+
+      const data2 = {
+        labels: this.farmLabels,
+        datasets: [
+          {
+            data: this.priceByDonated,
+            backgroundColor: randomColor({
+              count: this.farmLabels.length,
+            }),
+            hoverBackgroundColor: randomColor({
+              count: this.farmLabels.length,
+              hue: 'random'
+            })
+          }
+        ]
+      };
+
+      const option2 = {
+        title: {
+          display: true,
+          text: 'Amount total Donated by Farms',
+          fontSize: 16
+        }
+      };
+
+      const data3 = {
+        labels: this.farmLabels,
+        datasets: [
+          {
+            data: this.percentagePoundsByDonated,
+            backgroundColor: randomColor({
+              count: this.farmLabels.length
+            }),
+            hoverBackgroundColor: randomColor({
+              count: this.farmLabels.length,
+              hue: 'random'
+            })
+          }
+        ]
+      };
+
+      const option3 = {
+        title: {
+          display: true,
+          text: 'Pounds percentage Donated by Farms',
+          fontSize: 16
+        }
+      };
+
+      const data4 = {
+        labels: this.farmLabels,
+        datasets: [
+          {
+            data: this.percentagePriceByDonated,
+            backgroundColor: randomColor({
+              count: this.farmLabels.length
+            }),
+            hoverBackgroundColor: randomColor({
+              count: this.farmLabels.length,
+              hue: 'random'
+            })
+          }
+        ]
+      };
+
+      const option4 = {
+        title: {
+          display: true,
+          text: 'Amount percentage Donated by Farms',
+          fontSize: 16
+        }
+      };
+
+      this.orgTypeData.push(
+        {data: data1, option: option1},
+        {data: data2, option: option2},
+        {data: data3, option: option3},
+        {data: data4, option: option4});
+      this.orgTypeReport = true;
+    } else if (this.selected === 'Purchased') {
+      this.orgTypeData = [];
+      const data1 = {
+        labels: this.farmLabels,
+        datasets: [
+          {
+            data: this.poundsByPurchased,
+            backgroundColor: randomColor({
+              count: this.farmLabels.length,
+            }),
+            hoverBackgroundColor: randomColor({
+              count: this.farmLabels.length,
+              hue: 'random'
+            })
+          }
+        ]
+      };
+
+      const option1 = {
+        title: {
+          display: true,
+          text: 'Pounds total Purchased by Farms',
+          fontSize: 16
+        }
+      };
+
+      const data2 = {
+        labels: this.farmLabels,
+        datasets: [
+          {
+            data: this.priceByPurchased,
+            backgroundColor: randomColor({
+              count: this.farmLabels.length,
+            }),
+            hoverBackgroundColor: randomColor({
+              count: this.farmLabels.length,
+              hue: 'random'
+            })
+          }
+        ]
+      };
+
+      const option2 = {
+        title: {
+          display: true,
+          text: 'Amount total Purchased by Farms',
+          fontSize: 16
+        }
+      };
+
+      const data3 = {
+        labels: this.farmLabels,
+        datasets: [
+          {
+            data: this.percentagePoundsByPurchased,
+            backgroundColor: randomColor({
+              count: this.farmLabels.length
+            }),
+            hoverBackgroundColor: randomColor({
+              count: this.farmLabels.length,
+              hue: 'random'
+            })
+          }
+        ]
+      };
+
+      const option3 = {
+        title: {
+          display: true,
+          text: 'Pounds percentage Purchased by Farms',
+          fontSize: 16
+        }
+      };
+
+      const data4 = {
+        labels: this.farmLabels,
+        datasets: [
+          {
+            data: this.percentagePriceByPurchased,
+            backgroundColor: randomColor({
+              count: this.farmLabels.length
+            }),
+            hoverBackgroundColor: randomColor({
+              count: this.farmLabels.length,
+              hue: 'random'
+            })
+          }
+        ]
+      };
+
+      const option4 = {
+        title: {
+          display: true,
+          text: 'Amount percentage Purchased by Farms',
+          fontSize: 16
+        }
+      };
+
+      this.orgTypeData.push(
+        {data: data1, option: option1},
+        {data: data2, option: option2},
+        {data: data3, option: option3},
+        {data: data4, option: option4});
+      this.orgTypeReport = true;
     }
 
     this.renderChart = true;
