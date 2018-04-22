@@ -83,6 +83,7 @@ export class EditEntryDialogComponent implements OnInit {
 
   initForm() {
     this.entryService.getSingleEntry(this.entry._id).subscribe(entrySelected => {
+      console.log(entrySelected);
       this.editEntryForm = this.fb.group({
         crop: [entrySelected.crop, Validators.required],
         pounds: [entrySelected.pounds, Validators.required],
