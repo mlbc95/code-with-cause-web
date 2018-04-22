@@ -42,23 +42,15 @@ export class EntryComponent implements OnInit, OnDestroy {
   crops: CropVm[];
   variety: any[] = [];
   harvesters: HarvesterVm[];
-
-
   selectedFarm: FarmVm;
   harvest: HarvestVm;
-  currentEntry: EntryVm;
-  cropsList: CropVm[];
   cropTest: CropVm;
   users: UserVm[];
-
   harvester: string;
-  cropSleceted: string;
   pounds = 0;
   priceTotal = 0;
   farm: string;
-  recipent: string;
   selectedVar: string;
-  selectedHarvester: string;
   selectedOrg: string;
   comment: string;
 
@@ -79,19 +71,6 @@ export class EntryComponent implements OnInit, OnDestroy {
               private router: Router,
               private userService: UserClient,
               private fb: FormBuilder) {
-    // const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    // this.token = currentUser.token;
-    // const config: ConfigurationParameters = {
-    //   apiKeys: {
-    //     Authorization: this.token
-    //   }
-    // };
-    // entryService.configuration = new Configuration(config);
-    // farmService.configuration = new Configuration(config);
-    // cropService.configuration = new Configuration(config);
-    // harvesterService.configuration = new Configuration(config);
-    // organizationService.configuration = new Configuration(config);
-    // harvestService.configuration = new Configuration(config);
   }
 
   ngOnInit() {
@@ -110,12 +89,6 @@ export class EntryComponent implements OnInit, OnDestroy {
         this.crops = crops;
         this.doneLoading = true;
       });
-    // const storedHarvestID = JSON.parse(localStorage.getItem('harvest_id'));
-    // if (storedHarvestID) {
-    //   this.harvestService.getHarvestById(storedHarvestID).subscribe((harvest) => {
-    //     this.harvest = harvest;
-    //   });
-    // }
   }
 
   initForm() {
@@ -132,12 +105,6 @@ export class EntryComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // this.entryService.configuration.apiKeys['Authorization'] = null;
-    // this.farmService.configuration.apiKeys['Authorization'] = null;
-    // this.cropService.configuration.apiKeys['Authorization'] = null;
-    // this.harvesterService.configuration.apiKeys['Authorization'] = null;
-    // this.organizationService.configuration.apiKeys['Authorization'] = null;
-    // this.harvestService.configuration.apiKeys['Authorization'] = null;
   }
 
   startHarvest() {
@@ -166,14 +133,6 @@ export class EntryComponent implements OnInit, OnDestroy {
   }
 
   submitEntry() {
-    // const newEntry: INewEntryParams = {
-    //   cropId: this.form.get('crop').value,
-    //   selectedVariety: this.form.get('variety').value,
-    //   recipientId: this.form.get('recipient').value,
-    //   pounds: this.form.get('pounds').value,
-    //   comments: this.form.get('comment').value,
-    //   harvesterId: this.form.get('harvester').value
-    // };
     const newEntry: NewEntryParams = new NewEntryParams({
       cropId: this.form.get('crop').value,
       selectedVariety: this.form.get('variety').value,
@@ -198,29 +157,6 @@ export class EntryComponent implements OnInit, OnDestroy {
       }, (error: SwaggerException) => {
         console.log(error);
       });
-    // const newEntry: INewEntryParams = {
-    //   crop: this.cropSleceted,
-    //   selectedVariety: this.selectedVar,
-    //   recipient: this.selectedOrg,
-    //   pounds: this.pounds,
-    //   comments: this.comment,
-    //   harvester: this.harvester,
-    //   priceTotal: this.priceTotal
-    // };
-    // this.entryService.registerEntry(newEntry).subscribe(
-    //   (entry: IEntryVm): void => {
-    //     console.log(entry);
-    //     this.msgs = [];
-    //     this.msgs.push({severity: 'success', summary: 'Success', detail: 'Entry Saved! Your saving Trees'});
-    //     this.entryIdArray.push(entry._id);
-    //     localStorage.setItem('entry_id', JSON.stringify({
-    //       entries: this.entryIdArray
-    //     }));
-    //   },
-    //   (error) => {
-    //     console.log(error);
-    //   });
-
   }
 
   submitHarvest() {
@@ -236,7 +172,7 @@ export class EntryComponent implements OnInit, OnDestroy {
     });
     this.harvestService.registerHarvest(harvestParams)
       .subscribe(data => {
-          this.router.navigate([`/review-harvest/${harvestId.harvest}`]);
+          this.router.navigate(['home']);
         },
         (error) => {
           console.log(error);
@@ -244,85 +180,11 @@ export class EntryComponent implements OnInit, OnDestroy {
     // go to review page which shows all entries, each with an edit button
   }
 
-  // calcPrice() {
-  //   let pricePerPound;
-  //   let res = _.findIndex(this.cropsList, {_id: this.cropSleceted});
-  //   pricePerPound = this.cropsList[res].pricePerPound;
-  //   console.log(this.pounds, pricePerPound);
-  //   this.priceTotal = pricePerPound * this.pounds;
-  // }
-
-  // filterVar() {
-  // this.variety = [];
-  // let cropName = _.filter(this.crops, {value: this.cropSleceted});
-  // let res = _.filter(this.cropsList, {name: cropName[0].label});
-  // res.forEach(v => {
-  //   if (v.variety.length > 1) {
-  //     v.variety.forEach(vv => {
-  //       this.variety.push({label: vv, value: vv});
-  //     });
-  //   } else {
-  //     this.variety.push({label: v.variety, value: v.variety});
-
-  // calcPrice() {
-  //   let pricePerPound;
-  //   let res = _.findIndex(this.cropsList, {_id: this.cropSleceted});
-  //   pricePerPound = this.cropsList[res].pricePerPound;
-  //   console.log(this.pounds, pricePerPound);
-  //   this.priceTotal = pricePerPound * this.pounds;
-  // }
-
-  // filterVar() {
-  //   this.variety = [];
-  //   let cropName = _.filter(this.crops, {value: this.cropSleceted});
-  //   let res = _.filter(this.cropsList, {name: cropName[0].label});
-  //   res.forEach(v => {
-  //     if (v.variety.length > 1) {
-  //       v.variety.forEach(vv => {
-  //         this.variety.push({label: vv, value: vv});
-  //       });
-  //     } else {
-  //       this.variety.push({label: v.variety, value: v.variety});
-  //
-  //     }
-  //   });
-  // }
-
-  // sendHarvest(); {
-
-  // clear this harvest from local storage
-//   localStorage;
-// .
-
-//   removeItem(
-//
-//   'harvest_id';
-// );
-//   this;
-// .
-//   harvestStarted = false;
-// }
-
-// backAnEntry();
-// {
-//   console.log(this.currentEntry);
-// }
-
-// goToEntry();
-// {
-//
-// }
-
-
   onCropChanged($event) {
-    // this.cropSleceted = $event;
-    // // console.log(this.crops);
-    // console.log($event);
     this.cropTest = this.crops.filter(c => c._id === $event.value)[0];
     this.varieties = this.cropTest.variety;
   }
 
-//
   onPoundChanged($event) {
     this.pounds = $event.value;
     this.priceTotal = parseFloat((this.pounds * this.cropTest.pricePerPound).toFixed());
