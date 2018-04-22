@@ -8,7 +8,7 @@
         <div *ngFor="let entry of harvest.entries; let i = index">
           <p class="varietyList">
             {{entry.crop.name}} : {{entry.pounds}}
-            <span (click)="editEntry()" style="padding-left: 10px"><i class="fa fa-edit" aria-hidden="true"></i></span>
+            <span (click)="editEntry(entry)" style="padding-left: 10px"><i class="fa fa-edit" aria-hidden="true"></i></span>
           </p>
         </div>
         <button type="button" (click)="editHarvest(harvest);" class="btn btn-info">Edit</button>

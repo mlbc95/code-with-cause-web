@@ -3,6 +3,7 @@ import {HarvestClient, HarvestVm} from "../app.api";
 import {MatDialog, MatSnackBar} from "@angular/material";
 import {EditHarvestDialogComponent} from "./edit-harvest-dialog/edit-harvest-dialog.component";
 import {FormGroup} from "@angular/forms";
+import {EditEntryDialogComponent} from "./edit-entry-dialog/edit-entry-dialog.component";
 
 @Component({
   selector: 'app-harvest-edit',
@@ -43,7 +44,22 @@ export class HarvestEditComponent implements OnInit {
     );
   }
 
-  editEntry(): void {
+  editEntry(entry): void {
+    const dialogRef = this.matDialog.open(EditEntryDialogComponent,
+      {
+        width: '90vw',
+        data: entry
+      }
+    );
+
+    dialogRef.afterClosed().subscribe(
+      (editEntryForm: FormGroup): void => {
+        if (editEntryForm) {
+          // this.loading = true;
+          console.log(editEntryForm);
+        }
+      }
+    );
 
   }
 
