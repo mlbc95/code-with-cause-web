@@ -69,6 +69,9 @@ import {
 import {environment} from '../environments/environment';
 import {ConfirmLogoutDialogComponent} from './header/confirm-logout-dialog/confirm-logout-dialog.component';
 import { EditEntryComponent } from './harvest-edit/edit-entry/edit-entry.component';
+import { HarvetersManagementComponent } from './harveters-management/harveters-management.component';
+import { ConfirmDeleteComponent } from './harveters-management/confirm-delete/confirm-delete.component';
+import { CreateDialogComponent } from './harveters-management/create-dialog/create-dialog.component';
 
 @NgModule({
   declarations: [
@@ -101,6 +104,9 @@ import { EditEntryComponent } from './harvest-edit/edit-entry/edit-entry.compone
     GenerateReportDialogComponent,
     ConfirmLogoutDialogComponent,
     EditEntryComponent,
+    HarvetersManagementComponent,
+    ConfirmDeleteComponent,
+    CreateDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -172,7 +178,8 @@ import { EditEntryComponent } from './harvest-edit/edit-entry/edit-entry.compone
     ConfirmDeleteUserDialogComponent,
     EditUserDialogComponent,
     GenerateReportDialogComponent,
-    ConfirmLogoutDialogComponent
+    ConfirmLogoutDialogComponent,  ConfirmDeleteComponent,
+    CreateDialogComponent,
   ]
 })
 export class AppModule {

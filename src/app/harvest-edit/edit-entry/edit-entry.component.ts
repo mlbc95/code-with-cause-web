@@ -49,15 +49,14 @@ export class EditEntryComponent implements OnInit {
   selectedFarm: FarmVm;
   harvest: HarvestVm;
   cropTest: CropVm;
-  users: UserVm[];
+
 
   harvester: string;
   pounds = 0;
   priceTotal = 0;
   farm: string;
   comment: string;
-  firstEntry = false;
-  entryCounts = 0;
+
 
   doneLoading = false;
 
@@ -76,7 +75,6 @@ export class EditEntryComponent implements OnInit {
     private organizationService: OrganizationClient,
     private harvestService: HarvestClient,
     private router: Router,
-    private userService: UserClient,
     private fb: FormBuilder,
     private snackBar: MatSnackBar) { }
 
@@ -89,15 +87,14 @@ export class EditEntryComponent implements OnInit {
       this.harvestService.getHarvestById(this.harvestId),
       this.harvesterService.getAll(),
       this.organizationService.getAll(),
-      this.userService.getAllUsers()
+
       
-    ).subscribe((data: [FarmVm[], CropVm[],HarvestVm,HarvesterVm[], OrganizationVm[], UserVm[]]) => {
-      const [farms, crops,harvest,harvesters, organizations, users] = data;
+    ).subscribe((data: [FarmVm[], CropVm[],HarvestVm,HarvesterVm[], OrganizationVm[]]) => {
+      const [farms, crops,harvest,harvesters, organizations,] = data;
       this.farms = farms;
       this.crops = crops;
       this.harvest =harvest;
       this.harvesters = harvesters;
-      this.users = users;
       this.organizations = organizations;
       this.initForm();
      
@@ -107,7 +104,7 @@ export class EditEntryComponent implements OnInit {
   initForm() {
     this.form = this.fb.group({
       crop: [this.harvest.entries[this.entryIndex].crop._id, Validators.required],
-      harvester: [''],
+      harvester: [this.harvest.entries[this.entryIndex].harvester._id],
       farm: [this.harvest.farm],
       variety: [this.harvest.entries[this.entryIndex].selectedVariety],
       recipient: [this.harvest.entries[this.entryIndex].recipient._id],
@@ -138,13 +135,32 @@ export class EditEntryComponent implements OnInit {
     }
   }
   submitHarvest(){
-    let entryParam:EntryVm = new EntryVm();
-    entryParam = this.form.value;
-    console.log(this.users)
-    console.log(this.harvesters)
-    console.log(this.form.value)
-    this.entryService.updateEntry(this.harvest._id,entryParam).subscribe(data=>{
-      console.log(data)
+    let pounds:number = this.form.value.pounds;
+    let cropId:string =this.form.value.crop;
+    let harvesterId:string=this.form.value.harvester;
+    let comments:string =this.form.value.comment;
+    let recipientId: string =this.form.value.recipient;
+    let selectedVariety:string= this.form.value.variety;
+
+    let entryParam:NewEntryParams = new NewEntryParams({
+      pounds:pounds,
+      cropId:cropId,
+      harvesterId:harvesterId,
+      comments: comments,
+      recipientId: recipientId,
+      selectedVariety: selectedVariety
+    });
+
+    this.entryService.updateEntry(this.harvest.entries[this.entryIndex]._id,entryParam,this.harvest._id).subscribe(data=>{
+      this.snackBar.open(
+        'Successful Updated',
+        'OK',
+        {
+          duration: 2000,
+          panelClass: 'snack-bar-success'
+        },
+      );
+      this.router.navigate(['/harvest-edit']);
     })
    
 

@@ -6,7 +6,7 @@
         </mat-form-field>
         <mat-form-field>
           <mat-select placeholder="Harvest Coordinator" formControlName="harvester" required>
-            <mat-option *ngFor="let user of users" [value]="user._id">{{user.username}}
+            <mat-option *ngFor="let harvester of harvesters" [value]="harvester._id">{{harvester.firstName}} {{harvester.lastName}}
             </mat-option>
           </mat-select>
           <mat-error>
@@ -32,13 +32,13 @@
           </mat-error>
         </mat-form-field>
   
-        <label for="weightSlider" class="weightLabel">Weight</label>
+        <label for="weightSlider" class="weightLabel">Weight: {{form.controls['pounds'].value}}</label>
         <mat-slider id="weightSlider" #slider thumbLabel min="0.25" max="100"
                     step="0.25" formControlName="pounds"
                     (change)="onPoundChanged($event)"></mat-slider>
   
         <mat-form-field class="priceTotal">
-          <input matInput placeholder="Total Price" formControlName="priceTotal" [value]="form.get('priceTotal').value">
+          <input matInput placeholder="Total Price" formControlName="priceTotal"  [value]="form.get('priceTotal').value">
         </mat-form-field>
   
         <mat-form-field class="comments">

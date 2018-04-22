@@ -16,7 +16,7 @@
           </mat-form-field>
           <mat-form-field>
             <input matInput placeholder="Coordinator" disabled="true"
-                   [value]="entry.harvester.firstName ? entry.harvester.firstName : 'John Doe'">
+                   [value]="entry.harvester.firstName ? entry.harvester.firstName + ' ' + entry.harvester.lastName: 'John Doe'">
           </mat-form-field>
           <mat-form-field>
             <input matInput placeholder="Crop" disabled="true" [value]="entry.crop.name">

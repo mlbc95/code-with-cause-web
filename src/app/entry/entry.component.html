@@ -25,7 +25,7 @@
       </mat-form-field>
       <mat-form-field>
         <mat-select placeholder="Harvest Coordinator" formControlName="harvester" required>
-          <mat-option *ngFor="let user of users" [value]="user._id">{{user.username}}
+          <mat-option *ngFor="let harvester of harvesters" [value]="harvester._id">{{harvester.firstName}} {{harvester.lastName}}
           </mat-option>
         </mat-select>
         <mat-error>
