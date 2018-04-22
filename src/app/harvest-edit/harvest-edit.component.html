@@ -3,10 +3,13 @@
     <ng-container *ngFor="let harvest of harvests">
       <mat-expansion-panel>
         <mat-expansion-panel-header>
-          <mat-panel-title>{{harvest.farm.name}}</mat-panel-title>
+          <mat-panel-title>{{harvest.farm.name}} &nbsp; {{harvest.createdOn | date}}</mat-panel-title>
         </mat-expansion-panel-header>
         <div *ngFor="let entry of harvest.entries; let i = index">
-          <p class="varietyList">{{entry.crop.name}} : {{entry.pounds}}</p>
+          <p class="varietyList">
+            {{entry.crop.name}} : {{entry.pounds}}
+            <span (click)="editEntry()" style="padding-left: 10px"><i class="fa fa-edit" aria-hidden="true"></i></span>
+          </p>
         </div>
         <button type="button" (click)="editHarvest(harvest);" class="btn btn-info">Edit</button>
       </mat-expansion-panel>

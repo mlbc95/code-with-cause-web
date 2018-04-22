@@ -43,62 +43,66 @@ export class HarvestEditComponent implements OnInit {
     );
   }
 
-    editHarvest(harvest: HarvestVm): void {
-      const dialogRef = this.matDialog.open(EditHarvestDialogComponent,
-        {
-          width: '90vw',
-          data: harvest
-        }
-      );
+  editEntry(): void {
 
-      dialogRef.afterClosed().subscribe(
-        (harvestForm: FormGroup): void => {
-          if (harvestForm) {
-            this.loading = true;
-            this.harvestService.updateFarm(harvest._id, harvestForm.value.selectedFarmId).subscribe(
-              (response: any): void => {
-                this.harvestService.getAll().subscribe(
-                  (harvests: Array<HarvestVm>): void => {
-                    this.harvests = harvests;
-                    this.loading = false;
-                    this.snackBar.open(
-                      'Harvest updated',
-                      'OK',
-                      {
-                        duration: 2000,
-                        panelClass: 'snack-bar-success'
-                      }
-                    );
-                  },
-                  (error: Error): void => {
-                    console.error(error);
-                    this.loading = false;
-                    this.snackBar.open(
-                      'Failed to fetch harvest',
-                      'OK',
-                      {
-                        duration: 2000,
-                        panelClass: 'snack-bar-danger'
-                      }
-                    );
-                  }
-                );
-              },
-              (error: Error): void => {
-                console.error(error);
-                this.loading = false;
-                this.snackBar.open(
-                  'Failed to update harvest',
-                  'OK',
-                  {
-                    duration: 2000,
-                    panelClass: 'snack-bar-danger'
-                  }
-                );
-              }
-            );
-          }
+  }
+
+  editHarvest(harvest: HarvestVm): void {
+    const dialogRef = this.matDialog.open(EditHarvestDialogComponent,
+      {
+        width: '90vw',
+        data: harvest
+      }
+    );
+
+    dialogRef.afterClosed().subscribe(
+      (harvestForm: FormGroup): void => {
+        if (harvestForm) {
+          this.loading = true;
+          this.harvestService.updateFarm(harvest._id, harvestForm.value.selectedFarmId).subscribe(
+            (response: any): void => {
+              this.harvestService.getAll().subscribe(
+                (harvests: Array<HarvestVm>): void => {
+                  this.harvests = harvests;
+                  this.loading = false;
+                  this.snackBar.open(
+                    'Harvest updated',
+                    'OK',
+                    {
+                      duration: 2000,
+                      panelClass: 'snack-bar-success'
+                    }
+                  );
+                },
+                (error: Error): void => {
+                  console.error(error);
+                  this.loading = false;
+                  this.snackBar.open(
+                    'Failed to fetch harvest',
+                    'OK',
+                    {
+                      duration: 2000,
+                      panelClass: 'snack-bar-danger'
+                    }
+                  );
+                }
+              );
+            },
+            (error: Error): void => {
+              console.error(error);
+              this.loading = false;
+              this.snackBar.open(
+                'Failed to update harvest',
+                'OK',
+                {
+                  duration: 2000,
+                  panelClass: 'snack-bar-danger'
+                }
+              );
+            }
+          );
         }
-      );
+      }
+    );
   }
 }
