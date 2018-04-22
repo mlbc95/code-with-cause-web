@@ -23,6 +23,8 @@
       </mat-optgroup>
     </mat-select>
   </mat-form-field>
+  <button class="btn-primary" *ngIf="renderChart" (click)="downloadCsv()"><i class="fa fa-download"></i> Download
+  </button>
   <p *ngIf="selected =='Weight'">Total Weight: <b> {{totalWeight}}</b></p>
   <p *ngIf="selected =='Value'">Total Value: <b> ${{totalValue}}</b></p>
   <div class="pieChart" *ngIf="renderChart && !orgTypeReport">

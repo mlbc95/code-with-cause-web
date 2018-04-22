@@ -1,13 +1,13 @@
 import {PercentageReportResponse, ReportByFarm, ValueReportResponse, WeightValueReportType} from './../app.api';
 import * as _ from 'lodash';
 import * as randomColor from 'randomcolor';
-import 'rxjs/add/observable/forkJoin';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material';
 import 'rxjs/add/operator/filter';
 import {PercentageByFarm, PercentageByFarmReportResponse, PercentageReportType, PercentageType, ReportingClient} from '../app.api';
 import {forkJoin} from 'rxjs/observable/forkJoin';
-
+import * as moment from 'moment';
+import {Angular5Csv} from 'angular5-csv/Angular5-csv';
 
 @Component({
   selector: 'app-reporting',
@@ -42,6 +42,13 @@ export class ReportingComponent implements OnInit, OnDestroy {
   percentagePriceByPurchased: any;
   filteredByDonatedLabels: any;
   filteredByPurchasedLabels: any;
+  weightTotal: any;
+  amountTotal: any;
+  donatedTotal: any;
+  purchasedTotal: any;
+  csvData: any;
+  csvFilename: any;
+  csvHeaders: any;
 
   constructor(private matDialog: MatDialog,
               private reportingService: ReportingClient) {
@@ -88,6 +95,12 @@ export class ReportingComponent implements OnInit, OnDestroy {
 
           this.donatedPerc = donated.percentage;
           this.purchPerc = purchased.percentage;
+
+          this.weightTotal = weight.map(el => el.toJSON());
+          this.amountTotal = value.map(el => el.toJSON());
+          this.donatedTotal = donatedByFarm.map(el => el.toJSON());
+          this.purchasedTotal = purchasedByFarm.map(el => el.toJSON());
+
           this.farmValue = _.map(value, 'value');
           this.farmWeight = _.map(weight, 'value');
           this.farmLabels = _.map(value, 'farmName');
@@ -120,6 +133,16 @@ export class ReportingComponent implements OnInit, OnDestroy {
     // this.reportingService.configuration.apiKeys['Authorization'] = null;
   }
 
+  downloadCsv() {
+    const options = {
+      showLabels: true,
+      showTitle: true,
+      title: this.csvFilename,
+      headers: this.csvHeaders
+    };
+    new Angular5Csv(this.csvData, this.csvFilename, options);
+  }
+
   onFilterChange($event): void {
 
     const bgColor = randomColor({
@@ -136,6 +159,10 @@ export class ReportingComponent implements OnInit, OnDestroy {
             hoverBackgroundColor: bgColor
           }]
       };
+      this.csvData = this.weightTotal;
+      this.csvHeaders = Object.keys(this.csvData[0]);
+      this.csvFilename = `Total_Weight_${moment().format('YYYY-MM-DD')}`;
+      this.orgTypeReport = false;
     } else if (this.selected === 'Weight') {
       this.data = {
         labels: this.farmLabels,
@@ -146,8 +173,15 @@ export class ReportingComponent implements OnInit, OnDestroy {
             hoverBackgroundColor: bgColor
           }]
       };
+      this.csvData = this.amountTotal;
+      this.csvHeaders = Object.keys(this.csvData[0]);
+      this.csvFilename = `Total_Amount_${moment().format('YYYY-MM-DD')}`;
+      this.orgTypeReport = false;
     } else if (this.selected === 'Donated') {
       this.orgTypeData = [];
+      this.csvData = this.donatedTotal;
+      this.csvHeaders = Object.keys(this.csvData[0]);
+      this.csvFilename = `Total_Donated_${moment().format('YYYY-MM-DD')}`;
       const data1 = {
         labels: this.filteredByDonatedLabels,
         datasets: [
@@ -167,7 +201,7 @@ export class ReportingComponent implements OnInit, OnDestroy {
       const option1 = {
         title: {
           display: true,
-          text: 'Pounds total Donated by Farms',
+          text: 'Pounds (lb) total Donated by Farms',
           fontSize: 16
         }
       };
@@ -191,7 +225,7 @@ export class ReportingComponent implements OnInit, OnDestroy {
       const option2 = {
         title: {
           display: true,
-          text: 'Amount total Donated by Farms',
+          text: 'Amount ($) total Donated by Farms',
           fontSize: 16
         }
       };
@@ -250,6 +284,9 @@ export class ReportingComponent implements OnInit, OnDestroy {
       this.orgTypeReport = true;
     } else if (this.selected === 'Purchased') {
       this.orgTypeData = [];
+      this.csvData = this.donatedTotal;
+      this.csvHeaders = Object.keys(this.csvData[0]);
+      this.csvFilename = `Total_Purchased_${moment().format('YYYY-MM-DD')}`;
       const data1 = {
         labels: this.filteredByPurchasedLabels,
         datasets: [
@@ -269,7 +306,7 @@ export class ReportingComponent implements OnInit, OnDestroy {
       const option1 = {
         title: {
           display: true,
-          text: 'Pounds total Purchased by Farms',
+          text: 'Pounds (lb) total Purchased by Farms',
           fontSize: 16
         }
       };
@@ -293,7 +330,7 @@ export class ReportingComponent implements OnInit, OnDestroy {
       const option2 = {
         title: {
           display: true,
-          text: 'Amount total Purchased by Farms',
+          text: 'Amount ($) total Purchased by Farms',
           fontSize: 16
         }
       };
