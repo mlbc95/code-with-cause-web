@@ -117,7 +117,10 @@ export class EditEntryComponent implements OnInit {
   }
   
   setVariety(ver){
+    console.log(ver)
+    console.log(this.crops)
     this.cropTest = this.crops.filter(c => c._id === ver)[0];
+    console.log(this.cropTest)
     this.varieties = this.cropTest.variety;
   }
 

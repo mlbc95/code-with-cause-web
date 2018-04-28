@@ -29,8 +29,13 @@ export class HarvestEditComponent implements OnInit {
   ngOnInit() {
     this.harvestService.getAll().subscribe(data => {
       this.harvests = data;
-      this.resolveHarvestDataCsv(data);
+      if(this.harvests.length>0)
+      {
+        this.resolveHarvestDataCsv(data);
+        this.doneLoading = true;
+      }
       this.doneLoading = true;
+      
     });
 
   }
@@ -68,12 +73,10 @@ export class HarvestEditComponent implements OnInit {
   }
 
   routeToEditEntry(harvest, entryIndex) {
-    console.log(entryIndex);
     this.router.navigate([`/edit-entry/${harvest._id}/${entryIndex}`]);
   }
 
   routeToViewEntry(harvest) {
-    console.log(harvest);
     this.router.navigate([`/review-harvest/${harvest._id}`]);
 
   }
